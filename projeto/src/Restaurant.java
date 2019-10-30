@@ -16,15 +16,37 @@ public class Restaurant {
 	private static Runtime run;
 	private static Profile profile;
 	
+	
+	public static void main(){
+		
+		newJade();
+		newRestaurant();
+		//INSERT LOOP HERE
+		
+		
+	}
+	
+	public static void newJade() {
+		
+		run = Runtime.instance();
+    	profile = new ProfileImpl();
+    	profile.setParameter(Profile.CONTAINER_NAME, "TestContainer");
+		profile.setParameter(Profile.MAIN_HOST, "localhost");
+    	mainContainer = run.createMainContainer(profile);
+	}
+	
+	public static void newRestaurant() {
+		
+		//create her stuff to make agents, depending on our needs
+	}
+	
 
 	public static void newAgent(String agentID, String agentName) {
 
 		Object[] a = null;
         try {
         	
-        	run = Runtime.instance();
-        	profile = new ProfileImpl();
-        	mainContainer = run.createMainContainer(profile);
+        
         	
 			AgentController agentController = mainContainer.createNewAgent(agentID, "agents." + agentName,a);
             agentController.start();
