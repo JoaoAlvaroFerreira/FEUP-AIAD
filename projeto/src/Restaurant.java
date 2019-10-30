@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 
+import agents.ClientGroup;
+import extras.Client;
 import extras.Table;
 import jade.Boot;
 import jade.wrapper.AgentController;
@@ -38,6 +40,9 @@ public class Restaurant {
 	public static void newRestaurant() {
 		
 		//create her stuff to make agents, depending on our needs
+	/*	ArrayList<Client> clients1 = new ArrayList<Client>();
+		clients1.add(new Client());
+		new ClientGroup(clients1);*/
 	}
 	
 

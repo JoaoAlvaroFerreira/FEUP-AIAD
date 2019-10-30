@@ -9,6 +9,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.ArrayList;
 
+import behaviors.ClientsRequestTable;
 import extras.Client;
 
 public class ClientGroup extends Agent {
@@ -19,12 +20,14 @@ public class ClientGroup extends Agent {
 	ArrayList<extras.Client> clients;
 	private DFAgentDescription dfad;
 
+	/*
     
- /*   public ClientGroup(ArrayList<Client> clients) {
+    public ClientGroup(ArrayList<Client> clients) {
     	this.clients = clients;
     }
     
     */
+    
     public void setup(){
         System.out.println("client group");
         
@@ -33,7 +36,7 @@ public class ClientGroup extends Agent {
         
     	SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
-		//loop.addSubBehaviour();
+		loop.addSubBehaviour(new ClientsRequestTable(this));
     	addBehaviour(loop);
     	
       

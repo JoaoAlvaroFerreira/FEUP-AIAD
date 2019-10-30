@@ -19,6 +19,7 @@ public class Waiter extends Agent {
 	private DFAgentDescription dfad;
 
     
+    public Waiter() {}
     
     public void setup(){
         System.out.println("waiter");
