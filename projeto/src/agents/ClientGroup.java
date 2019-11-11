@@ -20,13 +20,14 @@ public class ClientGroup extends Agent {
 	ArrayList<extras.Client> clients;
 	private DFAgentDescription dfad;
 
-	/*
+	
     
     public ClientGroup(ArrayList<Client> clients) {
     	this.clients = clients;
     }
     
-    */
+ 
+    
     
     public void setup(){
         System.out.println("client group");

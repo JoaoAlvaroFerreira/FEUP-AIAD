@@ -9,6 +9,9 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.ArrayList;
 
+import behaviors.WaiterListenFoodRequest;
+import behaviors.WaiterListenTableRequest;
+
 public class Waiter extends Agent {
 
 	/**
@@ -28,7 +31,8 @@ public class Waiter extends Agent {
         
     	SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
-		//loop.addSubBehaviour();
+    	loop.addSubBehaviour(new WaiterListenTableRequest(this));
+		loop.addSubBehaviour(new WaiterListenFoodRequest(this));
     	addBehaviour(loop);
       
     }
@@ -36,6 +40,7 @@ public class Waiter extends Agent {
     private void yellowPagesRegister() {
     	ServiceDescription sd = new ServiceDescription();
 		//sd.setType();
+    	sd.setType("Waiter");
 		sd.setName(getLocalName());
 
 		this.dfad = new DFAgentDescription();
