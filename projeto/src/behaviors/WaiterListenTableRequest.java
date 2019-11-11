@@ -27,56 +27,60 @@ public class WaiterListenTableRequest extends SimpleBehaviour {
 
 	public void action() {
 
-		System.out.println("Waiter Listen Table Request");
 		ACLMessage msg = this.waiter.blockingReceive();
-		System.out.println("Waiter Listen Table Request 2");
+		
 		if (msg != null) {
-			if (msg.getSender().getLocalName().substring(0, 5).equals("voter")) {
-				/*
+if (msg.getSender().getLocalName().substring(0, 12).equals("client_group")) {
+	
+
+				
 				try {
+					ACLMessage msgToClient = new ACLMessage(ACLMessage.INFORM);
+					AID dest = msg.getSender();				
+					msgToClient.addReceiver(dest);
 					ArrayList<String> message = (ArrayList) msg.getContentObject();
-					this.chiefOfStaff.logger.info("RECEIVED:  " + message + " FROM: " + msg.getSender().getLocalName());
-					String candidate = message.get(1);
-					String belief = message.get(3);
-					int value = -1;
-					if (message.get(5) != null)
-						value = Integer.parseInt(message.get(5));
-
-					//System.out.println("                 - CHIEF OF STAFF: " + this.chiefOfStaff.getLocalName()
-						//	+ " LISTENING VOTER CHOICES: " + msg.getSender().getLocalName() + " " + message);
-
-					this.chiefOfStaff.getStateChosenCandidates().add(candidate);
-
-					if (this.chiefOfStaff.getStateChosenBeliefs().get(belief) == null) {
-						ArrayList<Integer> values = new ArrayList();
-						values.add(value);
-						this.chiefOfStaff.getStateChosenBeliefs().put(belief, values);
-					} else {
-						this.chiefOfStaff.getStateChosenBeliefs().get(belief).add(value);
 					
+					int client_number = Integer.parseInt(message.get(1));
+					boolean smoking = false;
+					if(message.get(3)== "For son-smokers, if possible.")
+						smoking = true;
+					//ASSIGN TABLE IF AVAILABLE
+					boolean table_found = false;
+					System.out.println("Available tables: "+this.waiter.getTables().size());
+					for(int i = 0; i < this.waiter.getTables().size(); i++) {
+						
+						if(this.waiter.getTables().get(i).getSeats() >= client_number && 
+							this.waiter.getTables().get(i).getEmpty() && 
+							this.waiter.getTables().get(i).isSmokers()==smoking) {
+							System.out.println("Found");
+							this.waiter.getTables().get(i).assignClients();
+							
+							msgToClient.setContent("We found a table");
+						
+						table_found = true;
 
-				} catch (UnreadableException e) {
+							
+						}
+						if(table_found)
+							break;
+							
+					}
+					if(!table_found) {
+						msgToClient.setContent("We did not find a table");
+					}
+					System.out.println("SENT:" + msgToClient.getContent() + " TO: " + dest.getLocalName());
+					this.waiter.send(msgToClient);
+					
+				}
+				catch (UnreadableException e) {
 					e.printStackTrace();
-				}*/
-			}
-		} else {
-			block();
-		}
+				}
 
-		/*if (this.chiefOfStaff.getStateChosenCandidates().size() == this.chiefOfStaff.getNrVotersState()) {
-			this.chiefOfStaff.calculateChooseCandidate();
-			this.chiefOfStaff.calculateChooseBelief();
-			this.finished = true;
-			ACLMessage msgToCandidate = new ACLMessage(ACLMessage.INFORM);
-			AID dest = new AID(this.chiefOfStaff.getBoss().getLocalName(), false);
-			msgToCandidate.setContent("Finished");
-			msgToCandidate.addReceiver(dest);
-			this.chiefOfStaff.send(msgToCandidate);
-
-		}
- */
-		return;
-	}
+	
+}
+}
+	
+return;	}
 
 	public boolean done() {
 		return this.finished;

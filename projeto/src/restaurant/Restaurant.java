@@ -59,15 +59,15 @@ public class Restaurant {
 		
 		//create her stuff to make agents, depending on our needs
 		
-		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER
+		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER, EVENTUALLY MAKE IT SERIALIZED
 		ArrayList<Client> clients1 = new ArrayList<Client>();
 		clients1.add(new Client(false,false,false,false, true));
 		clients1.add(new Client(false,false,false,false, false));
 		ClientGroup clientgroup1 = new ClientGroup(clients1);
 		newAgent("client_group_01", clientgroup1);
 		
-		//THIS MAKES A WAITER
-		newAgent("waiter_01", new Waiter());
+		//THIS MAKES A WAITER, EVENTUALLY MAKE IT SERIALIZED
+		newAgent("waiter_01", new Waiter(tables));
 		
 	}
 	

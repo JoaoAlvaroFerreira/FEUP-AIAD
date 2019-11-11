@@ -6,7 +6,7 @@ public class Client {
 	boolean nutAllergy = false;
 	boolean vegetarian = false;
 	boolean child = false;
-	boolean smoker = false;
+	private boolean smoker = false;
 	
 	public Client() {
 			
@@ -16,10 +16,10 @@ public class Client {
 		nutAllergy = nut;
 		vegetarian = veg;
 		child = kid;
-		smoker = smoke;
+		setSmoker(smoke);
 		
 		if(kid)
-			smoker = false;
+			setSmoker(false);
 	}
 
 	
@@ -49,5 +49,11 @@ public class Client {
 	
 	public boolean isChild() {
 		return child;
+	}
+	public boolean isSmoker() {
+		return smoker;
+	}
+	public void setSmoker(boolean smoker) {
+		this.smoker = smoker;
 	}
 }

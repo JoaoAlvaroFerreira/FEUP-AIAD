@@ -6,11 +6,13 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import restaurant.Restaurant;
 
 import java.util.ArrayList;
 
 import behaviors.WaiterListenFoodRequest;
 import behaviors.WaiterListenTableRequest;
+import extras.Table;
 
 public class Waiter extends Agent {
 
@@ -20,9 +22,12 @@ public class Waiter extends Agent {
 	private static final long serialVersionUID = 1L;
 	
 	private DFAgentDescription dfad;
+	private ArrayList<Table> tables;
 
     
-    public Waiter() {}
+    public Waiter(ArrayList<Table> tables) {
+    	this.setTables(tables);
+    }
     
     public void setup(){
         System.out.println("waiter");
@@ -52,6 +57,14 @@ public class Waiter extends Agent {
 			fe.printStackTrace();
 		}
 		
+	}
+
+	public ArrayList<Table> getTables() {
+		return tables;
+	}
+
+	public void setTables(ArrayList<Table> tables) {
+		this.tables = tables;
 	}
 
 

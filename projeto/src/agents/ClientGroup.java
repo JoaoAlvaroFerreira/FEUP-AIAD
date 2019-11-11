@@ -17,13 +17,14 @@ public class ClientGroup extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	ArrayList<extras.Client> clients;
+	private ArrayList<Client> clients;
 	private DFAgentDescription dfad;
+	private int state; //0 - arrived; 1 - seated; 2 - ordered; 3 - ate and await to give review + pay
 
 	
     
     public ClientGroup(ArrayList<Client> clients) {
-    	this.clients = clients;
+    	this.setClients(clients);
     }
     
  
@@ -58,6 +59,35 @@ public class ClientGroup extends Agent {
 			fe.printStackTrace();
 		}
 		
+	}
+
+    public boolean smokersTable() {
+    	boolean smokers = false;
+    	
+    	for(int i = 0; i < this.clients.size(); i++)
+    	{
+    		if(this.clients.get(i).isSmoker())
+    			smokers = true;
+    		
+    	}
+    	return smokers;
+    }
+
+
+
+	public ArrayList<extras.Client> getClients() {
+		return clients;
+	}
+
+
+
+
+	public void setClients(ArrayList<extras.Client> clients) {
+		this.clients = clients;
+	}
+	
+	public void sitDown() {
+		state = 1;
 	}
 
 
