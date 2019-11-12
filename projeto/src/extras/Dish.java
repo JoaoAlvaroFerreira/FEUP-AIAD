@@ -1,9 +1,15 @@
 package extras;
 
 public class Dish {
-    boolean vegetariano;
-    boolean crianca;
-    boolean alergia;
-    int estado;
+   boolean hasNuts;
+   boolean isVegetarian;
+   boolean hasShrimp;
+   boolean kidsMeal;
+   
+   int state;
+   
+   public Dish() {
+	   
+   }
 
 }
