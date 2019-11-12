@@ -57,7 +57,7 @@ public class Restaurant {
 		}
 		System.out.println(tables4 + " tables for 4 created.");
 		
-		//create her stuff to make agents, depending on our needs
+		//create here stuff to make agents, depending on our needs
 		
 		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER, EVENTUALLY MAKE IT SERIALIZED
 		ArrayList<Client> clients1 = new ArrayList<Client>();
