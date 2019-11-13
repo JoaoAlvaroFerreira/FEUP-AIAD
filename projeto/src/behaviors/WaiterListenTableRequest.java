@@ -35,25 +35,30 @@ if (msg.getSender().getLocalName().substring(0, 12).equals("client_group")) {
 
 				
 				try {
+					//String client_id = msg.getSender().getLocalName().substring(14, 15);
 					ACLMessage msgToClient = new ACLMessage(ACLMessage.INFORM);
 					AID dest = msg.getSender();				
 					msgToClient.addReceiver(dest);
+					
 					ArrayList<String> message = (ArrayList) msg.getContentObject();
 					
 					int client_number = Integer.parseInt(message.get(1));
 					boolean smoking = false;
+					
 					if(message.get(3)== "For son-smokers, if possible.")
 						smoking = true;
 					//ASSIGN TABLE IF AVAILABLE
 					boolean table_found = false;
 					System.out.println("Available tables: "+this.waiter.getTables().size());
+					
 					for(int i = 0; i < this.waiter.getTables().size(); i++) {
 						
 						if(this.waiter.getTables().get(i).getSeats() >= client_number && 
-							this.waiter.getTables().get(i).getEmpty() && 
+							this.waiter.getTables().get(i).getClientID() == null && 
 							this.waiter.getTables().get(i).isSmokers()==smoking) {
-							System.out.println("Found");
-							this.waiter.getTables().get(i).assignClients();
+							
+
+							this.waiter.getTables().get(i).setClientID(msg.getSender().getLocalName().substring(14, 15));
 							
 							msgToClient.setContent("We found a table");
 						
@@ -63,7 +68,8 @@ if (msg.getSender().getLocalName().substring(0, 12).equals("client_group")) {
 						}
 						if(table_found)
 							break;
-							
+						
+					
 					}
 					if(!table_found) {
 						msgToClient.setContent("We did not find a table");

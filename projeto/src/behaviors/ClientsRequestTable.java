@@ -37,7 +37,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		
 		System.out.println("Action request table");
 		
-
+///PARTE 1
 		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
 		try {
 			ArrayList<String> query = new ArrayList();
@@ -53,7 +53,9 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 
+	
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("Waiter");
@@ -61,13 +63,24 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		
 		try {
 			DFAgentDescription[] result = DFService.search(this.client, dfd);
-		
+			
+			boolean found = false;
+			
 			for (int j = 0; j < result.length; j++) {
+				
 				AID dest = result[j].getName();
+				if(dest != null){
 				msg.addReceiver(dest);
+				
 				this.client.send(msg);
-				System.out.println("SENT:      " + msg.getContentObject() + " TO: " + dest.getLocalName());
+				System.out.println("SENT:" + msg.getContentObject() + " TO:" + dest.getLocalName());
+				found = true;
+				}
+				
+				if(found)
+					break;
 			}
+			
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		} catch (UnreadableException e) {

@@ -31,7 +31,7 @@ public class ClientGroup extends Agent {
     
     
     public void setup(){
-        System.out.println("client group");
+        
         
         
         yellowPagesRegister();
