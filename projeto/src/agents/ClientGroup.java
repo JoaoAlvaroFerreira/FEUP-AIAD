@@ -1,5 +1,10 @@
 package agents;
 
+import java.util.ArrayList;
+
+import behaviors.ClientsEat;
+import behaviors.ClientsRequestTable;
+import extras.Client;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.DFService;
@@ -7,10 +12,6 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
-import java.util.ArrayList;
-
-import behaviors.ClientsRequestTable;
-import extras.Client;
 
 public class ClientGroup extends Agent {
     /**
@@ -39,6 +40,7 @@ public class ClientGroup extends Agent {
     	SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
 		loop.addSubBehaviour(new ClientsRequestTable(this));
+        loop.addSubBehaviour(new ClientsEat(this));
     	addBehaviour(loop);
     	
       

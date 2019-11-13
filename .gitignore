@@ -4,3 +4,9 @@ projeto/.idea/
 projeto/APDescription.txt
 
 projeto/MTPs-Main-Container.txt
+
+.DS_Store
+
+*.class
+
+projeto/MTPs-TestContainer.txt

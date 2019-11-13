@@ -6,7 +6,6 @@ public class Dish {
    boolean hasShrimp;
    boolean kidsMeal;
    
-   int state;
    
    public Dish() {
 	   
