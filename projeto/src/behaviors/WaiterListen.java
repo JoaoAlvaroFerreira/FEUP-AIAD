@@ -3,13 +3,15 @@ package behaviors;
 import agents.Waiter;
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-public class WaiterListen extends SimpleBehaviour {
+public class WaiterListen extends CyclicBehaviour {
 
     private Waiter waiter;
     private boolean finished = false;
@@ -45,10 +47,6 @@ public class WaiterListen extends SimpleBehaviour {
 
     }
 
-    public boolean done() {
-        return this.finished;
-    }
-
     public void messageFromClient(ACLMessage message){
 
 
@@ -74,6 +72,7 @@ public class WaiterListen extends SimpleBehaviour {
                 request_table(message);
                 break;
             case "REQUEST_CHECK":
+                request_check(message);
                 break;
             case "REQUEST_FOOD":
                 break;
@@ -110,9 +109,7 @@ public class WaiterListen extends SimpleBehaviour {
                     this.waiter.getTables().get(i).assignClients(msg.getSender().getLocalName());
 
                     msgToClient.setContent("TABLE_FOUND");
-
                     table_found = true;
-
 
                 }
                 if(table_found)
@@ -131,5 +128,37 @@ public class WaiterListen extends SimpleBehaviour {
         catch (UnreadableException e) {
             e.printStackTrace();
         }
+    }
+
+    public void request_check(ACLMessage msg){
+        System.out.println("check requested");
+
+        Random rand = new Random();
+
+        int time_to_get_check = rand.nextInt(5);
+        try {
+            TimeUnit.SECONDS.sleep(time_to_get_check);
+
+            ACLMessage msgToClient = new ACLMessage(ACLMessage.INFORM);
+            AID dest = msg.getSender();
+            msgToClient.addReceiver(dest);
+            ArrayList<String> message = (ArrayList) msg.getContentObject();
+            msgToClient.setContent("CHECK_REQUEST_REPLY");
+
+            System.out.println("CHECK_REQUEST_REPLY sent to client");
+
+            System.out.println(waiter.getLocalName() + " SENT " + msgToClient.getContent() + " TO: " + dest.getLocalName());
+            this.waiter.send(msgToClient);
+
+
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (UnreadableException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

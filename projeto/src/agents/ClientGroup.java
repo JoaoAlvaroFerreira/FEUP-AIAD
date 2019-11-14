@@ -3,6 +3,7 @@ package agents;
 import java.util.ArrayList;
 
 import behaviors.ClientsEat;
+import behaviors.ClientsRequestCheck;
 import behaviors.ClientsRequestTable;
 import extras.Client;
 import jade.core.Agent;
@@ -47,6 +48,7 @@ public class ClientGroup extends Agent {
     	//add behaviors
 		loop.addSubBehaviour(new ClientsRequestTable(this));
         loop.addSubBehaviour(new ClientsEat(this));
+        loop.addSubBehaviour(new ClientsRequestCheck(this));
         addBehaviour(loop);
     	
       
