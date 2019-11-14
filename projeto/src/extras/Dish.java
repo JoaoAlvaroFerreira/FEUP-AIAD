@@ -1,9 +1,8 @@
 package extras;
 
 public class Dish {
-   boolean hasNuts;
+   boolean hasAlergens;
    boolean isVegetarian;
-   boolean hasShrimp;
    boolean kidsMeal;
    
    int state;

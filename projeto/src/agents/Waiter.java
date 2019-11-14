@@ -1,5 +1,6 @@
 package agents;
 
+import behaviors.WaiterListen;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.DFService;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 import behaviors.WaiterListenFoodRequest;
 import behaviors.WaiterListenTableRequest;
+import behaviors.WaiterListen;
 import extras.Table;
 
 public class Waiter extends Agent {
@@ -36,8 +38,9 @@ public class Waiter extends Agent {
         
     	SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
-    	loop.addSubBehaviour(new WaiterListenTableRequest(this));
-		loop.addSubBehaviour(new WaiterListenFoodRequest(this));
+    	//loop.addSubBehaviour(new WaiterListenTableRequest(this));
+		//loop.addSubBehaviour(new WaiterListenFoodRequest(this));
+		loop.addSubBehaviour(new WaiterListen(this));
     	addBehaviour(loop);
       
     }

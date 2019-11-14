@@ -1,27 +1,19 @@
 package behaviors;
 
-import jade.core.behaviours.*;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
+import agents.Waiter;
+import jade.core.AID;
+import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import agents.Waiter;
-import agents.ClientGroup;
-import jade.core.AID;
-import jade.core.Agent;
-
-public class WaiterListenTableRequest extends SimpleBehaviour {
+public class WaiterListenCheckRequest extends SimpleBehaviour {
 
 	private Waiter waiter;
 	private boolean finished = false;
 
-	public WaiterListenTableRequest(Waiter waiter) {
+	public WaiterListenCheckRequest(Waiter waiter) {
 		this.waiter = waiter;
 	}
 

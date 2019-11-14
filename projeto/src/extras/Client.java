@@ -2,8 +2,7 @@ package extras;
 
 public class Client {
 
-	boolean shrimpAllergy = false;
-	boolean nutAllergy = false;
+	boolean allergy = false;
 	boolean vegetarian = false;
 	boolean child = false;
 	private boolean smoker = false;
@@ -11,9 +10,8 @@ public class Client {
 	public Client() {
 			
 		}
-	public Client(boolean shrimp, boolean nut, boolean veg, boolean kid, boolean smoke) {
-		shrimpAllergy = shrimp;
-		nutAllergy = nut;
+	public Client(boolean allergy, boolean veg, boolean kid, boolean smoke) {
+		allergy = allergy;
 		vegetarian = veg;
 		child = kid;
 		setSmoker(smoke);
@@ -23,11 +21,8 @@ public class Client {
 	}
 
 	
-	public void makeAllergicShrimp() {
-		this.shrimpAllergy = true;
-	}
-	public void makeAllergicNuts() {
-		this.nutAllergy = true;
+	public void makeAllergic() {
+		this.allergy = true;
 	}
 	public void makeVegetarian() {
 		this.vegetarian = true;
@@ -36,13 +31,10 @@ public class Client {
 		this.child = true;
 	}
 	
-	public boolean hasShrimpAllergy() {
-		return shrimpAllergy;
+	public boolean hasAllergy() {
+		return allergy;
 	}
-	public boolean hasNutAllergy() {
-		return nutAllergy;
-	}
-	
+
 	public boolean isVegetarian() {
 		return vegetarian;
 	}

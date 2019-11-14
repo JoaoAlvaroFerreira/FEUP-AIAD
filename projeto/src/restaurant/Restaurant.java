@@ -61,8 +61,8 @@ public class Restaurant {
 		
 		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER, EVENTUALLY MAKE IT SERIALIZED
 		ArrayList<Client> clients1 = new ArrayList<Client>();
-		clients1.add(new Client(false,false,false,false, true));
-		clients1.add(new Client(false,false,false,false, false));
+		clients1.add(new Client(false,false,false, true));
+		clients1.add(new Client(false,false,false, false));
 		ClientGroup clientgroup1 = new ClientGroup(clients1);
 		newAgent("client_group_01", clientgroup1);
 		
@@ -76,10 +76,10 @@ public class Restaurant {
 
 		Object[] a = null;
         try {
-        	
-        
-        	
-        	
+
+
+
+
 			AgentController agentController = mainContainer.acceptNewAgent(agentID, agent);
             agentController.start();
             System.out.println("client agent");
