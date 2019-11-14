@@ -5,8 +5,7 @@ public class Dish {
    boolean isVegetarian;
    boolean hasShrimp;
    boolean kidsMeal;
-   
-   
+
    public Dish() {
 	   
    }

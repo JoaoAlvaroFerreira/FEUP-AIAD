@@ -20,16 +20,25 @@ public class Waiter extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private DFAgentDescription dfad;
 	private ArrayList<Table> tables;
 
-    
+	//CONSTRUCTOR
     public Waiter(ArrayList<Table> tables) {
     	this.setTables(tables);
     }
+
+    //GET & SET TABLES
+	public ArrayList<Table> getTables() {
+		return tables;
+	}
+
+	public void setTables(ArrayList<Table> tables) {
+		this.tables = tables;
+	}
     
     public void setup(){
+
         System.out.println("waiter");
         
         yellowPagesRegister();
@@ -58,14 +67,4 @@ public class Waiter extends Agent {
 		}
 		
 	}
-
-	public ArrayList<Table> getTables() {
-		return tables;
-	}
-
-	public void setTables(ArrayList<Table> tables) {
-		this.tables = tables;
-	}
-
-
 }

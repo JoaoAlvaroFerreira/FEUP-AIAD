@@ -10,8 +10,10 @@ public class Client {
 	
 	public Client() {
 			
-		}
+	}
+
 	public Client(boolean shrimp, boolean nut, boolean veg, boolean kid, boolean smoke) {
+
 		shrimpAllergy = shrimp;
 		nutAllergy = nut;
 		vegetarian = veg;
@@ -22,7 +24,6 @@ public class Client {
 			setSmoker(false);
 	}
 
-	
 	public void makeAllergicShrimp() {
 		this.shrimpAllergy = true;
 	}
@@ -46,13 +47,13 @@ public class Client {
 	public boolean isVegetarian() {
 		return vegetarian;
 	}
-	
 	public boolean isChild() {
 		return child;
 	}
 	public boolean isSmoker() {
 		return smoker;
 	}
+
 	public void setSmoker(boolean smoker) {
 		this.smoker = smoker;
 	}

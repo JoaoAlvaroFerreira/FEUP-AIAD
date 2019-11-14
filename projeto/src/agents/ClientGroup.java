@@ -22,19 +22,24 @@ public class ClientGroup extends Agent {
 	private DFAgentDescription dfad;
 	private int state; //0 - arrived; 1 - seated; 2 - ordered; 3 - ate and await to give review + pay
 
-	
-    
-    public ClientGroup(ArrayList<Client> clients) {
-    	this.setClients(clients);
-    }
-    
- 
-    
-    
+	//CONSTRUCTOR
+    public ClientGroup(ArrayList<Client> clients) { this.setClients(clients); }
+
+    //GET
+	public ArrayList<extras.Client> getClients() { return clients; }
+
+	//SET
+	public void setClients(ArrayList<extras.Client> clients) { this.clients = clients; }
+
+	//STATE 1
+	public void sitDown() { state = 1; }
+
+	//STATE 2
+
+	//STATE 3
+
     public void setup(){
-        
-        
-        
+
         yellowPagesRegister();
         
     	SequentialBehaviour loop = new SequentialBehaviour();
@@ -42,11 +47,11 @@ public class ClientGroup extends Agent {
 		loop.addSubBehaviour(new ClientsRequestTable(this));
         loop.addSubBehaviour(new ClientsEat(this));
     	addBehaviour(loop);
-    	
-      
+
     }
 
     private void yellowPagesRegister() {
+
     	ServiceDescription sd = new ServiceDescription();
 		//sd.setType();
     	sd.setType("Client");
@@ -55,17 +60,18 @@ public class ClientGroup extends Agent {
 		this.dfad = new DFAgentDescription();
 		dfad.setName(getAID());
 		dfad.addServices(sd);
+
 		try {
 			DFService.register(this, this.dfad);
 		} catch (FIPAException fe) {
 			fe.printStackTrace();
 		}
-		
 	}
 
     public boolean smokersTable() {
+
     	boolean smokers = false;
-    	
+
     	for(int i = 0; i < this.clients.size(); i++)
     	{
     		if(this.clients.get(i).isSmoker())
@@ -74,23 +80,4 @@ public class ClientGroup extends Agent {
     	}
     	return smokers;
     }
-
-
-
-	public ArrayList<extras.Client> getClients() {
-		return clients;
-	}
-
-
-
-
-	public void setClients(ArrayList<extras.Client> clients) {
-		this.clients = clients;
-	}
-	
-	public void sitDown() {
-		state = 1;
-	}
-
-
 }

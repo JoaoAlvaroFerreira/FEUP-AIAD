@@ -1,10 +1,11 @@
 package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
-
 import agents.ClientGroup;
 import agents.Waiter;
+import agents.Cook;
 import extras.Client;
+import extras.Dish;
 import extras.Table;
 import jade.Boot;
 import jade.wrapper.AgentController;
@@ -17,20 +18,16 @@ import jade.core.Runtime;
 public class Restaurant {
 
 	static ArrayList<Table> tables;
+	static Dish dish;
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
-	
-	
-	public static void main(String[] args){
-		
 
-		
+	public static void main(String[] args){
+
 		newJade();
 		newRestaurant();
 		//INSERT LOOP HERE
-		
-		
 	}
 	
 	public static void newJade() {
@@ -48,13 +45,17 @@ public class Restaurant {
 		int tables2 = rand.nextInt(15);
 		int tables4 = rand.nextInt(10);
 		tables = new ArrayList<Table>();
+		dish = new Dish();
+
 		for(int i = 0; i < tables2; i++) {
 			tables.add(new Table(2, rand.nextBoolean()));
 		}
+
 		System.out.println(tables2 + " tables for 2 created.");
 		for(int j = 0; j < tables4; j++) {
 			tables.add(new Table(4, rand.nextBoolean()));
 		}
+
 		System.out.println(tables4 + " tables for 4 created.");
 		
 		//create here stuff to make agents, depending on our needs
@@ -68,18 +69,19 @@ public class Restaurant {
 		
 		//THIS MAKES A WAITER, EVENTUALLY MAKE IT SERIALIZED
 		newAgent("waiter_01", new Waiter(tables));
-		
+
+		//THIS MAKES A COOK, EVENTUALLY WE NEED A TEAM :)
+		/*ArrayList<Cook> cooks = new ArrayList<>();
+		cooks.add(new Cook(dishes));*/
+		newAgent("cook_01", new Cook(dish, ""));
+
 	}
-	
+
 
 	public static void newAgent(String agentID, Agent agent) {
 
 		Object[] a = null;
         try {
-        	
-        
-        	
-        	
 			AgentController agentController = mainContainer.acceptNewAgent(agentID, agent);
             agentController.start();
             System.out.println("client agent");

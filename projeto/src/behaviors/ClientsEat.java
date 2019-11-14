@@ -14,8 +14,6 @@ import jade.domain.JADEAgentManagement.ShowGui;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import agents.ClientGroup;
