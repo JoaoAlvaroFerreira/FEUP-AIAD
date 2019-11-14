@@ -2,6 +2,8 @@ package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 import agents.ClientGroup;
 import agents.Waiter;
 import extras.Client;
@@ -25,7 +27,14 @@ public class Restaurant {
 	public static void main(String[] args){
 		
 
-		
+        RestaurantGUI GUI = new RestaurantGUI();
+
+        GUI.setTitle("Graphical User Interface");
+        GUI.setSize(300, 200);
+        GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GUI.setVisible(true);
+    
+
 		newJade();
 		newRestaurant();
 		//INSERT LOOP HERE

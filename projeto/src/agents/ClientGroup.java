@@ -20,7 +20,8 @@ public class ClientGroup extends Agent {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Client> clients;
 	private DFAgentDescription dfad;
-	private int state; //0 - arrived; 1 - seated; 2 - ordered; 3 - ate and await to give review + pay
+	private int state; //0 - arrived; 1 - seated; 2 - ordered; 3 - ate and await to give review + pay; 
+	private int time_waiting;
 
 	
     
