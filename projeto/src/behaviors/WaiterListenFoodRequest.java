@@ -11,8 +11,7 @@ public class WaiterListenFoodRequest  extends SimpleBehaviour  {
 
 	@Override
 	public void action() {
-		System.out.println("WaiterListenFoodRequest");
-		// TODO Auto-generated method stub
+	
 		
 	}
 

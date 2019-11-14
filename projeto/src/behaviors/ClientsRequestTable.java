@@ -37,7 +37,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		
 		System.out.println("Action request table");
 		
-
+///PARTE 1
 		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
 
 
@@ -62,11 +62,16 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
         try {
 			DFAgentDescription[] result = DFService.search(this.client, dfd);
-		
+			
+			boolean found = false;
+			
 			for (int j = 0; j < result.length; j++) {
+				
 				AID dest = result[j].getName();
+				if(dest != null){
 				msg.addReceiver(dest);
 			}
+			
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
