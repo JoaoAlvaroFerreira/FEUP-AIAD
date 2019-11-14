@@ -24,7 +24,6 @@ public class WaiterListen extends SimpleBehaviour {
 
         try {
             ArrayList<String> message = (ArrayList) msg.getContentObject();
-            System.out.println("PANICOOOO: " + message);
         } catch (UnreadableException e) {
             e.printStackTrace();
         }
@@ -52,36 +51,26 @@ public class WaiterListen extends SimpleBehaviour {
 
     public void messageFromClient(ACLMessage message){
 
-            System.out.println("message from client - 1" + message);
 
         ArrayList<String> msg = new ArrayList<String>();
-        System.out.println("message from client - 2");
 
         try {
-            System.out.println("message from client - 3");
 
             msg  = (ArrayList) message.getContentObject();
 
 
-            System.out.println("message from client - 4");
 
         } catch (UnreadableException e) {
-            System.out.println("message from client - 5");
 
             e.printStackTrace();
         }
 
-        System.out.println("message from client - 6");
-        System.out.println("message from client - 7 " + msg);
 
         String messageType = msg.get(0);
-        System.out.println("message from client - 8");
 
-        System.out.println("messageType: " + messageType);
 
         switch(messageType){
             case "REQUEST_TABLE":
-                System.out.println("entered request table case");
                 request_table(message);
                 break;
             case "REQUEST_CHECK":
