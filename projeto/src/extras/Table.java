@@ -1,5 +1,6 @@
 package extras;
 
+import agents.ClientGroup;
 
 public class Table {
     boolean smokers;
@@ -7,23 +8,39 @@ public class Table {
     String client_id;
 
     public Table(int seats, boolean smokers){
-    	this.seats = seats;
-    	this.smokers = smokers;
-    	this.client_id = null;
+        this.seats = seats;
+        this.smokers = smokers;
+        this.client_id = null;
     }
+
+
 
     public boolean isSmokers() {
-    	return smokers;
+        return smokers;
     }
 
-    //GETS
     public int getSeats() {
-    	return seats;
+        return seats;
     }
     public String getClientID() {
-    	return client_id;
+        return client_id;
     }
     public void setClientID(String client_id) {
-    	this.client_id = client_id;
+        this.client_id = client_id;
+    }
+
+    public boolean getEmpty() {
+        if(client_id == null)
+            return true;
+        else
+            return false;
+    }
+
+    public void assignClients(String client_group_id) {
+        this.client_id = client_group_id;
+    }
+
+    public void emptyTable() {
+        this.client_id = null;
     }
 }

@@ -6,21 +6,21 @@ public class Client {
 	boolean vegetarian = false;
 	boolean child = false;
 	private boolean smoker = false;
-	
+
 	public Client() {
-			
+
 		}
 	public Client(boolean allergy, boolean veg, boolean kid, boolean smoke) {
-		allergy = allergy;
+		this.allergy = allergy;
 		vegetarian = veg;
 		child = kid;
 		setSmoker(smoke);
-		
+
 		if(kid)
 			setSmoker(false);
 	}
 
-	
+
 	public void makeAllergic() {
 		this.allergy = true;
 	}
@@ -30,7 +30,7 @@ public class Client {
 	public void makeChild() {
 		this.child = true;
 	}
-	
+
 	public boolean hasAllergy() {
 		return allergy;
 	}

@@ -60,21 +60,26 @@ public class ClientsRequestTable extends SimpleBehaviour  {
             e.printStackTrace();
         }
 
+
+        DFAgentDescription[] result = new DFAgentDescription[0];
         try {
-			DFAgentDescription[] result = DFService.search(this.client, dfd);
+            result = DFService.search(this.client, dfd);
+            boolean found = false;
+
+            for (int j = 0; j < result.length; j++) {
+
+                AID dest = result[j].getName();
+                if(dest != null){
+                    msg.addReceiver(dest);
+                }
+            }
+        } catch (FIPAException e) {
+            e.printStackTrace();
+        }
+
+
 			
-			boolean found = false;
-			
-			for (int j = 0; j < result.length; j++) {
-				
-				AID dest = result[j].getName();
-				if(dest != null){
-				msg.addReceiver(dest);
-			}
-			
-		} catch (FIPAException e) {
-			e.printStackTrace();
-		}
+
 
         this.client.send(msg);
 

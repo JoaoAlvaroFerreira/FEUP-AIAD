@@ -118,7 +118,7 @@ public class WaiterListen extends SimpleBehaviour {
                         this.waiter.getTables().get(i).getEmpty() &&
                         this.waiter.getTables().get(i).isSmokers()==smoking) {
                     System.out.println("Found table");
-                    this.waiter.getTables().get(i).assignClients();
+                    this.waiter.getTables().get(i).assignClients(msg.getSender().getLocalName());
 
                     msgToClient.setContent("TABLE_FOUND");
 
