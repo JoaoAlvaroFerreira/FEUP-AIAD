@@ -53,7 +53,8 @@ public class CookPreparesFood extends SimpleBehaviour  {
                         message.set(4, "2");
                     }
 
-                    System.out.println("SENT:" + msgToWaiter.getContent() + " TO: " + dest.getLocalName());
+                    msgToWaiter.setContent("FOOD_READY");
+                    System.out.println("SENT " + msgToWaiter.getContent() + " TO " + dest.getLocalName());
                     this.cook.send(msgToWaiter);
 
                 }

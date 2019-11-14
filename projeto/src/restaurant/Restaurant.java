@@ -53,7 +53,7 @@ public class Restaurant {
 		int tables2 = rand.nextInt(15);
 		int tables4 = rand.nextInt(10);
 		tables = new ArrayList<Table>();
-		dish = new Dish();
+		dish = new Dish(false, false, false);
 
 		for(int i = 0; i < tables2; i++) {
 			tables.add(new Table(2, rand.nextBoolean()));
