@@ -44,19 +44,24 @@ public class ReceptionistChoosesAvailableWorker extends SimpleBehaviour {
 
     public void chooseWaiter(ACLMessage message) {
 
+    	 boolean foundWaiter = false;
+    	 
+    	 
+    	 
         Waiter availableWaiter = new Waiter(null);
-        boolean foundWaiter = false;
+       
 
         for (int i = 0; i < receptionist.getWaitersState().size(); i++) {
 
-            if (!receptionist.getWaitersState().get(i).getBusy()) {
+            if (!receptionist.getWaitersState().get("waiter_"+Integer.toString(i)).getBusy()) {
 
                 foundWaiter = true;
-                availableWaiter = receptionist.getWaitersState().get(i);
+                availableWaiter = receptionist.getWaitersState().get("waiter_"+Integer.toString(i));
                 break;
 
             }
         }
+        
 
         if(foundWaiter){
 

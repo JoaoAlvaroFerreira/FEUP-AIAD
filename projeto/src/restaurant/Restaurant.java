@@ -101,6 +101,7 @@ public class Restaurant {
 		Dish dish = null;
 		
 		System.out.println("Amount of cooks available: "+cook_amount+"\n With the following specializations:");
+		
 		for(int i = 0; i < cook_amount; i++) { //CREATES #COOKS = COOK_AMOUNT
 				
 					switch(i%4) {  //"HIRES" COOKS IN A NORMAL DISTRIBUTION, TO ENSURE WE CAN HAVE AS MANY OPTIONS AS POSSIBLE

@@ -48,7 +48,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Receptionist");
+		sd.setType("waiter");
 		dfd.addServices(sd);
 
         try {

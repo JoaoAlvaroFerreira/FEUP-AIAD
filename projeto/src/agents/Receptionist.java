@@ -55,7 +55,7 @@ public class Receptionist extends Agent {
 
     private void yellowPagesRegister() {
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("Recepcionist");
+        sd.setType("Receptionist");
         sd.setName(getLocalName());
 
         this.dfad = new DFAgentDescription();
