@@ -106,7 +106,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         Waiter waiter = new Waiter();
 
         for(int i = 0; i < this.receptionist.getWaiters().size(); i++){
-            System.out.println("hello");
 
             waiter = this.receptionist.getWaiters().get(i);
 
@@ -140,7 +139,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         dfd.addServices(sd);
 
         try {
-            msg.setContentObject(query);
+            newMsg.setContentObject(query);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,13 +153,13 @@ public class ReceptionistListen extends CyclicBehaviour {
 
                 AID dest = result[j].getName();
                 if(dest != null){
-                    msg.addReceiver(dest);
+                    newMsg.addReceiver(dest);
                 }
             }
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-
+        
         this.receptionist.send(newMsg);
         System.out.println(msg.getSender().getLocalName() + " is assigned to table and " + waiter.getLocalName());
 

@@ -76,10 +76,13 @@ public class ClientsRequestTable extends SimpleBehaviour  {
         this.client.send(msg);
 
 		ACLMessage new_msg = this.client.blockingReceive();
+        System.out.println("client got message 1");
 	
 		if (new_msg != null) {
 
-			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
+            System.out.println("client got message");
+
+			if (new_msg.getSender().getLocalName().substring(0, 11).equals("receptionist")) {
 
 				ArrayList<String> message = null;
 				try {
@@ -88,8 +91,11 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 					e.printStackTrace();
 				}
 
-				if(message.get(0).equals("ASSIGN_TABLE_WAITER"))
+				if(message.get(0).equals("ASSIGN_TABLE_WAITER")){
 					client.sitDown(message.get(1));
+                    System.out.println(client.getLocalName() + "sat down");
+
+                }
 
 				else System.out.println("ERROR - Wrong Assign Table Message");
 			}
