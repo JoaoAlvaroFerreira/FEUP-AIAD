@@ -46,15 +46,8 @@ public class ClientsEat extends SimpleBehaviour  {
             }
             System.out.println("waited another second to eat");
         }
-        /*try {
-            TimeUnit.SECONDS.sleep(timeToEat);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
 
         this.finished = true;
-
-
 
     }
 

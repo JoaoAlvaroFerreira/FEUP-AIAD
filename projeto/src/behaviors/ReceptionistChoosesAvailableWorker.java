@@ -51,12 +51,12 @@ public class ReceptionistChoosesAvailableWorker extends SimpleBehaviour {
         Waiter availableWaiter = new Waiter(null);
        
 
-        for (int i = 0; i < receptionist.getWaitersState().size(); i++) {
+        for (int i = 0; i < receptionist.getWaiters().size(); i++) {
 
-            if (!receptionist.getWaitersState().get("waiter_"+Integer.toString(i)).getBusy()) {
+            if (!receptionist.getWaiters().get("waiter_"+Integer.toString(i)).getBusy()) {
 
                 foundWaiter = true;
-                availableWaiter = receptionist.getWaitersState().get("waiter_"+Integer.toString(i));
+                availableWaiter = receptionist.getWaiters().get("waiter_"+Integer.toString(i));
                 break;
 
             }
@@ -99,29 +99,20 @@ public class ReceptionistChoosesAvailableWorker extends SimpleBehaviour {
 
         else {
             //PUT CLIENT IN WAITING LIST
-            //TODO
-            for(int j = 0; j < receptionist.getAllClients().size(); j++){
-
-                ClientGroup clients = receptionist.getAllClients().get(j);
-
-                if(message.getSender().equals(clients.getAID())){
-                    receptionist.getWaitingClients().add(clients.getAID()+ "");
-                    break;
-                }
-            }
+            receptionist.getWaitingWaiterClients().add(message);
         }
     }
 
     public void chooseCook(ACLMessage message){
 
-        Cook availableCook = new Cook(null, null);
+        Cook availableCook = new Cook(null);
         boolean foundCook = false;
 
-        for(int i = 0; i < receptionist.getWaitersState().size(); i++){
+        for(int i = 0; i < receptionist.getWaiters().size(); i++){
 
-            if(!receptionist.getWaitersState().get(i).getBusy()){
+            if(!receptionist.getWaiters().get(i).getBusy()){
 
-                availableCook = receptionist.getCooksState().get(i);
+                availableCook = receptionist.getCooks().get(i);
                 foundCook = true;
                 break;
             }

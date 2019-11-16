@@ -2,15 +2,13 @@ package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.swing.JFrame;
+
 import agents.ClientGroup;
 import agents.Receptionist;
 import agents.Waiter;
 import agents.Cook;
 import extras.Client;
-import extras.Dish;
 import extras.Table;
-import jade.Boot;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.core.Agent;
@@ -21,7 +19,6 @@ import jade.core.Runtime;
 public class Restaurant {
 
 	static ArrayList<Table> tables;
-	static Dish dish;
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
@@ -98,33 +95,37 @@ public class Restaurant {
 	}
 	
 	private void generateCooks(int cook_amount) {
-		Dish dish = null;
-		
-		System.out.println("Amount of cooks available: "+cook_amount+"\n With the following specializations:");
-		
+
+		System.out.println("Amount of cooks available: "+ cook_amount +"\n With the following specializations:");
+		String specialization = null;
+
+
 		for(int i = 0; i < cook_amount; i++) { //CREATES #COOKS = COOK_AMOUNT
 				
 					switch(i%4) {  //"HIRES" COOKS IN A NORMAL DISTRIBUTION, TO ENSURE WE CAN HAVE AS MANY OPTIONS AS POSSIBLE
 					case 0: //NORMAL
-						dish = new Dish(false, false, false);
+						specialization = null;
 						System.out.println("Normal dishes.");
 					break;
 					case 1: //ALLERGY
-						dish = new Dish(true, false, false);
+						specialization = "ALLERGY";
 						System.out.println("Dishes for those with allergies.");
 					break;
 					case 2: //VEGETARIAN
-						dish = new Dish(false, true, false);
+						specialization = "VEGGIE";
 						System.out.println("Vegetarian dishes.");
 					break;
 					case 3: //KID
-						dish = new Dish(false, false, true);
+						specialization = "CHILD";
 						System.out.println("Kid meals.");
-					break;	
-					
-					
-			} 
-			Cook cook = new Cook(dish,"");
+					break;
+						default:
+							System.out.println("ERROR - Generating Cook");
+					break;
+
+			}
+
+			Cook cook = new Cook(specialization);
 			newAgent("cook_"+Integer.toString(i),cook) ;
 			cooks.put("cook_"+Integer.toString(i), cook);
 		}
@@ -171,7 +172,7 @@ public class Restaurant {
 		
 		generateWaiters(waiter_amount);
 		
-		newAgent("receptionist", new Receptionist(waiters, cooks, clients));
+		newAgent("receptionist", new Receptionist(waiters, cooks));
 
 	}
 

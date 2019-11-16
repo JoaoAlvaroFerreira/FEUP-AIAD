@@ -7,6 +7,8 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,31 +16,35 @@ public class Receptionist extends Agent {
 
     private static final long serialVersionUID = 1L;
     private DFAgentDescription dfad;
-    private ConcurrentHashMap<String, Waiter> waitersState;
-    private ConcurrentHashMap<String, Cook> cooksState;
-    private ArrayList<ClientGroup> allClients;
-    private ArrayList<String> waitingClients;
+    private ConcurrentHashMap<String, Waiter> waiters;
+    private ConcurrentHashMap<String, Cook> cooks;
+    private ArrayList<ACLMessage> waitingWaiterClients;
+    private ArrayList<ACLMessage> waitingTableClients;
+    private ArrayList<ACLMessage> waitingAvailableCook;
 
     //CONSTRUCTOR
-    public Receptionist(ConcurrentHashMap<String, Waiter> waiters, ConcurrentHashMap<String, Cook> cooks, ArrayList<ClientGroup> allClients) {
+    public Receptionist(ConcurrentHashMap<String, Waiter> waiters, ConcurrentHashMap<String, Cook> cooks) {
 
-        this.waitersState = waiters;
-        this.cooksState = cooks;
-        this.allClients = allClients;
-        this.waitingClients = new ArrayList<>();
+        this.waiters = waiters;
+        this.cooks = cooks;
+        this.waitingWaiterClients = new ArrayList<>();
+        this.waitingTableClients = new ArrayList<>();
+
     }
 
     //GETS
-    public ConcurrentHashMap<String, Waiter> getWaitersState() { return this.waitersState; }
-    public ConcurrentHashMap<String, Cook> getCooksState() { return this.cooksState; }
-    public ArrayList<String> getWaitingClients() { return this.waitingClients; }
-    public ArrayList<ClientGroup> getAllClients() { return this.allClients; }
+    public ConcurrentHashMap<String, Waiter> getWaiters() { return this.waiters; }
+    public ConcurrentHashMap<String, Cook> getCooks() { return this.cooks; }
+    public ArrayList<ACLMessage> getWaitingWaiterClients() { return this.waitingWaiterClients; }
+    public ArrayList<ACLMessage> getWaitingTableClients() { return this.waitingTableClients; }
+    public ArrayList<ACLMessage> getWaitingAvailableCook() { return this.waitingAvailableCook; }
 
     //SETS
-    public void setWaitersState(ConcurrentHashMap<String, Waiter> newWaiters) { this.waitersState = newWaiters;}
-    public void setCooksState(ConcurrentHashMap<String, Cook> newCooks) { this.cooksState = newCooks;}
-    public void setWaitingClients(ArrayList<String> newWaitingClients) { this.waitingClients = newWaitingClients; }
-    public void setClients(ArrayList<ClientGroup> newClients) { this.allClients = newClients; }
+    public void setWaiters(ConcurrentHashMap<String, Waiter> newWaiters) { this.waiters = newWaiters;}
+    public void setCooks(ConcurrentHashMap<String, Cook> newCooks) { this.cooks = newCooks;}
+    public void setWaitingWaiterClients(ArrayList<ACLMessage> newWaitingWaiterClients) { this.waitingWaiterClients = newWaitingWaiterClients; }
+    public void setWaitingTableClients(ArrayList<ACLMessage> newWaitingTableClients) { this.waitingTableClients = newWaitingTableClients; }
+    public void setWaitingAvailableCook(ArrayList<ACLMessage> newWaitingCooks) { this.waitingAvailableCook = newWaitingCooks; }
 
     public void setup(){
 
