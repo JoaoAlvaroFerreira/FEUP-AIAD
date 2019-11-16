@@ -1,5 +1,6 @@
 package agents;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import behaviors.ClientsEat;
@@ -37,6 +38,7 @@ public class ClientGroup extends Agent {
 	public void sitDown() { state = 1; }
 
 	//STATE 2
+	public void order() { state = 2;}
 
 	//STATE 3
 
@@ -50,8 +52,6 @@ public class ClientGroup extends Agent {
         loop.addSubBehaviour(new ClientsEat(this));
         loop.addSubBehaviour(new ClientsRequestCheck(this));
         addBehaviour(loop);
-    	
-      
     }
 
     private void yellowPagesRegister() {

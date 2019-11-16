@@ -1,8 +1,10 @@
 package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
 import agents.ClientGroup;
+import agents.Receptionist;
 import agents.Waiter;
 import agents.Cook;
 import extras.Client;
@@ -29,7 +31,7 @@ public class Restaurant {
         RestaurantGUI GUI = new RestaurantGUI();
 
         GUI.setTitle("Graphical User Interface");
-        GUI.setSize(300, 200);
+        GUI.setSize(600, 400);
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GUI.setVisible(true);
     
@@ -69,19 +71,29 @@ public class Restaurant {
 		//create here stuff to make agents, depending on our needs
 		
 		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER, EVENTUALLY MAKE IT SERIALIZED
+		ArrayList<ClientGroup> clients = new ArrayList<>();
 		ArrayList<Client> clients1 = new ArrayList<Client>();
 		clients1.add(new Client(false,false,false, true));
 		clients1.add(new Client(false,false,false, false));
 		ClientGroup clientgroup1 = new ClientGroup(clients1);
+		clients.add(clientgroup1);
 		newAgent("client_group_01", clientgroup1);
-		
+
 		//THIS MAKES A WAITER, EVENTUALLY MAKE IT SERIALIZED
-		newAgent("waiter_01", new Waiter(tables));
+		ConcurrentHashMap<String, Waiter> waiters = new ConcurrentHashMap<>();
+		Waiter waiter_01 = new Waiter(tables);
+		newAgent("waiter_01", waiter_01);
+		waiters.put("waiter_01", waiter_01);
+
 
 		//THIS MAKES A COOK, EVENTUALLY WE NEED A TEAM :)
-		/*ArrayList<Cook> cooks = new ArrayList<>();
-		cooks.add(new Cook(dishes));*/
-		newAgent("cook_01", new Cook(dish, ""));
+		ConcurrentHashMap<String, Cook> cooks = new ConcurrentHashMap<>();
+		Cook cook_01 = new Cook(dish, "");
+		newAgent("cook_01", cook_01);
+		cooks.put("cook_01", cook_01);
+
+		//CREATES RECEPTIONIST WHICH MANAGES AVAILABLE COOKS AND WAITERS
+		newAgent("receptionist", new Receptionist(waiters, cooks, clients));
 
 	}
 
@@ -91,12 +103,10 @@ public class Restaurant {
 		Object[] a = null;
         try {
 
-
-
-
 			AgentController agentController = mainContainer.acceptNewAgent(agentID, agent);
             agentController.start();
             System.out.println("client agent");
+
         } catch (jade.wrapper.StaleProxyException e) {
             System.err.println("Error launching agent...");
         }

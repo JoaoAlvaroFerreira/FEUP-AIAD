@@ -23,9 +23,6 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 	private boolean finished = false;
 	private ClientGroup client;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public ClientsRequestTable(ClientGroup client) {
@@ -37,13 +34,13 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		
 		System.out.println("Action request table");
 		
-///PARTE 1
+		///PARTE 1
 		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
-
 
 		ArrayList<String> query = new ArrayList();
 		query.add("REQUEST_TABLE");
 		query.add(this.client.getClients().size()+"");
+
 		if(client.smokersTable())
 			query.add("SMOKE");
 		else
@@ -51,7 +48,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Waiter");
+		sd.setType("Receptionist");
 		dfd.addServices(sd);
 
         try {
@@ -59,7 +56,6 @@ public class ClientsRequestTable extends SimpleBehaviour  {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         DFAgentDescription[] result = new DFAgentDescription[0];
         try {
@@ -77,21 +73,16 @@ public class ClientsRequestTable extends SimpleBehaviour  {
             e.printStackTrace();
         }
 
-
-			
-
-
         this.client.send(msg);
 
 		ACLMessage new_msg = this.client.blockingReceive();
 	
 		if (new_msg != null) {
-			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
-				
 
-				String message =new_msg.getContent();
-				
-				
+			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
+
+				String message = new_msg.getContent();
+
 				if(message.contains("TABLE_FOUND"))
 					client.sitDown();
 				else if(message.contains("NO_TABLE_FOUND")) {
@@ -99,17 +90,10 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 					System.out.println("Let's wait...");
 				}
 				else System.out.println("FAILURE");
-				
-						
-								
-							
-							}
 			}
+		}
 
 		this.finished = true;
-
-		
-	
 	}
 
 
@@ -118,5 +102,4 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		
 		return this.finished;
 	}
-
 }

@@ -25,21 +25,27 @@ public class Waiter extends Agent {
 	private static final long serialVersionUID = 1L;
 	private DFAgentDescription dfad;
 	private ArrayList<Table> tables;
+	private boolean busy;
 
 	//CONSTRUCTOR
     public Waiter(ArrayList<Table> tables) {
+    	this.busy = false;
     	this.setTables(tables);
     }
 
-    //GET & SET TABLES
+    //GETS
 	public ArrayList<Table> getTables() {
 		return tables;
 	}
+	public boolean getBusy() { return this.busy; }
 
+	//SETS
+	public void setBusy(boolean newState) { this.busy = newState;}
 	public void setTables(ArrayList<Table> tables) {
 		this.tables = tables;
 	}
-    
+
+
     public void setup(){
 
         System.out.println("waiter");

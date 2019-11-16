@@ -16,9 +16,6 @@ public class ClientsRequestCheck extends SimpleBehaviour  {
 
 	private boolean finished = false;
 	private ClientGroup client;
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public ClientsRequestCheck(ClientGroup client) {
@@ -31,7 +28,6 @@ public class ClientsRequestCheck extends SimpleBehaviour  {
 		System.out.println("Action request check");
 		
 		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
-
 
 		ArrayList<String> query = new ArrayList();
 		query.add("REQUEST_CHECK");
@@ -64,36 +60,25 @@ public class ClientsRequestCheck extends SimpleBehaviour  {
             e.printStackTrace();
         }
 
-
-			
-
-
         this.client.send(msg);
 
         ACLMessage new_msg = this.client.blockingReceive();
 
 
 		if (new_msg != null) {
+
 			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
 				
-
 				String message =new_msg.getContent();
-				
-				
+
 				if(message.contains("CHECK_REQUEST_REPLY"))
 					System.out.println(client.getLocalName() + " have left the restaurant");
 
 				else System.out.println("FAILURE");
-
-
-
 			}
 		}
 
 		this.finished = true;
-
-		
-	
 	}
 
 

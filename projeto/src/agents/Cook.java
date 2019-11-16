@@ -17,21 +17,25 @@ public class Cook extends Agent {
 	private DFAgentDescription dfad;
 	private Dish dish;
 	private String specialization;
+	private boolean busy;
 	// 'VEGAN' 'ALLERGY' 'CHILD'
 
 	//CONSTRUCTOR
 	public Cook(Dish dish, String specialization) {
 		this.setDish(dish);
 		this.setSpecialization(specialization);
+		this.busy = false;
 	}
 
 	//GET
 	public Dish getDish() { return this.dish;}
 	public String getSpecialization() { return this.specialization;}
+	public boolean getBusy() { return this.busy;}
 
 	//SET
 	public void setDish(Dish newDish) { this.dish = newDish; }
 	public void setSpecialization(String newSpecialization) { this.specialization = newSpecialization; }
+	public void setBusy(boolean newState) { this.busy = newState;}
 
 	public void setup(){
 		

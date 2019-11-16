@@ -30,6 +30,8 @@ public class CookPreparesFood extends SimpleBehaviour  {
 
             if (msg.getSender().getLocalName().substring(0, 5).equals("waiter")) {
 
+                cook.setBusy(true);
+
                 try {
 
                     ACLMessage msgToWaiter = new ACLMessage(ACLMessage.INFORM);
@@ -66,6 +68,7 @@ public class CookPreparesFood extends SimpleBehaviour  {
         }
 
         this.finished = true;
+        cook.setBusy(false);
     }
 
     @Override
