@@ -12,8 +12,6 @@ import restaurant.Restaurant;
 
 import java.util.ArrayList;
 
-import behaviors.WaiterListenFoodRequest;
-import behaviors.WaiterListenTableRequest;
 import behaviors.WaiterListen;
 import extras.Table;
 
@@ -24,26 +22,23 @@ public class Waiter extends Agent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private DFAgentDescription dfad;
-	private ArrayList<Table> tables;
-	private boolean busy;
+	private String client_group_id;
 
 	//CONSTRUCTOR
-    public Waiter(ArrayList<Table> tables) {
-    	this.busy = false;
-    	this.setTables(tables);
+    public Waiter() {
+    	this.client_group_id = null;
     }
 
     //GETS
-	public ArrayList<Table> getTables() {
-		return tables;
+	public boolean getBusy() {
+    	if(client_group_id.equals(null))
+    	    return false;
+    	else
+    	    return true;
 	}
-	public boolean getBusy() { return this.busy; }
 
 	//SETS
-	public void setBusy(boolean newState) { this.busy = newState;}
-	public void setTables(ArrayList<Table> tables) {
-		this.tables = tables;
-	}
+	public void setBusy(String client_group_id) { this.client_group_id = client_group_id;}
 
 
     public void setup(){
@@ -56,8 +51,6 @@ public class Waiter extends Agent {
         
     	//SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
-    	//loop.addSubBehaviour(new WaiterListenTableRequest(this));
-		//loop.addSubBehaviour(new WaiterListenFoodRequest(this));
 		//loop.addSubBehaviour(new WaiterListen(this));
     	addBehaviour(waiter_listen);
       

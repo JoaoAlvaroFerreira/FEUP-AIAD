@@ -22,6 +22,7 @@ public class WaiterListen extends CyclicBehaviour {
 
     public void action(){
 
+
         ACLMessage msg = this.waiter.blockingReceive();
 
         try {
@@ -85,29 +86,7 @@ public class WaiterListen extends CyclicBehaviour {
             if(message.get(2).equals("SMOKE"))
                 smoking = true;
 
-            //ASSIGN TABLE IF AVAILABLE
-            boolean table_found = false;
-            System.out.println("Available tables: " + this.waiter.getTables().size());
 
-            for(int i = 0; i < this.waiter.getTables().size(); i++) {
-
-                if(this.waiter.getTables().get(i).getSeats() >= client_number && this.waiter.getTables().get(i).getEmpty() &&
-                        this.waiter.getTables().get(i).isSmokers()== smoking) {
-                    System.out.println("Found table");
-                    this.waiter.getTables().get(i).assignClients(msg.getSender().getLocalName());
-
-                    msgToClient.setContent("TABLE_FOUND");
-                    table_found = true;
-
-                }
-
-                if(table_found)
-                    break;
-            }
-
-            if(!table_found) {
-                msgToClient.setContent("NO_TABLE_FOUND");
-            }
 
             System.out.println(waiter.getLocalName() + " SENT " + msgToClient.getContent() + " TO " + dest.getLocalName());
             this.waiter.send(msgToClient);

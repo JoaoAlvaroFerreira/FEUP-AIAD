@@ -22,9 +22,9 @@ public class Restaurant {
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
-	ConcurrentHashMap<String, Waiter> waiters = new ConcurrentHashMap<>();
+	ArrayList<Waiter> waiters = new ArrayList<Waiter>();
 	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
-	ConcurrentHashMap<String, Cook> cooks = new ConcurrentHashMap<>();
+	ArrayList<Cook> cooks = new ArrayList<Cook>();
 	
 
 	public Restaurant(boolean random,int clients, int cooks, int waiters, int tables) {
@@ -127,7 +127,7 @@ public class Restaurant {
 
 			Cook cook = new Cook(specialization);
 			newAgent("cook_"+Integer.toString(i),cook) ;
-			cooks.put("cook_"+Integer.toString(i), cook);
+			cooks.add(cook);
 		}
 		System.out.println("\n");
 		
@@ -137,9 +137,9 @@ public class Restaurant {
 		
 		System.out.println("Amount of waiters available: "+waiter_amount+"\n");
 		for(int i = 0; i < waiter_amount; i++) {
-			Waiter waiter =  new Waiter(tables);
+			Waiter waiter =  new Waiter();
 			newAgent("waiter_"+Integer.toString(i),waiter);
-			waiters.put("waiter_"+Integer.toString(i),waiter);
+			waiters.add(waiter);
 		}
 		
 	}
@@ -172,7 +172,7 @@ public class Restaurant {
 		
 		generateWaiters(waiter_amount);
 		
-		newAgent("receptionist", new Receptionist(waiters, cooks));
+		newAgent("receptionist", new Receptionist(waiters, cooks, tables));
 
 	}
 

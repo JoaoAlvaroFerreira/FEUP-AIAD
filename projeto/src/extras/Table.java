@@ -36,10 +36,6 @@ public class Table {
             return false;
     }
 
-    public void assignClients(String client_group_id) {
-        this.client_id = client_group_id;
-    }
-
     public void emptyTable() {
         this.client_id = null;
     }
