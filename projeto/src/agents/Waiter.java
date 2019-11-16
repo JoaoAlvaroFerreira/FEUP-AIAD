@@ -31,10 +31,14 @@ public class Waiter extends Agent {
 
     //GETS
 	public boolean getBusy() {
-    	if(client_group_id.equals(null))
-    	    return false;
+
+    	if(client_group_id == null)
+            return false;
+
     	else
-    	    return true;
+            return true;
+
+
 	}
 
 	//SETS

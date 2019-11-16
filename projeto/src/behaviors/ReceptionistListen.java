@@ -110,7 +110,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             waiter = this.receptionist.getWaiters().get(i);
 
-
             if(!waiter.getBusy()){
                 waiter_available = true;
                 break;
@@ -163,6 +162,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         }
 
         this.receptionist.send(newMsg);
+        System.out.println(msg.getSender().getLocalName() + " is assigned to table and " + waiter.getLocalName());
 
     }
 }
