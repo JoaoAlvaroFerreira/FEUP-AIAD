@@ -25,22 +25,19 @@ public class Restaurant {
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
+	ConcurrentHashMap<String, Waiter> waiters = new ConcurrentHashMap<>();
+	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
+	ConcurrentHashMap<String, Cook> cooks = new ConcurrentHashMap<>();
+	
 
-	public static void main(String[] args){
-
-        RestaurantGUI GUI = new RestaurantGUI();
-
-        GUI.setTitle("Graphical User Interface");
-        GUI.setSize(600, 400);
-        GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GUI.setVisible(true);
-    
+	public Restaurant(boolean random,int clients, int cooks, int waiters, int tables) {
+		
 		newJade();
-		newRestaurant();
-		//INSERT LOOP HERE
+		newRestaurant(clients, cooks, waiters, tables);
 	}
 	
-	public static void newJade() {
+	
+	public void newJade() {
 		
 		run = Runtime.instance();
     	profile = new ProfileImpl();
@@ -49,50 +46,130 @@ public class Restaurant {
     	mainContainer = run.createMainContainer(profile);
 	}
 	
-	public static void newRestaurant() {
+	
+	private void generateClients(int client_amount) {
 		
 		Random rand = new Random();
-		int tables2 = rand.nextInt(15);
-		int tables4 = rand.nextInt(10);
+		ArrayList<Client> client_group;
+		ClientGroup client_group_agent;
+		int group_size;
+		int client_unique_trait;
+		for(int i = 0; i < client_amount; i++) { //CREATES #GROUPS = CLIENT_AMOUNT
+			client_group = new ArrayList<Client>();
+			group_size = rand.nextInt(10)+1; //MAKES GROUPS FROM 1 TO 10 PEOPLE, RANDOMLY FOR EACH GROUP
+			
+			System.out.println("New client group of "+group_size+" with the following clients:");
+			for(int j = 0; j < group_size; j++) { //ADDS THE PEOPLE TO THE GROUP
+				client_unique_trait = rand.nextInt(5); //DECIDES IF THE PERSON WILL BE VEGETARIAN, CHILD, SMOKER, ALLERGIC TO SOMETHING OR NO SPECIFIC TRAITS
+				
+					switch(client_unique_trait) {
+					case 0: //NORMAL
+						client_group.add(new Client(false,false,false,false));
+						System.out.println("An average adult.");
+					break;
+					case 1: //ALLERGY
+						client_group.add(new Client(true,false,false,false));
+						System.out.println("An allergic adult.");
+					break;
+					case 2: //VEGETARIAN
+						client_group.add(new Client(false,true,false,false));
+						System.out.println("A vegetarian adult.");
+					break;
+					case 3: //KID
+						client_group.add(new Client(false,false,true,false));
+						System.out.println("A child.");
+					break;
+					case 4: //SMOKER
+						client_group.add(new Client(false,false,false,true));
+						System.out.println("A smoker.");
+					break;
+						
+					}
+					
+			} 
+			client_group_agent = new ClientGroup(client_group);
+			System.out.println("\n");
+			newAgent("client_group_"+Integer.toString(i), client_group_agent);
+			clients.add(client_group_agent);
+		}
+		
+		
+
+	}
+	
+	private void generateCooks(int cook_amount) {
+		Dish dish = null;
+		
+		System.out.println("Amount of cooks available: "+cook_amount+"\n With the following specializations:");
+		for(int i = 0; i < cook_amount; i++) { //CREATES #COOKS = COOK_AMOUNT
+				
+					switch(i%4) {  //"HIRES" COOKS IN A NORMAL DISTRIBUTION, TO ENSURE WE CAN HAVE AS MANY OPTIONS AS POSSIBLE
+					case 0: //NORMAL
+						dish = new Dish(false, false, false);
+						System.out.println("Normal dishes.");
+					break;
+					case 1: //ALLERGY
+						dish = new Dish(true, false, false);
+						System.out.println("Dishes for those with allergies.");
+					break;
+					case 2: //VEGETARIAN
+						dish = new Dish(false, true, false);
+						System.out.println("Vegetarian dishes.");
+					break;
+					case 3: //KID
+						dish = new Dish(false, false, true);
+						System.out.println("Kid meals.");
+					break;	
+					
+					
+			} 
+			Cook cook = new Cook(dish,"");
+			newAgent("cook_"+Integer.toString(i),cook) ;
+			cooks.put("cook_"+Integer.toString(i), cook);
+		}
+		System.out.println("\n");
+		
+	}
+	
+	private void generateWaiters(int waiter_amount) {
+		
+		System.out.println("Amount of waiters available: "+waiter_amount+"\n");
+		for(int i = 0; i < waiter_amount; i++) {
+			Waiter waiter =  new Waiter(tables);
+			newAgent("waiter_"+Integer.toString(i),waiter);
+			waiters.put("waiter_"+Integer.toString(i),waiter);
+		}
+		
+	}
+	
+	private void generateTables(int table_amount) {
+		Random rand = new Random();
+		int table_size = 0;
+		boolean smoker_table = false;
 		tables = new ArrayList<Table>();
-		dish = new Dish(false, false, false);
 
-		for(int i = 0; i < tables2; i++) {
-			tables.add(new Table(2, rand.nextBoolean()));
+		for(int i = 0; i < table_amount; i++) {
+			table_size = rand.nextInt(10)+1;
+			smoker_table = rand.nextBoolean();
+			tables.add(new Table(table_size,smoker_table));
+			String smokers = (smoker_table ? "in the smokers section" : "in the non-smokers section");
+			System.out.println("Table for "+table_size+" people available "+smokers);
 		}
 
-		System.out.println(tables2 + " tables for 2 created.");
-		for(int j = 0; j < tables4; j++) {
-			tables.add(new Table(4, rand.nextBoolean()));
-		}
-
-		System.out.println(tables4 + " tables for 4 created.");
+		System.out.println("\n");
 		
-		//create here stuff to make agents, depending on our needs
+	}
+	public void newRestaurant(int client_amount, int cook_amount, int waiter_amount, int table_amount) {
 		
-		//THIS MAKES A CLIENT GROUP OF TWO MEAT-EATING NON-ALLERGIC ADULTS, ONE SMOKER, EVENTUALLY MAKE IT SERIALIZED
-		ArrayList<ClientGroup> clients = new ArrayList<>();
-		ArrayList<Client> clients1 = new ArrayList<Client>();
-		clients1.add(new Client(false,false,false, true));
-		clients1.add(new Client(false,false,false, false));
-		ClientGroup clientgroup1 = new ClientGroup(clients1);
-		clients.add(clientgroup1);
-		newAgent("client_group_01", clientgroup1);
-
-		//THIS MAKES A WAITER, EVENTUALLY MAKE IT SERIALIZED
-		ConcurrentHashMap<String, Waiter> waiters = new ConcurrentHashMap<>();
-		Waiter waiter_01 = new Waiter(tables);
-		newAgent("waiter_01", waiter_01);
-		waiters.put("waiter_01", waiter_01);
-
-
-		//THIS MAKES A COOK, EVENTUALLY WE NEED A TEAM :)
-		ConcurrentHashMap<String, Cook> cooks = new ConcurrentHashMap<>();
-		Cook cook_01 = new Cook(dish, "");
-		newAgent("cook_01", cook_01);
-		cooks.put("cook_01", cook_01);
-
-		//CREATES RECEPTIONIST WHICH MANAGES AVAILABLE COOKS AND WAITERS
+				
+		generateTables(table_amount);
+		
+		generateCooks(cook_amount);
+		
+		generateClients(client_amount);
+		
+		generateWaiters(waiter_amount);
+		
 		newAgent("receptionist", new Receptionist(waiters, cooks, clients));
 
 	}
@@ -103,10 +180,10 @@ public class Restaurant {
 		Object[] a = null;
         try {
 
+
 			AgentController agentController = mainContainer.acceptNewAgent(agentID, agent);
             agentController.start();
-            System.out.println("client agent");
-
+        
         } catch (jade.wrapper.StaleProxyException e) {
             System.err.println("Error launching agent...");
         }
