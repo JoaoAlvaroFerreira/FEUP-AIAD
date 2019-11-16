@@ -48,7 +48,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("waiter");
+		sd.setType("Receptionist");
 		dfd.addServices(sd);
 
         try {
@@ -81,15 +81,17 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
 
-				String message = new_msg.getContent();
-
-				if(message.contains("TABLE_FOUND"))
-					client.sitDown();
-				else if(message.contains("NO_TABLE_FOUND")) {
-					//set up waiting list
-					System.out.println("Let's wait...");
+				ArrayList<String> message = null;
+				try {
+					message = (ArrayList<String>) new_msg.getContentObject();
+				} catch (UnreadableException e) {
+					e.printStackTrace();
 				}
-				else System.out.println("FAILURE");
+
+				if(message.get(0).equals("ASSIGN_TABLE_WAITER"))
+					client.sitDown(message.get(1));
+
+				else System.out.println("ERROR - Wrong Assign Table Message");
 			}
 		}
 

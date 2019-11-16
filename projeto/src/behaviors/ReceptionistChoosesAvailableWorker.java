@@ -24,12 +24,6 @@ public class ReceptionistChoosesAvailableWorker extends SimpleBehaviour {
 
         ACLMessage msg = this.receptionist.blockingReceive();
 
-        try {
-            ArrayList<String> message = (ArrayList) msg.getContentObject();
-        } catch (UnreadableException e) {
-            e.printStackTrace();
-        }
-
         if (msg != null) {
 
             if (msg.getSender().getLocalName().substring(0, 12).equals("client_group")) {

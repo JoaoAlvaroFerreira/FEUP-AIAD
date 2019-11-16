@@ -22,7 +22,7 @@ public class ClientGroup extends Agent {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Client> clients;
 	private DFAgentDescription dfad;
-	private int state; //0 - arrived; 1 - seated; 2 - ordered; 3 - ate and await to give review + pay; 
+	private String waiter;
 	private int time_waiting;
 
 	//CONSTRUCTOR
@@ -34,13 +34,7 @@ public class ClientGroup extends Agent {
 	//SET
 	public void setClients(ArrayList<extras.Client> clients) { this.clients = clients; }
 
-	//STATE 1
-	public void sitDown() { state = 1; }
-
-	//STATE 2
-	public void order() { state = 2;}
-
-	//STATE 3
+	public void sitDown(String waiter) { this.waiter = waiter; }
 
     public void setup(){
 
