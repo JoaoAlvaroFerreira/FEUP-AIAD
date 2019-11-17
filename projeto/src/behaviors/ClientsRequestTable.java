@@ -48,16 +48,18 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		else
 			query.add("NO_SMOKE");
 
-		DFAgentDescription dfd = new DFAgentDescription();
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Receptionist");
-		dfd.addServices(sd);
-
         try {
             msg.setContentObject(query);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+		DFAgentDescription dfd = new DFAgentDescription();
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType("Receptionist");
+		dfd.addServices(sd);
+
+
 
         DFAgentDescription[] result = new DFAgentDescription[0];
         try {

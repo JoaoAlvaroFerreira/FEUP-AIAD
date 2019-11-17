@@ -2,20 +2,25 @@ package behaviors;
 
 import agents.Cook;
 import jade.core.AID;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static sun.misc.Version.print;
 
-public class CookPreparesFood extends SimpleBehaviour  {
+public class CookPreparesFood extends CyclicBehaviour {
 
     /**
      *
      */
-    private boolean finished = false;
     private Cook cook;
     private static final long serialVersionUID = 1L;
 
@@ -28,36 +33,59 @@ public class CookPreparesFood extends SimpleBehaviour  {
 
         if (msg != null) {
 
-            if (msg.getSender().getLocalName().substring(0, 5).equals("waiter")) {
-
-                cook.setBusy(true);
+            if (msg.getSender().getLocalName().equals("receptionist")) {
 
                 try {
 
-                    ACLMessage msgToWaiter = new ACLMessage(ACLMessage.INFORM);
-                    AID dest = msg.getSender();
-                    msgToWaiter.addReceiver(dest);
+                    cook.setBusy(true);
 
                     ArrayList<String> message = (ArrayList) msg.getContentObject();
-                    boolean allergic = Boolean.parseBoolean(message.get(2));
-                    boolean veggie = Boolean.parseBoolean(message.get(3));
-                    boolean child = Boolean.parseBoolean(message.get(4));
 
-                    if(allergic){
-                        message.set(2,"2");
+                    if(!message.get(0).equals("REQUEST_FOOD")){
+                        System.out.println("ERROR - Cook request food error");
+                        return;
                     }
 
-                    else if (veggie){
-                        message.set(3, "2");
+                    String waiterName = message.get(5);
+
+                    ACLMessage newMsg = new ACLMessage(ACLMessage.INFORM);
+                    DFAgentDescription dfd = new DFAgentDescription();
+                    ServiceDescription sd = new ServiceDescription();
+                    sd.setType("Waiter");
+                    sd.setName(waiterName);
+                    dfd.addServices(sd);
+
+                    ArrayList<String> content = new ArrayList<>();
+                    content.add("FOOD_READY");
+                    content.add(this.cook.getSpecialization());
+
+                    try {
+                        newMsg.setContentObject(content);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
-                    else if (child){
-                        message.set(4, "2");
+                    DFAgentDescription[] result = new DFAgentDescription[0];
+
+                    try {
+                        result = DFService.search(this.cook, dfd);
+                        boolean found = false;
+
+                        for (int j = 0; j < result.length; j++) {
+
+                            AID dest = result[j].getName();
+
+                            if(dest != null && dest.getLocalName().equals(waiterName)){
+                                newMsg.addReceiver(dest);
+                            }
+                        }
+                    } catch (FIPAException e) {
+                        e.printStackTrace();
                     }
 
-                    msgToWaiter.setContent("FOOD_READY");
-                    System.out.println("SENT " + msgToWaiter.getContent() + " TO " + dest.getLocalName());
-                    this.cook.send(msgToWaiter);
+                    System.out.println("Food is ready to be delivered");
+
+                    this.cook.send(newMsg);
 
                 }
 
@@ -67,14 +95,20 @@ public class CookPreparesFood extends SimpleBehaviour  {
             }
         }
 
-        this.finished = true;
         cook.setBusy(false);
-    }
+        ACLMessage msgToReceptionist = new ACLMessage(ACLMessage.INFORM);
+        ArrayList<String> content = new ArrayList<>();
+        content.add("COOK_AVAILABLE");
 
-    @Override
-    public boolean done() {
+        try {
+            msgToReceptionist.setContentObject(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        return this.finished;
+        msgToReceptionist.addReceiver(msg.getSender());
+
+        this.cook.send(msgToReceptionist);
     }
 
 }

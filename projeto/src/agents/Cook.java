@@ -1,6 +1,8 @@
 package agents;
 import behaviors.CookPreparesFood;
+import behaviors.WaiterListen;
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -38,10 +40,9 @@ public class Cook extends Agent {
 
 		yellowPagesRegister();
 
-		SequentialBehaviour loop = new SequentialBehaviour();
-		//add behaviors
-		loop.addSubBehaviour(new CookPreparesFood(this));
-		addBehaviour(loop);
+        CyclicBehaviour cook_prepares_food = new CookPreparesFood(this);
+        addBehaviour(cook_prepares_food);
+
 	}
 
 	private void yellowPagesRegister() {

@@ -1,5 +1,6 @@
 package behaviors;
 
+import agents.Cook;
 import agents.Receptionist;
 import agents.Waiter;
 import extras.Table;
@@ -35,6 +36,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             try {
                 ArrayList<String> message = (ArrayList) msg.getContentObject();
                 type = message.get(0);
+
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }
@@ -44,6 +46,7 @@ public class ReceptionistListen extends CyclicBehaviour {
                     request_table(msg);
                     break;
                 case "REQUEST_COOK":
+                    request_cook(msg);
                     break;
                 case "AVAILABLE_COOK":
                     break;
@@ -163,5 +166,56 @@ public class ReceptionistListen extends CyclicBehaviour {
         this.receptionist.send(newMsg);
         System.out.println(msg.getSender().getLocalName() + " is assigned to table and " + waiter.getLocalName());
 
+    }
+
+    public void request_cook(ACLMessage msg){
+
+        //TODO: adicionar outras estrategias mais inteligentes de alocação
+
+        Cook cook = new Cook(null);
+        boolean cook_available = false;
+
+        for(int i = 0; i < this.receptionist.getCooks().size(); i++){
+
+            cook = this.receptionist.getCooks().get(i);
+
+            if(!cook.getBusy()){
+                cook_available = true;
+                break;
+            }
+        }
+
+        if(!cook_available) {
+            this.receptionist.getWaitingAvailableCook().add(msg);
+            return;
+        }
+
+        else {
+
+            ArrayList<String> content = new ArrayList<>();
+
+            try {
+                content = (ArrayList<String>) msg.getContentObject();
+            } catch (UnreadableException e) {
+                e.printStackTrace();
+            }
+
+            content.set(0, "REQUEST_FOOD");
+            content.add(msg.getSender().getLocalName());
+
+            ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+
+            try {
+                message.setContentObject(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            message.addReceiver(cook.getAID());
+            this.receptionist.send(message);
+
+            System.out.println("Receptionist sent food request to cook");
+
+        }
     }
 }

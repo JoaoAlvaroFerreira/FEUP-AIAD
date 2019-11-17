@@ -33,8 +33,12 @@ public class Waiter extends Agent {
             return true;
 	}
 
+	public String getClientID() { return this.client_group_id; }
+
 	//SETS
 	public void setBusy(String client_group_id) { this.client_group_id = client_group_id;}
+
+
 
 
     public void setup(){

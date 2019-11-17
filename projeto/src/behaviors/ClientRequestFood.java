@@ -86,8 +86,6 @@ public class ClientRequestFood extends SimpleBehaviour {
 
         this.clients.send(msg);
         this.finished = true;
-
-
     }
 
 

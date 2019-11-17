@@ -14,6 +14,8 @@ import jade.domain.JADEAgentManagement.ShowGui;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import agents.ClientGroup;
@@ -22,9 +24,6 @@ public class ClientsEat extends SimpleBehaviour  {
 
     private boolean finished = false;
     private ClientGroup client;
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public ClientsEat(ClientGroup client) {
@@ -34,7 +33,9 @@ public class ClientsEat extends SimpleBehaviour  {
     @Override
     public void action() {
 
-        System.out.println("Action eat"); //will sleep for as many seconds as there are members in the group
+        ACLMessage msg = this.client.blockingReceive();
+
+        System.out.println("Clients are eating"); //will sleep for as many seconds as there are members in the group
 
         int timeToEat = client.getClients().size();
 
@@ -44,7 +45,50 @@ public class ClientsEat extends SimpleBehaviour  {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("waited another second to eat");
+            System.out.println("Waited another second to eat");
+        }
+
+
+        if (msg != null) {
+
+            if (msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
+
+                ACLMessage newMsg = new ACLMessage(ACLMessage.INFORM);
+                DFAgentDescription dfd = new DFAgentDescription();
+                ServiceDescription sd = new ServiceDescription();
+                sd.setType("Receptionist");
+                dfd.addServices(sd);
+
+                ArrayList<String> content = new ArrayList<>();
+                content.add("LEAVE");
+
+                try {
+                    newMsg.setContentObject(content);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                DFAgentDescription[] result = new DFAgentDescription[0];
+
+                try {
+                    result = DFService.search(this.client, dfd);
+
+                    for (int j = 0; j < result.length; j++) {
+
+                        AID dest = result[j].getName();
+
+                        if(dest != null){
+                            newMsg.addReceiver(dest);
+                        }
+                    }
+                } catch (FIPAException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(this.client.getLocalName() + " is leaving");
+
+                this.client.send(newMsg);
+            }
         }
 
         this.finished = true;

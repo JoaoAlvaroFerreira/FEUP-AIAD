@@ -53,7 +53,7 @@ public class ClientGroup extends Agent {
 		loop.addSubBehaviour(new ClientsRequestTable(this));
 		loop.addSubBehaviour(new ClientRequestFood(this));
         loop.addSubBehaviour(new ClientsEat(this));
-        loop.addSubBehaviour(new ClientsRequestCheck(this));
+        //loop.addSubBehaviour(new ClientsRequestCheck(this));
         addBehaviour(loop);
     }
 
