@@ -334,6 +334,47 @@ public class ReceptionistListen extends CyclicBehaviour {
                 break;
             }
         }
+
+        int size = table.getSeats();
+        String smoker = "SMOKE";
+
+        if(!table.isSmokers()){
+            smoker = "NO_SMOKE";
+        }
+
+        int waiting_list_size = receptionist.getwaitingAvailableWaiterTable().size();
+
+        if(waiting_list_size > 0){
+
+            ACLMessage curr;
+            ArrayList<String> curr_content;
+
+            for(int i = 0; i < waiting_list_size; i++){
+                curr = receptionist.getwaitingAvailableWaiterTable().get(i);
+                try {
+                    curr_content = (ArrayList<String>) curr.getContentObject();
+                if(curr_content.get(0).equals("REQUEST_TABLE")){
+
+                    if(size >= Integer.parseInt(curr_content.get(1)) && smoker.equals(curr_content.get(2))){
+                        receptionist.getwaitingAvailableWaiterTable().remove(i);
+                        request_table(curr);
+                        break;
+                    }
+                    
+                } else
+                    System.out.println("ERROR - Message kept on waiting table waiter wrong");
+
+
+                } catch (UnreadableException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+
+        }
+
     }
 
     public void available_cook(ACLMessage msg){
