@@ -82,7 +82,14 @@ public class ReceptionistListen extends CyclicBehaviour {
             smoking = true;
 
         //ASSIGN TABLE IF AVAILABLE
-        Table table = new Table(0, false);
+
+        System.out.println("Available tables: " + this.receptionist.getTables().size());
+
+        Table table = new Table(9999, false);
+
+        //DUMB TABLE ASSIGN
+
+        /*
 
         for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
@@ -100,26 +107,33 @@ public class ReceptionistListen extends CyclicBehaviour {
 
                 }
             }
+        }*/
+
+        //SMART TABLE ASSIGN
+
+        ArrayList<Table> tables_available = new ArrayList<>();
+
+        for(int i = 0; i < this.receptionist.getTables().size(); i++) {
+
+            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).getEmpty() &&
+                    this.receptionist.getTables().get(i).isSmokers()== smoking) {
+
+                tables_available.add(this.receptionist.getTables().get(i));
+                System.out.println("FOUND TABLE WITH " + this.receptionist.getTables().get(i).getSeats() + " SEATS");
+                table_available = true;
+            }
         }
 
-        if(!clientSpecificsMet){
+        for(int i = 0; i < tables_available.size(); i++){
 
-            System.out.println("There are no tables for these clients. Please go to another restaurant.");
-
-            ACLMessage deleteClient = new ACLMessage(ACLMessage.INFORM);
-            ArrayList<String> content = new ArrayList<>();
-            content.add("CLIENT_LEAVE");
-
-            try {
-                deleteClient.setContentObject(content);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(tables_available.get(i).getSeats() < table.getSeats()){
+                table = tables_available.get(i);
             }
 
-            deleteClient.addReceiver(msg.getSender());
-            this.receptionist.send(deleteClient);
-            return;
         }
+
+        System.out.println("CHOSE TABLE WITH " + table.getSeats() + " SEATS");
+
 
         if(!table_available) {
             this.receptionist.getwaitingAvailableWaiterTable().add(msg);

@@ -19,12 +19,13 @@ public class Receptionist extends Agent {
     private ArrayList<Waiter> waiters;
     private ArrayList<Cook> cooks;
     private ArrayList<Table> tables;
+    private boolean strategy;
     private ArrayList<ACLMessage> waitingAvailableWaiterTable;
     private ArrayList<ACLMessage> waitingAvailableCook;
 
     //CONSTRUCTOR
-    public Receptionist(ArrayList<Waiter> waiters, ArrayList<Cook> cooks, ArrayList<Table> tables) {
-
+    public Receptionist(ArrayList<Waiter> waiters, ArrayList<Cook> cooks, ArrayList<Table> tables, boolean strat) {
+    	strategy = strat;
         this.waiters = waiters;
         this.cooks = cooks;
         this.waitingAvailableWaiterTable = new ArrayList<>();
@@ -53,7 +54,7 @@ public class Receptionist extends Agent {
 
     public void setup(){
 
-        System.out.println("recepcionist");
+        System.out.println("receptionist");
 
         yellowPagesRegister();
 

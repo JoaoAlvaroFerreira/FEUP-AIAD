@@ -26,13 +26,12 @@ public class Restaurant {
 	ArrayList<Waiter> waiters = new ArrayList<Waiter>();
 	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
 	ArrayList<Cook> cooks = new ArrayList<Cook>();
-	private static boolean strategy;
 
 	public Restaurant(boolean strat, ArrayList<Table> new_tables, int waiters, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		newJade();
-		strategy = strat;
+		
 		tables = new_tables;
-		newRestaurant(waiters, veg_cooks, allerg_cooks, kid_cooks);
+		newRestaurant(strat, waiters, veg_cooks, allerg_cooks, kid_cooks);
 	}
 	
 	
@@ -45,53 +44,6 @@ public class Restaurant {
     	mainContainer = run.createMainContainer(profile);
 	}
 	
-	
-	private void generateClients(int client_amount) {
-		
-		Random rand = new Random();
-		ArrayList<Client> client_group;
-		ClientGroup client_group_agent;
-		int group_size;
-		int client_unique_trait;
-		for(int i = 0; i < client_amount; i++) { //CREATES #GROUPS = CLIENT_AMOUNT
-			client_group = new ArrayList<Client>();
-			group_size = rand.nextInt(10)+1; //MAKES GROUPS FROM 1 TO 10 PEOPLE, RANDOMLY FOR EACH GROUP
-			
-			System.out.println("New client group of "+group_size+" with the following clients:");
-			for(int j = 0; j < group_size; j++) { //ADDS THE PEOPLE TO THE GROUP
-				client_unique_trait = rand.nextInt(5); //DECIDES IF THE PERSON WILL BE VEGETARIAN, CHILD, SMOKER, ALLERGIC TO SOMETHING OR NO SPECIFIC TRAITS
-				
-					switch(client_unique_trait) {
-					case 0: //NORMAL
-						client_group.add(new Client(false,false,false,false));
-						System.out.println("An average adult.");
-					break;
-					case 1: //ALLERGY
-						client_group.add(new Client(true,false,false,false));
-						System.out.println("An allergic adult.");
-					break;
-					case 2: //VEGETARIAN
-						client_group.add(new Client(false,true,false,false));
-						System.out.println("A vegetarian adult.");
-					break;
-					case 3: //KID
-						client_group.add(new Client(false,false,true,false));
-						System.out.println("A child.");
-					break;
-					case 4: //SMOKER
-						client_group.add(new Client(false,false,false,true));
-						System.out.println("A smoker.");
-					break;
-						
-					}
-					
-			} 
-			client_group_agent = new ClientGroup(client_group);
-			System.out.println("\n");
-			newAgent("client_group_"+Integer.toString(i), client_group_agent);
-			clients.add(client_group_agent);
-		}
-	}
 	
 	private void generateCooks(int veg_cooks, int allerg_cooks, int kid_cooks) {
 	
@@ -131,8 +83,10 @@ public class Restaurant {
 		}
 		
 	}
-
-	public void newRestaurant(int waiter_amount, int veg_cooks, int allerg_cooks, int kid_cooks) {
+	
+	
+	
+	public void newRestaurant(boolean strat, int waiter_amount, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		
 		generateCooks(veg_cooks, allerg_cooks, kid_cooks);
 		
@@ -140,7 +94,7 @@ public class Restaurant {
 		
 		generateWaiters(waiter_amount);
 		
-		newAgent("receptionist", new Receptionist(waiters, cooks, tables));
+		newAgent("receptionist", new Receptionist(waiters, cooks, tables, strat));
 
 	}
 
