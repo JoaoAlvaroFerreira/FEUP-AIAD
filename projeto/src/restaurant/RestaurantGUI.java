@@ -7,16 +7,21 @@ import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import extras.Table;
 
 import java.awt.Canvas;
 import java.awt.Panel;
@@ -26,28 +31,46 @@ import java.awt.Insets;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JCheckBox;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTabbedPane;
+import javax.swing.JDesktopPane;
 
 public class RestaurantGUI {
 
 	private JFrame frame;
-	JTextField textField;
-	JTextField textField_1;
-	JTextField textField_2;
+	private JTextField txtChildren;
+	private JTextField textField_2;
 	JButton btnNewButton; //start Button
 	JRadioButton rdbtnRandom;
 	JRadioButton rdbtnTimePriority;
 	static boolean start;
 	private JLabel lblTableNumber;
 	JTextField textField_3;
-
+	private JCheckBox chckbxSmokers;
+	private JButton btnAddTable;
+	private JButton btnNewButton_1;
+	private JLabel lblAllergic;
+	private JTextField textVegetarian;
+	private JTextField textAllergic;
+	private static ArrayList<Table> tables;
+	Restaurant simulation;
+	
 	/**
 	 * Launch the application.
 	 */
+	
+	
 	public static void main(String[] args) {
 		start = false;
+		tables = new ArrayList<Table>();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					RestaurantGUI window = new RestaurantGUI();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -62,6 +85,7 @@ public class RestaurantGUI {
 	 */
 	public RestaurantGUI() {
 		initialize();
+		
 	}
 	
 	private void startSimulation() {
@@ -70,13 +94,15 @@ public class RestaurantGUI {
 	       if(rdbtnTimePriority.isSelected()) {
 	    	   random = false;
 	       }
-	       Restaurant simulation = new Restaurant(random,Integer.parseInt(textField.getText()),Integer.parseInt(textField_1.getText()),
-	    		   Integer.parseInt(textField_2.getText()),Integer.parseInt(textField_3.getText()));
-		
+	//	Restaurant simulation = new Restaurant(random,Integer.parseInt(textField.getText()),Integer.parseInt(txtChildren.getText()),
+	  //  		   Integer.parseInt(textField_2.getText()),Integer.parseInt(textField_3.getText()));
+		 simulation = new Restaurant(rdbtnTimePriority.isSelected(), tables, Integer.parseInt(textField_2.getText()), 
+				Integer.parseInt(textVegetarian.getText()), Integer.parseInt(textAllergic.getText()), Integer.parseInt(txtChildren.getText()));
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -85,12 +111,26 @@ public class RestaurantGUI {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{114, 67, 86, 68, 86, 76, 86, 57, 0};
-		gbl_panel.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+	
+		
+		
+		
+
+		ButtonGroup bgroup = new ButtonGroup();
+		
+		btnNewButton = new JButton("Start");
+		btnNewButton.setBounds(0, 11, 226, 23);
+		btnNewButton.setEnabled(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startSimulation();
+				btnNewButton_1.setEnabled(true);
+			}
+
+			
+		});
+		panel.setLayout(null);
+		panel.add(btnNewButton);
 		
 		
 		
@@ -99,57 +139,20 @@ public class RestaurantGUI {
 		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
 		System.setOut(printStream);
 		System.setErr(printStream);
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(231, 182, 403, 216);
+		panel.add(scrollPane);	
 		
+		JLabel lblCookNumber = new JLabel("Cooks:");
+		lblCookNumber.setBounds(0, 84, 68, 14);
+		panel.add(lblCookNumber);
 		
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridheight = 11;
-		gbc_textArea.gridwidth = 6;
-		gbc_textArea.insets = new Insets(0, 0, 5, 0);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 2;
-		gbc_textArea.gridy = 1;
-		panel.add(textArea, gbc_textArea);
-		panel.add(new JScrollPane(textArea), gbc_textArea);
-		
-		
-		
-
-		ButtonGroup bgroup = new ButtonGroup();
-		
-		btnNewButton = new JButton("Start");
-		btnNewButton.setEnabled(false);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startSimulation();
-			}
-
-			
-		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton.gridwidth = 2;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 4;
-		panel.add(btnNewButton, gbc_btnNewButton);
-		
-		JLabel lblClientNumber = new JLabel("Client Number");
-		GridBagConstraints gbc_lblClientNumber = new GridBagConstraints();
-		gbc_lblClientNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblClientNumber.gridx = 0;
-		gbc_lblClientNumber.gridy = 5;
-		panel.add(lblClientNumber, gbc_lblClientNumber);
-		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 5;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
-		
-		textField.getDocument().addDocumentListener(new DocumentListener() {
+		txtChildren = new JTextField();
+		txtChildren.setToolTipText("Children food specialists");
+		txtChildren.setBounds(83, 106, 52, 20);
+		panel.add(txtChildren);
+		txtChildren.setColumns(10);
+		txtChildren.getDocument().addDocumentListener(new DocumentListener() {
 			  public void changedUpdate(DocumentEvent e) {
 			    changed();
 			  }
@@ -160,48 +163,15 @@ public class RestaurantGUI {
 			    changed();
 			  }
 			});
-		
-		JLabel lblCookNumber = new JLabel("Cook Number:");
-		GridBagConstraints gbc_lblCookNumber = new GridBagConstraints();
-		gbc_lblCookNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCookNumber.gridx = 0;
-		gbc_lblCookNumber.gridy = 6;
-		panel.add(lblCookNumber, gbc_lblCookNumber);
-		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 6;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
-		textField_1.getDocument().addDocumentListener(new DocumentListener() {
-			  public void changedUpdate(DocumentEvent e) {
-			    changed();
-			  }
-			  public void removeUpdate(DocumentEvent e) {
-			    changed();
-			  }
-			  public void insertUpdate(DocumentEvent e) {
-			    changed();
-			  }
-			});
+	
 		
 		JLabel lblWaiterNumber = new JLabel("Waiter Number:");
-		GridBagConstraints gbc_lblWaiterNumber = new GridBagConstraints();
-		gbc_lblWaiterNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblWaiterNumber.gridx = 0;
-		gbc_lblWaiterNumber.gridy = 7;
-		panel.add(lblWaiterNumber, gbc_lblWaiterNumber);
+		lblWaiterNumber.setBounds(0, 188, 76, 14);
+		panel.add(lblWaiterNumber);
 		
 		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 7;
-		panel.add(textField_2, gbc_textField_2);
+		textField_2.setBounds(83, 185, 112, 20);
+		panel.add(textField_2);
 		textField_2.setColumns(10);
 		
 		
@@ -218,23 +188,73 @@ public class RestaurantGUI {
 			});
 		
 		
-		lblTableNumber = new JLabel("Table Number:");
-		GridBagConstraints gbc_lblTableNumber = new GridBagConstraints();
-		gbc_lblTableNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTableNumber.gridx = 0;
-		gbc_lblTableNumber.gridy = 8;
-		panel.add(lblTableNumber, gbc_lblTableNumber);
+		lblTableNumber = new JLabel("Table Size:");
+		lblTableNumber.setBounds(0, 236, 52, 14);
+		panel.add(lblTableNumber);
 		
 		textField_3 = new JTextField();
+		textField_3.setBounds(83, 233, 112, 20);
 		textField_3.setColumns(10);
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 8;
-		panel.add(textField_3, gbc_textField_3);
+		panel.add(textField_3);
 		
-		textField_3.getDocument().addDocumentListener(new DocumentListener() {
+		
+		chckbxSmokers = new JCheckBox("Smokers");
+		chckbxSmokers.setBounds(0, 257, 65, 23);
+		panel.add(chckbxSmokers);
+		
+		btnAddTable = new JButton("Add Table");
+		btnAddTable.setBounds(83, 264, 140, 23);
+		btnAddTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				addTable(Integer.parseInt(textField_3.getText()),chckbxSmokers.isSelected());
+				changed();
+			}
+
+			
+		});
+		panel.add(btnAddTable);
+		
+		rdbtnRandom = new JRadioButton("Random");
+		rdbtnRandom.setBounds(12, 332, 65, 23);
+		panel.add(rdbtnRandom);
+		bgroup.add(rdbtnRandom);
+		
+		btnNewButton_1 = new JButton("Add Client");
+		btnNewButton_1.setEnabled(false);
+		
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ClientCreatorGUI client_maker = new ClientCreatorGUI(simulation);
+				client_maker.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(0, 47, 226, 23);
+		panel.add(btnNewButton_1);
+		
+		rdbtnTimePriority = new JRadioButton("Time Priority");
+		rdbtnTimePriority.setBounds(0, 358, 85, 23);
+		panel.add(rdbtnTimePriority);
+		bgroup.add(rdbtnTimePriority);
+		
+		JLabel lblNewLabel = new JLabel("Child:");
+		lblNewLabel.setBounds(20, 109, 46, 14);
+		panel.add(lblNewLabel);
+		
+		JLabel lblVegetarian = new JLabel("Vegetarian:");
+		lblVegetarian.setBounds(20, 131, 64, 14);
+		panel.add(lblVegetarian);
+		
+		lblAllergic = new JLabel("Allergic:");
+		lblAllergic.setBounds(20, 156, 64, 14);
+		panel.add(lblAllergic);
+		
+		textVegetarian = new JTextField();
+		textVegetarian.setToolTipText("Vegeterian food specialists");
+		textVegetarian.setColumns(10);
+		textVegetarian.setBounds(83, 130, 52, 20);
+		panel.add(textVegetarian);
+		textVegetarian.getDocument().addDocumentListener(new DocumentListener() {
 			  public void changedUpdate(DocumentEvent e) {
 			    changed();
 			  }
@@ -246,25 +266,28 @@ public class RestaurantGUI {
 			  }
 			});
 		
-		rdbtnRandom = new JRadioButton("Random");
-		GridBagConstraints gbc_rdbtnRandom = new GridBagConstraints();
-		gbc_rdbtnRandom.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnRandom.gridx = 0;
-		gbc_rdbtnRandom.gridy = 10;
-		panel.add(rdbtnRandom, gbc_rdbtnRandom);
-		bgroup.add(rdbtnRandom);
-		
-		rdbtnTimePriority = new JRadioButton("Time Priority");
-		GridBagConstraints gbc_rdbtnTimePriority = new GridBagConstraints();
-		gbc_rdbtnTimePriority.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnTimePriority.gridx = 0;
-		gbc_rdbtnTimePriority.gridy = 11;
-		panel.add(rdbtnTimePriority, gbc_rdbtnTimePriority);
-		bgroup.add(rdbtnTimePriority);
+		textAllergic = new JTextField();
+		textAllergic.setToolTipText("Allergic food specialists");
+		textAllergic.setColumns(10);
+		textAllergic.setBounds(83, 153, 52, 20);
+		panel.add(textAllergic);
+		textAllergic.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+			    changed();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+			    changed();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+			    changed();
+			  }
+			});
 		
 	}
+	
+
 	  public void changed() {
-		     if (textField.getText().equals("") || textField_1.getText().equals("") || textField_2.getText().equals("") ||  textField_3.getText().equals("") ){
+		     if (textField_2.getText().equals("") || tables.size()==0 || (txtChildren.getText().equals("")&&textAllergic.getText().equals("")&&textVegetarian.getText().equals(""))){
 		       btnNewButton.setEnabled(false);
 		     }
 		     else {
@@ -272,6 +295,13 @@ public class RestaurantGUI {
 		    }
 
 		  }
+	  
+	  private void addTable(int table_size, boolean smoking) {
+		
+				tables.add(new Table(table_size,smoking));
+				String smokers = (smoking ? "in the smokers section" : "in the non-smokers section");
+				System.out.println("Table for "+table_size+" people available "+smokers);
 
-
+	}
+	
 }

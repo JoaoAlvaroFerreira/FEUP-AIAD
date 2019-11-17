@@ -2,13 +2,14 @@ package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-
+import javax.swing.JFrame;
 import agents.ClientGroup;
 import agents.Receptionist;
 import agents.Waiter;
 import agents.Cook;
 import extras.Client;
 import extras.Table;
+import jade.Boot;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.core.Agent;
@@ -19,18 +20,26 @@ import jade.core.Runtime;
 public class Restaurant {
 
 	static ArrayList<Table> tables;
+
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
 	ArrayList<Waiter> waiters = new ArrayList<Waiter>();
 	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
 	ArrayList<Cook> cooks = new ArrayList<Cook>();
-	
+	private static boolean strategy;
 
-	public Restaurant(boolean random,int clients, int cooks, int waiters, int tables) {
-		
+//	public Restaurant(boolean random,int clients, int cooks, int waiters, int tables) {
+//		
+//		newJade();
+//		newRestaurant(clients, cooks, waiters, tables);
+//	}
+//	
+	public Restaurant(boolean strat, ArrayList<Table> new_tables, int waiters, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		newJade();
-		newRestaurant(clients, cooks, waiters, tables);
+		strategy = strat;
+		tables = new_tables;
+		newRestaurant(waiters, veg_cooks, allerg_cooks, kid_cooks);
 	}
 	
 	
@@ -94,41 +103,30 @@ public class Restaurant {
 
 	}
 	
-	private void generateCooks(int cook_amount) {
-
-		System.out.println("Amount of cooks available: "+ cook_amount +"\n With the following specializations:");
-		String specialization = null;
-
-
-		for(int i = 0; i < cook_amount; i++) { //CREATES #COOKS = COOK_AMOUNT
-				
-					switch(i%4) {  //"HIRES" COOKS IN A NORMAL DISTRIBUTION, TO ENSURE WE CAN HAVE AS MANY OPTIONS AS POSSIBLE
-					case 0: //NORMAL
-						specialization = null;
-						System.out.println("Normal dishes.");
-					break;
-					case 1: //ALLERGY
-						specialization = "ALLERGY";
-						System.out.println("Dishes for those with allergies.");
-					break;
-					case 2: //VEGETARIAN
-						specialization = "VEGGIE";
-						System.out.println("Vegetarian dishes.");
-					break;
-					case 3: //KID
-						specialization = "CHILD";
-						System.out.println("Kid meals.");
-					break;
-						default:
-							System.out.println("ERROR - Generating Cook");
-					break;
-
-			}
-
-			Cook cook = new Cook(specialization);
+	private void generateCooks(int veg_cooks, int allerg_cooks, int kid_cooks) {
+	
+		
+		System.out.println("Amount of cooks available: "+veg_cooks+allerg_cooks+kid_cooks+"\n With the following specializations:");
+		System.out.println("Vegetarian food: "+ veg_cooks);
+		System.out.println("Allergic food: "+ allerg_cooks);
+		System.out.println("Children food: "+ kid_cooks);
+		
+		for(int i = 0; i < veg_cooks; i++) {					
+			Cook cook = new Cook("VEGGIE");
 			newAgent("cook_"+Integer.toString(i),cook) ;
 			cooks.add(cook);
 		}
+		for(int j = 0; j < allerg_cooks; j++) {
+			Cook cook = new Cook("ALLERGY");
+			newAgent("cook_"+Integer.toString(veg_cooks+j),cook) ;
+			cooks.add(cook);
+		}
+		for(int k = 0; k < kid_cooks; k++) {
+			Cook cook = new Cook("CHILD");
+			newAgent("cook_"+Integer.toString(veg_cooks+allerg_cooks+k),cook) ;
+			cooks.add(cook);
+		}
+		
 		System.out.println("\n");
 		
 	}
@@ -137,38 +135,23 @@ public class Restaurant {
 		
 		System.out.println("Amount of waiters available: "+waiter_amount+"\n");
 		for(int i = 0; i < waiter_amount; i++) {
-			Waiter waiter =  new Waiter();
+			Waiter waiter = new Waiter();
 			newAgent("waiter_"+Integer.toString(i),waiter);
 			waiters.add(waiter);
 		}
 		
 	}
 	
-	private void generateTables(int table_amount) {
-		Random rand = new Random();
-		int table_size = 0;
-		boolean smoker_table = false;
-		tables = new ArrayList<Table>();
-
-		for(int i = 0; i < table_amount; i++) {
-			table_size = rand.nextInt(10)+1;
-			smoker_table = rand.nextBoolean();
-			tables.add(new Table(table_size,smoker_table));
-			String smokers = (smoker_table ? "in the smokers section" : "in the non-smokers section");
-			System.out.println("Table for "+table_size+" people available "+smokers);
-		}
-
-		System.out.println("\n");
-		
-	}
-	public void newRestaurant(int client_amount, int cook_amount, int waiter_amount, int table_amount) {
+	
+	
+	public void newRestaurant(int waiter_amount, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		
 				
-		generateTables(table_amount);
 		
-		generateCooks(cook_amount);
 		
-		generateClients(client_amount);
+		generateCooks(veg_cooks, allerg_cooks, kid_cooks);
+		
+		//generateClients(client_amount);
 		
 		generateWaiters(waiter_amount);
 		
