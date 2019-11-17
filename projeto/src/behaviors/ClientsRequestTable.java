@@ -95,8 +95,18 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 				if(message.get(0).equals("ASSIGN_TABLE_WAITER")){
 					client.sitDown(message.get(1));
                     System.out.println(client.getLocalName() + " sat down");
-
                 }
+
+				else if(message.get(0).equals("CLIENT_LEAVE")){
+
+					try {
+						DFService.deregister(this.client);
+					} catch (FIPAException e) {
+						e.printStackTrace();
+					}
+					client.doDelete();
+					System.out.println(this.client.getLocalName() + " has left without being attented.\n");
+				}
 
 				else System.out.println("ERROR - Wrong Assign Table Message");
 			}

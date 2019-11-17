@@ -34,7 +34,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             String type = null;
 
             try {
-                ArrayList<String> message = (ArrayList) msg.getContentObject();
+                ArrayList<String> message = (ArrayList<String>) msg.getContentObject();
                 type = message.get(0);
 
             } catch (UnreadableException e) {
@@ -68,6 +68,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         ArrayList<String> message = new ArrayList<>();
         boolean waiter_available = false;
         boolean table_available = false;
+        boolean clientSpecificsMet = false;
 
         try {
             message = (ArrayList) msg.getContentObject();
@@ -85,16 +86,39 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
-            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).getEmpty() &&
-                    this.receptionist.getTables().get(i).isSmokers()== smoking) {
+            if( this.receptionist.getTables().get(i).isSmokers() == smoking && this.receptionist.getTables().get(i).getSeats() >= client_number) {
 
-                System.out.println("Found table");
+                clientSpecificsMet = true;
 
-                table = this.receptionist.getTables().get(i);
-                table_available = true;
-                break;
+                if(this.receptionist.getTables().get(i).getEmpty()) {
 
+                    System.out.println("Found table");
+
+                    table = this.receptionist.getTables().get(i);
+                    table_available = true;
+                    break;
+
+                }
             }
+        }
+
+        if(!clientSpecificsMet){
+
+            System.out.println("There are no tables for these clients. Please go to another restaurant.");
+
+            ACLMessage deleteClient = new ACLMessage(ACLMessage.INFORM);
+            ArrayList<String> content = new ArrayList<>();
+            content.add("CLIENT_LEAVE");
+
+            try {
+                deleteClient.setContentObject(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            deleteClient.addReceiver(msg.getSender());
+            this.receptionist.send(deleteClient);
+            return;
         }
 
         if(!table_available) {
@@ -111,10 +135,8 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             if(!waiter.getBusy()){
                 waiter_available = true;
-                System.out.println("Available waiter " +  waiter.getLocalName());
                 break;
             }
-
         }
 
         if(!waiter_available) {
@@ -226,7 +248,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             table = this.receptionist.getTables().get(i);
 
             if(table.getClientID().equals(msg.getSender().getLocalName())){
-                System.out.println("Table of " + table.getSeats() + " is available now.");
+                System.out.println("Table of " + table.getSeats() + " is available now.\n");
                 table.setClientID(null);
                 break;
             }

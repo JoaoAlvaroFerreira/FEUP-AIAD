@@ -60,7 +60,6 @@ public class ClientGroup extends Agent {
     private void yellowPagesRegister() {
 
     	ServiceDescription sd = new ServiceDescription();
-		//sd.setType();
     	sd.setType("Client");
 		sd.setName(getLocalName());
 
