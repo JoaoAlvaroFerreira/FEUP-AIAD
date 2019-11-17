@@ -4,9 +4,14 @@ import agents.Waiter;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -59,11 +64,13 @@ public class WaiterListen extends CyclicBehaviour {
             case "REQUEST_TABLE":
                 request_table(message);
                 break;
+            case "REQUEST_FOOD":
+                request_food(message);
+                break;
             case "REQUEST_CHECK":
                 request_check(message);
                 break;
-            case "REQUEST_FOOD":
-                break;
+
             default:
                 break;
 
@@ -96,6 +103,56 @@ public class WaiterListen extends CyclicBehaviour {
             e.printStackTrace();
         }
     }
+
+    public void request_food(ACLMessage msg){
+
+        ArrayList<String> newMsg = null;
+        ACLMessage newMessage = new ACLMessage(ACLMessage.REQUEST);
+
+        try {
+            newMsg = (ArrayList<String>) msg.getContentObject();
+        } catch (UnreadableException e) {
+            e.printStackTrace();
+        }
+
+        newMsg.set(0, "REQUEST_COOK");
+        newMsg.add(msg.getSender().getLocalName());
+
+        try {
+            newMessage.setContentObject(newMsg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DFAgentDescription dfd = new DFAgentDescription();
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("Receptionist");
+        dfd.addServices(sd);
+
+
+        DFAgentDescription[] result = new DFAgentDescription[0];
+        try {
+            result = DFService.search(this.waiter, dfd);
+            boolean found = false;
+
+            for (int j = 0; j < result.length; j++) {
+
+                AID dest = result[j].getName();
+                if(dest != null){
+                    newMessage.addReceiver(dest);
+                }
+            }
+        } catch (FIPAException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Request cook sent to receptionist: " + newMsg);
+
+        this.waiter.send(newMessage);
+
+
+    }
+
 
     public void request_check(ACLMessage msg){
 
