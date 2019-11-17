@@ -200,11 +200,11 @@ public class RestaurantGUI {
 		
 		
 		chckbxSmokers = new JCheckBox("Smokers");
-		chckbxSmokers.setBounds(0, 257, 80, 23);
+		chckbxSmokers.setBounds(0, 257, 100, 23);
 		panel.add(chckbxSmokers);
 		
 		btnAddTable = new JButton("Add Table");
-		btnAddTable.setBounds(83, 264, 140, 23);
+		btnAddTable.setBounds(83, 280, 140, 23);
 		btnAddTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -218,7 +218,7 @@ public class RestaurantGUI {
 		
 		rdbtnRandom = new JRadioButton("Greedy");
 		rdbtnRandom.setSelected(true);
-		rdbtnRandom.setBounds(0, 310, 65, 23);
+		rdbtnRandom.setBounds(0, 310, 120, 23);
 		panel.add(rdbtnRandom);
 		bgroup.add(rdbtnRandom);
 		
@@ -234,7 +234,7 @@ public class RestaurantGUI {
 		btnNewButton_1.setBounds(0, 47, 226, 23);
 		panel.add(btnNewButton_1);
 		
-		rdbtnTimePriority = new JRadioButton("Time Priority");
+		rdbtnTimePriority = new JRadioButton("Optimized");
 		rdbtnTimePriority.setBounds(0, 330, 130, 23);
 		panel.add(rdbtnTimePriority);
 		bgroup.add(rdbtnTimePriority);

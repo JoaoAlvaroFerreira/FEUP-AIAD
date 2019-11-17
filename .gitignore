@@ -12,3 +12,5 @@ projeto/MTPs-Main-Container.txt
 *.class
 
 projeto/MTPs-TestContainer.txt
+
+projeto/.classpath
