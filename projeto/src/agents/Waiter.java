@@ -11,9 +11,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 public class Waiter extends Agent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private DFAgentDescription dfad;
 	private String client_group_id;
@@ -37,9 +34,6 @@ public class Waiter extends Agent {
 
 	//SETS
 	public void setBusy(String client_group_id) { this.client_group_id = client_group_id;}
-
-
-
 
     public void setup(){
 

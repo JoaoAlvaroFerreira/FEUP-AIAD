@@ -30,7 +30,6 @@ public class Receptionist extends Agent {
         this.cooks = cooks;
         this.waitingAvailableWaiterTable = new ArrayList<>();
         this.tables = tables;
-
     }
 
     //GETS

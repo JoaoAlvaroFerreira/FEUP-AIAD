@@ -20,14 +20,12 @@ import jade.core.Runtime;
 public class Restaurant {
 
 	static ArrayList<Table> tables;
-
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
 	ArrayList<Waiter> waiters = new ArrayList<Waiter>();
 	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
 	ArrayList<Cook> cooks = new ArrayList<Cook>();
-
 
 	public Restaurant(boolean strat, ArrayList<Table> new_tables, int waiters, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		newJade();
@@ -89,9 +87,6 @@ public class Restaurant {
 	
 	
 	public void newRestaurant(boolean strat, int waiter_amount, int veg_cooks, int allerg_cooks, int kid_cooks) {
-		
-				
-		
 		
 		generateCooks(veg_cooks, allerg_cooks, kid_cooks);
 		
