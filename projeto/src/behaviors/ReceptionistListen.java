@@ -82,9 +82,14 @@ public class ReceptionistListen extends CyclicBehaviour {
 
 
         //ASSIGN TABLE IF AVAILABLE
+
         System.out.println("Available tables: " + this.receptionist.getTables().size());
 
-        Table table = new Table(0, false);
+        Table table = new Table(9999, false);
+
+        //DUMB TABLE ASSIGN
+
+        /*
 
         for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
@@ -98,7 +103,33 @@ public class ReceptionistListen extends CyclicBehaviour {
                 break;
 
             }
+        }*/
+
+        //SMART TABLE ASSIGN
+
+        ArrayList<Table> tables_available = new ArrayList<>();
+
+        for(int i = 0; i < this.receptionist.getTables().size(); i++) {
+
+            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).getEmpty() &&
+                    this.receptionist.getTables().get(i).isSmokers()== smoking) {
+
+                tables_available.add(this.receptionist.getTables().get(i));
+                System.out.println("FOUND TABLE WITH " + this.receptionist.getTables().get(i).getSeats() + " SEATS");
+                table_available = true;
+            }
         }
+
+        for(int i = 0; i < tables_available.size(); i++){
+
+            if(tables_available.get(i).getSeats() < table.getSeats()){
+                table = tables_available.get(i);
+            }
+
+        }
+
+        System.out.println("CHOSE TABLE WITH " + table.getSeats() + " SEATS");
+
 
         if(!table_available) {
             this.receptionist.getwaitingAvailableWaiterTable().add(msg);
