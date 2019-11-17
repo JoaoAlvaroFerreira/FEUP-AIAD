@@ -85,60 +85,63 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         System.out.println("Available tables: " + this.receptionist.getTables().size());
 
-        Table table = new Table(9999, false);
+        Table table = new Table(Integer.MAX_VALUE, false);
 
-        //DUMB TABLE ASSIGN
 
-        /*
+        if(!receptionist.getStrategy()){
 
-        for(int i = 0; i < this.receptionist.getTables().size(); i++) {
+            //DUMB TABLE ASSIGN
 
-            if( this.receptionist.getTables().get(i).isSmokers() == smoking && this.receptionist.getTables().get(i).getSeats() >= client_number) {
+            for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
-                clientSpecificsMet = true;
+                if( this.receptionist.getTables().get(i).isSmokers() == smoking && this.receptionist.getTables().get(i).getSeats() >= client_number) {
 
-                if(this.receptionist.getTables().get(i).getEmpty()) {
+                    clientSpecificsMet = true;
 
-                    System.out.println("Found table");
+                    if(this.receptionist.getTables().get(i).getEmpty()) {
 
-                    table = this.receptionist.getTables().get(i);
-                    table_available = true;
-                    break;
+                        System.out.println("Found table");
 
-                }
-            }
-        }*/
-
-        //SMART TABLE ASSIGN
-
-        ArrayList<Table> tables_available = new ArrayList<>();
-
-        for(int i = 0; i < this.receptionist.getTables().size(); i++) {
-
-            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).isSmokers() == smoking){
-
-                clientSpecificsMet = true;
-
-                if(this.receptionist.getTables().get(i).getEmpty()) {
-
-                    tables_available.add(this.receptionist.getTables().get(i));
-                    System.out.println("FOUND TABLE WITH " + this.receptionist.getTables().get(i).getSeats() + " SEATS");
-                    table_available = true;
+                        table = this.receptionist.getTables().get(i);
+                        table_available = true;
+                        break;
+                    }
                 }
             }
         }
 
-        for(int i = 0; i < tables_available.size(); i++){
+        else {
 
-            if(tables_available.get(i).getSeats() < table.getSeats()){
-                table = tables_available.get(i);
+            //SMART TABLE ASSIGN
+
+            ArrayList<Table> tables_available = new ArrayList<>();
+
+            for(int i = 0; i < this.receptionist.getTables().size(); i++) {
+
+                if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).isSmokers() == smoking){
+
+                    clientSpecificsMet = true;
+
+                    if(this.receptionist.getTables().get(i).getEmpty()) {
+
+                        tables_available.add(this.receptionist.getTables().get(i));
+                        table_available = true;
+                    }
+                }
+            }
+
+            for(int i = 0; i < tables_available.size(); i++){
+
+                if(tables_available.get(i).getSeats() < table.getSeats()){
+                    table = tables_available.get(i);
+                }
+
             }
 
         }
 
-        if(table.getSeats() != 9999){
-            System.out.println("CHOSE TABLE WITH " + table.getSeats() + " SEATS");
-        }
+
+
 
         if(!clientSpecificsMet){
 

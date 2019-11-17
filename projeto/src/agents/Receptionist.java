@@ -25,7 +25,7 @@ public class Receptionist extends Agent {
 
     //CONSTRUCTOR
     public Receptionist(ArrayList<Waiter> waiters, ArrayList<Cook> cooks, ArrayList<Table> tables, boolean strat) {
-    	strategy = strat;
+    	this.strategy = strat; //if true optimize, else greedy
         this.waiters = waiters;
         this.cooks = cooks;
         this.waitingAvailableWaiterTable = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Receptionist extends Agent {
     public ArrayList<Table> getTables() {
         return tables;
     }
-
+    public boolean getStrategy() { return strategy; }
 
     //SETS
     public void setWaiters(ArrayList<Waiter> newWaiters) { this.waiters = newWaiters;}
