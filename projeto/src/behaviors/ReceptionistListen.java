@@ -15,6 +15,7 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ReceptionistListen extends CyclicBehaviour {
@@ -140,9 +141,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         }
 
-
-
-
         if(!clientSpecificsMet){
 
             System.out.println("There are no tables for these clients. Please go to another restaurant.");
@@ -234,15 +232,59 @@ public class ReceptionistListen extends CyclicBehaviour {
     public void request_cook(ACLMessage msg){
 
         //TODO: adicionar outras estrategias mais inteligentes de alocação
-
+        ArrayList<String> content = new ArrayList<>();
         Cook cook = new Cook(null);
         boolean cook_available = false;
+
+        try {
+            content = (ArrayList) msg.getContentObject();
+        } catch (UnreadableException e) {
+            e.printStackTrace();
+        }
+
+        int largest = 0;
+        int j = 0;
+
+        for(int i = 1; i < 5; i++){
+            if(Integer.parseInt(content.get(i)) > largest)
+                j = i;
+
+            else if(Integer.parseInt(content.get(i)) == largest)
+                j = i-1;
+
+
+            largest = Integer.parseInt(content.get(i));
+        }
+
+        String specialization = null;
+
+        switch(j){
+            case 1 :
+                specialization = "ALLERGY";
+                break;
+            case 2:
+                specialization = "VEGGIE";
+                break;
+
+            case 3:
+                specialization = "CHILD";
+                break;
+
+            case 4:
+                specialization = "";
+                break;
+        }
 
         for(int i = 0; i < this.receptionist.getCooks().size(); i++){
 
             cook = this.receptionist.getCooks().get(i);
 
-            if(!cook.getBusy()){
+            if(!cook.getBusy() && cook.getSpecialization().equals(specialization)){
+                cook_available = true;
+                break;
+            }
+
+            else if(!cook.getBusy() && specialization.equals("")){
                 cook_available = true;
                 break;
             }
@@ -255,14 +297,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         else {
 
-            ArrayList<String> content = new ArrayList<>();
-
-            try {
-                content = (ArrayList<String>) msg.getContentObject();
-            } catch (UnreadableException e) {
-                e.printStackTrace();
-            }
-
             content.set(0, "REQUEST_FOOD");
             content.add(msg.getSender().getLocalName());
 
@@ -274,6 +308,7 @@ public class ReceptionistListen extends CyclicBehaviour {
                 e.printStackTrace();
             }
 
+            System.out.println("Cook chosen was " + cook.getLocalName() + " specialized in " + cook.getSpecialization());
             message.addReceiver(cook.getAID());
             this.receptionist.send(message);
 

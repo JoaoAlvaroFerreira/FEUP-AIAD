@@ -60,7 +60,7 @@ public class ClientCreatorGUI extends JFrame {
 		chckbxSmokers.setBounds(27, 77, 97, 23);
 		contentPane.add(chckbxSmokers);
 		
-		JLabel lblNormal = new JLabel("Normal:");
+		JLabel lblNormal = new JLabel("Allergic");
 		lblNormal.setBounds(27, 11, 46, 14);
 		contentPane.add(lblNormal);
 		
@@ -68,11 +68,11 @@ public class ClientCreatorGUI extends JFrame {
 		lblVegetarians.setBounds(27, 34, 68, 14);
 		contentPane.add(lblVegetarians);
 		
-		JLabel lblAllergic = new JLabel("Allergic:");
+		JLabel lblAllergic = new JLabel("Kids:");
 		lblAllergic.setBounds(230, 11, 46, 14);
 		contentPane.add(lblAllergic);
 		
-		JLabel lblKids = new JLabel("Kids:");
+		JLabel lblKids = new JLabel("Normal:");
 		lblKids.setBounds(230, 34, 46, 14);
 		contentPane.add(lblKids);
 		
@@ -106,10 +106,10 @@ public class ClientCreatorGUI extends JFrame {
 		ClientGroup clientGroup;
 		ArrayList<Client> clients = new ArrayList<Client>();
 		boolean smoker = chckbxSmokers.isSelected();
-		int normal_clients = Integer.parseInt(textField.getText());
+		int normal_clients = Integer.parseInt(textField_3.getText());
 		int veg_clients = Integer.parseInt(textField_1.getText());
-		int allergic_clients = Integer.parseInt(textField_2.getText());
-		int kid_clients = Integer.parseInt(textField_3.getText());
+		int allergic_clients = Integer.parseInt(textField.getText());
+		int kid_clients = Integer.parseInt(textField_2.getText());
 		
 		for(int i = 0; i < normal_clients; i++ ) {
 			clients.add(new Client(false,false,false,smoker));
@@ -127,8 +127,7 @@ public class ClientCreatorGUI extends JFrame {
 		clientGroup = new ClientGroup(clients);
 		restaurant.newAgent("client_group_"+restaurant.clients.size(), clientGroup);
 		restaurant.clients.add(clientGroup);
-		//restaurant.clients.add(arg0)
-		
+
 	}
 
 	
