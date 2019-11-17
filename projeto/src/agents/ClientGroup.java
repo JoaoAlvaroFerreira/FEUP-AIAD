@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import behaviors.ClientRequestFood;
 import behaviors.ClientsEat;
-import behaviors.ClientsRequestCheck;
 import behaviors.ClientsRequestTable;
 import extras.Client;
 import jade.core.Agent;
