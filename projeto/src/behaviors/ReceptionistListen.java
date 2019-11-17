@@ -50,6 +50,7 @@ public class ReceptionistListen extends CyclicBehaviour {
                     request_cook(msg);
                     break;
                 case "AVAILABLE_COOK":
+                    available_cook(msg);
                     break;
                 case "AVAILABLE_TABLE":
                     //client leaves, table becomes available, gives score
@@ -92,7 +93,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         if(!receptionist.getStrategy()){
 
             //DUMB TABLE ASSIGN
-
             for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
                 if( this.receptionist.getTables().get(i).isSmokers() == smoking && this.receptionist.getTables().get(i).getSeats() >= client_number) {
@@ -114,7 +114,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         else {
 
             //SMART TABLE ASSIGN
-
             ArrayList<Table> tables_available = new ArrayList<>();
 
             for(int i = 0; i < this.receptionist.getTables().size(); i++) {
@@ -159,8 +158,6 @@ public class ReceptionistListen extends CyclicBehaviour {
             this.receptionist.send(deleteClient);
             return;
         }
-
-
 
         if(!table_available) {
             this.receptionist.getwaitingAvailableWaiterTable().add(msg);
@@ -231,7 +228,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
     public void request_cook(ACLMessage msg){
 
-        //TODO: adicionar outras estrategias mais inteligentes de alocação
         ArrayList<String> content = new ArrayList<>();
         Cook cook = new Cook(null);
         boolean cook_available = false;
@@ -265,11 +261,9 @@ public class ReceptionistListen extends CyclicBehaviour {
             case 2:
                 specialization = "VEGGIE";
                 break;
-
             case 3:
                 specialization = "CHILD";
                 break;
-
             case 4:
                 specialization = "";
                 break;
@@ -291,7 +285,17 @@ public class ReceptionistListen extends CyclicBehaviour {
         }
 
         if(!cook_available) {
-            this.receptionist.getWaitingAvailableCook().add(msg);
+
+            content.add(specialization);
+            ACLMessage messageToWait = new ACLMessage(ACLMessage.REQUEST);
+
+            try {
+                messageToWait.setContentObject(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            this.receptionist.getWaitingAvailableCook().add(messageToWait);
             return;
         }
 
@@ -313,7 +317,6 @@ public class ReceptionistListen extends CyclicBehaviour {
             this.receptionist.send(message);
 
             System.out.println("Receptionist sent food request to cook");
-
         }
     }
 
@@ -329,6 +332,78 @@ public class ReceptionistListen extends CyclicBehaviour {
                 System.out.println("Table of " + table.getSeats() + " is available now.\n");
                 table.setClientID(null);
                 break;
+            }
+        }
+    }
+
+    public void available_cook(ACLMessage msg){
+
+        ArrayList<String> availableMsg = new ArrayList<>();
+        ArrayList<String> waitingClient = new ArrayList<>();
+        ArrayList<String> waitingClient1 = new ArrayList<>();
+        ArrayList<String> waitingClient2 = new ArrayList<>();
+        boolean specializationFound = false;
+
+        try {
+            availableMsg = (ArrayList<String>) msg.getContentObject();
+
+        } catch (UnreadableException e) {
+            e.printStackTrace();
+        }
+
+        if(this.receptionist.getWaitingAvailableCook().size() > 0) {
+
+            if(this.receptionist.getWaitingAvailableCook().size() >= 3) {
+
+                for(int i = 0; i < 3; i++){
+
+                    try {
+                        waitingClient = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(i).getContentObject();
+                    } catch (UnreadableException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(waitingClient.get(5).equals(availableMsg.get(1))){
+                        request_cook(this.receptionist.getWaitingAvailableCook().get(i));
+                        this.receptionist.getWaitingAvailableCook().remove(this.receptionist.getWaitingAvailableCook().get(i));
+                        specializationFound = true;
+                        break;
+                    }
+                }
+
+                if(!specializationFound) {
+                    request_cook(this.receptionist.getWaitingAvailableCook().get(0));
+                    this.receptionist.getWaitingAvailableCook().remove(0);
+                    return;
+                }
+            }
+
+            else {
+
+                try {
+                    waitingClient1 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(0).getContentObject();
+                    waitingClient2 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(1).getContentObject();
+                } catch (UnreadableException e) {
+                    e.printStackTrace();
+                }
+
+                if(waitingClient1.equals(availableMsg.get(1))){
+                    request_cook(this.receptionist.getWaitingAvailableCook().get(0));
+                    this.receptionist.getWaitingAvailableCook().remove(0);
+                    return;
+                }
+
+                else if(waitingClient2.equals(availableMsg.get(1))){
+                    request_cook(this.receptionist.getWaitingAvailableCook().get(1));
+                    this.receptionist.getWaitingAvailableCook().remove(1);
+                    return;
+                }
+
+                else {
+                    request_cook(this.receptionist.getWaitingAvailableCook().get(0));
+                    this.receptionist.getWaitingAvailableCook().remove(0);
+                    return;
+                }
             }
         }
     }
