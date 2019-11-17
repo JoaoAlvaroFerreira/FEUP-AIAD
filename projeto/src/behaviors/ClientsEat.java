@@ -87,7 +87,7 @@ public class ClientsEat extends SimpleBehaviour  {
 
                 System.out.println(this.client.getLocalName() + " is leaving");
            
-
+                this.client.leave();
                 this.client.send(newMsg);
             }
         }
