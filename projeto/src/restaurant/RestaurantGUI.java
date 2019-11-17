@@ -3,41 +3,23 @@ package restaurant;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.JPanel;
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Random;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import extras.Table;
-
-import java.awt.Canvas;
-import java.awt.Panel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JTabbedPane;
-import javax.swing.JDesktopPane;
 
 public class RestaurantGUI {
 
@@ -94,10 +76,8 @@ public class RestaurantGUI {
 	       if(rdbtnTimePriority.isSelected()) {
 	    	   random = false;
 	       }
-	//	Restaurant simulation = new Restaurant(random,Integer.parseInt(textField.getText()),Integer.parseInt(txtChildren.getText()),
-	  //  		   Integer.parseInt(textField_2.getText()),Integer.parseInt(textField_3.getText()));
-		 simulation = new Restaurant(rdbtnTimePriority.isSelected(), tables, Integer.parseInt(textField_2.getText()), 
-				Integer.parseInt(textVegetarian.getText()), Integer.parseInt(textAllergic.getText()), Integer.parseInt(txtChildren.getText()));
+
+		 simulation = new Restaurant(rdbtnTimePriority.isSelected(), tables, Integer.parseInt(textField_2.getText()), Integer.parseInt(textVegetarian.getText()), Integer.parseInt(textAllergic.getText()), Integer.parseInt(txtChildren.getText()));
 	}
 
 	/**
@@ -112,10 +92,6 @@ public class RestaurantGUI {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-	
-		
-		
-		
 
 		ButtonGroup bgroup = new ButtonGroup();
 		
@@ -132,9 +108,7 @@ public class RestaurantGUI {
 		});
 		panel.setLayout(null);
 		panel.add(btnNewButton);
-		
-		
-		
+
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
