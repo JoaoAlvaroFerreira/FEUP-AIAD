@@ -70,9 +70,11 @@ public class ClientsRequestCheck extends SimpleBehaviour  {
 			if (new_msg.getSender().getLocalName().substring(0, 6).equals("waiter")) {
 				
 				String message =new_msg.getContent();
-
-				if(message.contains("CHECK_REQUEST_REPLY"))
+				
+				if(message.contains("CHECK_REQUEST_REPLY")) {
 					System.out.println(client.getLocalName() + " have left the restaurant");
+					
+				}
 
 				else System.out.println("FAILURE");
 			}

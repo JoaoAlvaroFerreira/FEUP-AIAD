@@ -2,6 +2,7 @@ package agents;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import behaviors.ClientRequestFood;
 import behaviors.ClientsEat;
@@ -24,10 +25,12 @@ public class ClientGroup extends Agent {
 	private ArrayList<Client> clients;
 	private DFAgentDescription dfad;
 	private String waiter;
-	private int time_waiting;
+	private long startTime, endTime, timeWaiting, satisfaction;
 
 	//CONSTRUCTOR
     public ClientGroup(ArrayList<Client> clients) {
+    	startTime = System.nanoTime();
+    
         this.setClients(clients);
         this.waiter = null;
     }
@@ -87,4 +90,12 @@ public class ClientGroup extends Agent {
     	}
     	return smokers;
     }
+    
+    public void leave() {
+    	endTime  = System.nanoTime();
+    	timeWaiting = endTime - startTime;
+    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS);
+    	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
+    }
+    
 }

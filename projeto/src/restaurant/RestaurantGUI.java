@@ -105,6 +105,7 @@ public class RestaurantGUI {
 	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setSize(650, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -166,11 +167,11 @@ public class RestaurantGUI {
 	
 		
 		JLabel lblWaiterNumber = new JLabel("Waiter Number:");
-		lblWaiterNumber.setBounds(0, 188, 76, 14);
+		lblWaiterNumber.setBounds(0, 188, 100, 14);
 		panel.add(lblWaiterNumber);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(83, 185, 112, 20);
+		textField_2.setBounds(120, 185, 52, 20);
 		panel.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -189,17 +190,17 @@ public class RestaurantGUI {
 		
 		
 		lblTableNumber = new JLabel("Table Size:");
-		lblTableNumber.setBounds(0, 236, 52, 14);
+		lblTableNumber.setBounds(0, 236, 100, 14);
 		panel.add(lblTableNumber);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(83, 233, 112, 20);
+		textField_3.setBounds(120, 233, 52, 20);
 		textField_3.setColumns(10);
 		panel.add(textField_3);
 		
 		
 		chckbxSmokers = new JCheckBox("Smokers");
-		chckbxSmokers.setBounds(0, 257, 65, 23);
+		chckbxSmokers.setBounds(0, 257, 80, 23);
 		panel.add(chckbxSmokers);
 		
 		btnAddTable = new JButton("Add Table");
@@ -215,8 +216,9 @@ public class RestaurantGUI {
 		});
 		panel.add(btnAddTable);
 		
-		rdbtnRandom = new JRadioButton("Random");
-		rdbtnRandom.setBounds(12, 332, 65, 23);
+		rdbtnRandom = new JRadioButton("Greedy");
+		rdbtnRandom.setSelected(true);
+		rdbtnRandom.setBounds(0, 310, 65, 23);
 		panel.add(rdbtnRandom);
 		bgroup.add(rdbtnRandom);
 		
@@ -233,20 +235,20 @@ public class RestaurantGUI {
 		panel.add(btnNewButton_1);
 		
 		rdbtnTimePriority = new JRadioButton("Time Priority");
-		rdbtnTimePriority.setBounds(0, 358, 85, 23);
+		rdbtnTimePriority.setBounds(0, 330, 130, 23);
 		panel.add(rdbtnTimePriority);
 		bgroup.add(rdbtnTimePriority);
 		
 		JLabel lblNewLabel = new JLabel("Child:");
-		lblNewLabel.setBounds(20, 109, 46, 14);
+		lblNewLabel.setBounds(0, 109, 46, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblVegetarian = new JLabel("Vegetarian:");
-		lblVegetarian.setBounds(20, 131, 64, 14);
+		lblVegetarian.setBounds(0, 131, 80, 14);
 		panel.add(lblVegetarian);
 		
 		lblAllergic = new JLabel("Allergic:");
-		lblAllergic.setBounds(20, 156, 64, 14);
+		lblAllergic.setBounds(0, 156, 80, 14);
 		panel.add(lblAllergic);
 		
 		textVegetarian = new JTextField();
