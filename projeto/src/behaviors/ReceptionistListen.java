@@ -115,12 +115,16 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         for(int i = 0; i < this.receptionist.getTables().size(); i++) {
 
-            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).getEmpty() &&
-                    this.receptionist.getTables().get(i).isSmokers()== smoking) {
+            if(this.receptionist.getTables().get(i).getSeats() >= client_number && this.receptionist.getTables().get(i).isSmokers() == smoking){
 
-                tables_available.add(this.receptionist.getTables().get(i));
-                System.out.println("FOUND TABLE WITH " + this.receptionist.getTables().get(i).getSeats() + " SEATS");
-                table_available = true;
+                clientSpecificsMet = true;
+
+                if(this.receptionist.getTables().get(i).getEmpty()) {
+
+                    tables_available.add(this.receptionist.getTables().get(i));
+                    System.out.println("FOUND TABLE WITH " + this.receptionist.getTables().get(i).getSeats() + " SEATS");
+                    table_available = true;
+                }
             }
         }
 
@@ -132,7 +136,29 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         }
 
-        System.out.println("CHOSE TABLE WITH " + table.getSeats() + " SEATS");
+        if(table.getSeats() != 9999){
+            System.out.println("CHOSE TABLE WITH " + table.getSeats() + " SEATS");
+        }
+
+        if(!clientSpecificsMet){
+
+            System.out.println("There are no tables for these clients. Please go to another restaurant.");
+
+            ACLMessage deleteClient = new ACLMessage(ACLMessage.INFORM);
+            ArrayList<String> content = new ArrayList<>();
+            content.add("CLIENT_LEAVE");
+
+            try {
+                deleteClient.setContentObject(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            deleteClient.addReceiver(msg.getSender());
+            this.receptionist.send(deleteClient);
+            return;
+        }
+
 
 
         if(!table_available) {
