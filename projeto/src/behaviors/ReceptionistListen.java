@@ -130,7 +130,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         ArrayList<String> query = new ArrayList();
         query.add("ASSIGN_TABLE_WAITER");
-        query.add(waiter.getAID() + "");
+        query.add(waiter.getLocalName());
 
 
         DFAgentDescription dfd = new DFAgentDescription();
@@ -159,7 +159,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        
+
         this.receptionist.send(newMsg);
         System.out.println(msg.getSender().getLocalName() + " is assigned to table and " + waiter.getLocalName());
 

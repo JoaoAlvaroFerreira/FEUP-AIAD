@@ -3,6 +3,7 @@ package agents;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
+import behaviors.ClientRequestFood;
 import behaviors.ClientsEat;
 import behaviors.ClientsRequestCheck;
 import behaviors.ClientsRequestTable;
@@ -26,12 +27,19 @@ public class ClientGroup extends Agent {
 	private int time_waiting;
 
 	//CONSTRUCTOR
-    public ClientGroup(ArrayList<Client> clients) { this.setClients(clients); }
+    public ClientGroup(ArrayList<Client> clients) {
+        this.setClients(clients);
+        this.waiter = null;
+    }
 
     //GET
 	public ArrayList<extras.Client> getClients() { return clients; }
 
-	//SET
+    public String getWaiter() {
+        return waiter;
+    }
+
+    //SET
 	public void setClients(ArrayList<extras.Client> clients) { this.clients = clients; }
 
 	public void sitDown(String waiter) { this.waiter = waiter; }
@@ -43,6 +51,7 @@ public class ClientGroup extends Agent {
     	SequentialBehaviour loop = new SequentialBehaviour();
     	//add behaviors
 		loop.addSubBehaviour(new ClientsRequestTable(this));
+		loop.addSubBehaviour(new ClientRequestFood(this));
         loop.addSubBehaviour(new ClientsEat(this));
         loop.addSubBehaviour(new ClientsRequestCheck(this));
         addBehaviour(loop);

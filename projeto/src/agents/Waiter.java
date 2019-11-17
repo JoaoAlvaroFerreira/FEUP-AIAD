@@ -3,17 +3,11 @@ package agents;
 import behaviors.WaiterListen;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-import restaurant.Restaurant;
 
-import java.util.ArrayList;
-
-import behaviors.WaiterListen;
-import extras.Table;
 
 public class Waiter extends Agent {
 
@@ -37,8 +31,6 @@ public class Waiter extends Agent {
 
     	else
             return true;
-
-
 	}
 
 	//SETS
@@ -52,17 +44,13 @@ public class Waiter extends Agent {
         yellowPagesRegister();
 
         CyclicBehaviour waiter_listen = new WaiterListen(this);
-        
-    	//SequentialBehaviour loop = new SequentialBehaviour();
-    	//add behaviors
-		//loop.addSubBehaviour(new WaiterListen(this));
     	addBehaviour(waiter_listen);
       
     }
 
     private void yellowPagesRegister() {
+
     	ServiceDescription sd = new ServiceDescription();
-		//sd.setType();
     	sd.setType("Waiter");
 		sd.setName(getLocalName());
 

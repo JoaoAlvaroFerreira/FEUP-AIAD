@@ -12,9 +12,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.JADEAgentManagement.JADEManagementOntology;
 import jade.domain.JADEAgentManagement.ShowGui;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.StringACLCodec;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import agents.ClientGroup;
@@ -35,7 +37,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 		System.out.println("Action request table");
 		
 		///PARTE 1
-		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
+		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
 		ArrayList<String> query = new ArrayList();
 		query.add("REQUEST_TABLE");
@@ -76,13 +78,10 @@ public class ClientsRequestTable extends SimpleBehaviour  {
         this.client.send(msg);
 
 		ACLMessage new_msg = this.client.blockingReceive();
-        System.out.println("client got message 1");
-	
-		if (new_msg != null) {
 
-            System.out.println("client got message");
+        if (new_msg != null) {
 
-			if (new_msg.getSender().getLocalName().substring(0, 11).equals("receptionist")) {
+			if (new_msg.getSender().getLocalName().equals("receptionist")) {
 
 				ArrayList<String> message = null;
 				try {
@@ -93,7 +92,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 				if(message.get(0).equals("ASSIGN_TABLE_WAITER")){
 					client.sitDown(message.get(1));
-                    System.out.println(client.getLocalName() + "sat down");
+                    System.out.println(client.getLocalName() + " sat down");
 
                 }
 
