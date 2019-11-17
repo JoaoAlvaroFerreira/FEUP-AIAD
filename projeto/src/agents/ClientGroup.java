@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import behaviors.ClientRequestFood;
 import behaviors.ClientsEat;
-import behaviors.ClientsRequestCheck;
 import behaviors.ClientsRequestTable;
 import extras.Client;
 import jade.core.Agent;
@@ -90,10 +89,25 @@ public class ClientGroup extends Agent {
     	return smokers;
     }
     
+    public int hasChildren() {
+    	int kids = 0;
+    	
+
+    	for(int i = 0; i < this.clients.size(); i++)
+    	{
+    		if(this.clients.get(i).isChild())
+    			kids++;
+    		
+    	}
+    	
+    	return kids;
+    }
+    
     public void leave() {
     	endTime  = System.nanoTime();
     	timeWaiting = endTime - startTime;
-    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS);
+    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS) - hasChildren();
+    	if(satisfaction < 0) satisfaction = 0;
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
     }
     
