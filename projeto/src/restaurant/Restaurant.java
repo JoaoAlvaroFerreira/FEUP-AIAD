@@ -20,7 +20,6 @@ import jade.core.Runtime;
 public class Restaurant {
 
 	static ArrayList<Table> tables;
-
 	private static ContainerController mainContainer;
 	private static Runtime run;
 	private static Profile profile;
@@ -29,12 +28,6 @@ public class Restaurant {
 	ArrayList<Cook> cooks = new ArrayList<Cook>();
 	private static boolean strategy;
 
-//	public Restaurant(boolean random,int clients, int cooks, int waiters, int tables) {
-//		
-//		newJade();
-//		newRestaurant(clients, cooks, waiters, tables);
-//	}
-//	
 	public Restaurant(boolean strat, ArrayList<Table> new_tables, int waiters, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		newJade();
 		strategy = strat;
@@ -98,9 +91,6 @@ public class Restaurant {
 			newAgent("client_group_"+Integer.toString(i), client_group_agent);
 			clients.add(client_group_agent);
 		}
-		
-		
-
 	}
 	
 	private void generateCooks(int veg_cooks, int allerg_cooks, int kid_cooks) {
@@ -141,13 +131,8 @@ public class Restaurant {
 		}
 		
 	}
-	
-	
-	
+
 	public void newRestaurant(int waiter_amount, int veg_cooks, int allerg_cooks, int kid_cooks) {
-		
-				
-		
 		
 		generateCooks(veg_cooks, allerg_cooks, kid_cooks);
 		

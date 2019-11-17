@@ -19,7 +19,6 @@ public class Receptionist extends Agent {
     private ArrayList<Waiter> waiters;
     private ArrayList<Cook> cooks;
     private ArrayList<Table> tables;
-
     private ArrayList<ACLMessage> waitingAvailableWaiterTable;
     private ArrayList<ACLMessage> waitingAvailableCook;
 
@@ -30,7 +29,6 @@ public class Receptionist extends Agent {
         this.cooks = cooks;
         this.waitingAvailableWaiterTable = new ArrayList<>();
         this.tables = tables;
-
     }
 
     //GETS
