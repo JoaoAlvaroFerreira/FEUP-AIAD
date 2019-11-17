@@ -50,13 +50,13 @@ public class ReceptionistListen extends CyclicBehaviour {
                     break;
                 case "AVAILABLE_COOK":
                     break;
-                case "SCORE_AVAILABLE_TABLE":
+                case "AVAILABLE_TABLE":
+                    //client leaves, table becomes available, gives score
+                    available_table(msg);
                     break;
                 default:
                     break;
             }
-
-
         }
     }
 
@@ -79,7 +79,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         boolean smoking = false;
         if(message.get(2).equals("SMOKE"))
             smoking = true;
-
 
         //ASSIGN TABLE IF AVAILABLE
 
@@ -145,6 +144,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             if(!waiter.getBusy()){
                 waiter_available = true;
+                System.out.println("Available waiter " +  waiter.getLocalName());
                 break;
             }
 
@@ -247,6 +247,22 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             System.out.println("Receptionist sent food request to cook");
 
+        }
+    }
+
+    public void available_table(ACLMessage msg){
+
+        Table table = new Table(0, false);
+
+        for(int i = 0; i < this.receptionist.getTables().size(); i++){
+
+            table = this.receptionist.getTables().get(i);
+
+            if(table.getClientID().equals(msg.getSender().getLocalName())){
+                System.out.println("Table of " + table.getSeats() + " is available now.");
+                table.setClientID(null);
+                break;
+            }
         }
     }
 }

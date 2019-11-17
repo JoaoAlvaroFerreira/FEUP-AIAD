@@ -1,7 +1,5 @@
 package extras;
 
-import agents.ClientGroup;
-
 public class Table {
     boolean smokers;
     int seats;
@@ -13,12 +11,9 @@ public class Table {
         this.client_id = null;
     }
 
-
-
     public boolean isSmokers() {
         return smokers;
     }
-
     public int getSeats() {
         return seats;
     }

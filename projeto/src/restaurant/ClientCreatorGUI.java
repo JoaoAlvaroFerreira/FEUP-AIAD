@@ -52,8 +52,6 @@ public class ClientCreatorGUI extends JFrame {
 				addClientGroup();
 			}
 
-		
-			
 		});
 		btnCreateClientGroup.setBounds(230, 77, 152, 23);
 		contentPane.add(btnCreateClientGroup);

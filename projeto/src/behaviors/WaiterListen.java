@@ -75,7 +75,6 @@ public class WaiterListen extends CyclicBehaviour {
         DFAgentDescription[] result = new DFAgentDescription[0];
         try {
             result = DFService.search(this.waiter, dfd);
-            boolean found = false;
 
             for (int j = 0; j < result.length; j++) {
 
@@ -89,7 +88,6 @@ public class WaiterListen extends CyclicBehaviour {
         }
 
         this.waiter.send(newMessage);
-
     }
 
     public void food_ready(ACLMessage message) {
@@ -97,7 +95,6 @@ public class WaiterListen extends CyclicBehaviour {
         if (message != null) {
 
             try {
-
                     ArrayList<String> msgContent = (ArrayList) message.getContentObject();
 
                     if(!msgContent.get(0).equals("FOOD_READY")){
@@ -134,7 +131,7 @@ public class WaiterListen extends CyclicBehaviour {
                     }
 
                     this.waiter.send(newMsg);
-
+                    this.waiter.setBusy(null);
                 }
 
                 catch (UnreadableException e) {

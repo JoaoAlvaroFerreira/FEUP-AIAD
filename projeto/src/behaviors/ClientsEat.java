@@ -60,7 +60,7 @@ public class ClientsEat extends SimpleBehaviour  {
                 dfd.addServices(sd);
 
                 ArrayList<String> content = new ArrayList<>();
-                content.add("LEAVE");
+                content.add("AVAILABLE_TABLE");
 
                 try {
                     newMsg.setContentObject(content);
