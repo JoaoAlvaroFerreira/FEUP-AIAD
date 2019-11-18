@@ -82,7 +82,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         //ASSIGN TABLE IF AVAILABLE
         Table table = new Table(Integer.MAX_VALUE, false);
 
-
         if(!receptionist.getStrategy()){
 
             //DUMB TABLE ASSIGN
@@ -235,13 +234,9 @@ public class ReceptionistListen extends CyclicBehaviour {
             e.printStackTrace();
         }
 
-        int largest = 0;
-        int j = 0;
-        int total = 0;
-        ArrayList<Integer> smallestIndex = new ArrayList<>();
+        int largest = 0, j = 0, total = 0;
 
-
-        for(int i = 4; i > 0; i--){
+       for(int i = 4; i > 0; i--){
 
         	total = total + Integer.parseInt(content.get(i));
 
@@ -275,8 +270,6 @@ public class ReceptionistListen extends CyclicBehaviour {
                 specialization = "";
                 break;
         }
-
-        System.out.println(j + "SPECIALIZATION " + specialization);
 
         //SMART COOK ASSIGN
         if(this.receptionist.getStrategy()) {
@@ -323,7 +316,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
 
         //if all are busy - add to waiting list
-        if(!cook_available) {
+        if(!cook_available) {                                            
 
             content.add(specialization);
             ACLMessage messageToWait = new ACLMessage(ACLMessage.REQUEST);
@@ -341,7 +334,6 @@ public class ReceptionistListen extends CyclicBehaviour {
         else {
         	
             content.set(0, "REQUEST_FOOD");
-           
             content.add(msg.getSender().getLocalName());
             content.add(Integer.toString(total));
 
@@ -388,7 +380,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         
         int waiting_list_size = receptionist.getwaitingAvailableWaiterTable().size();
-
         this.receptionist.getRestaurant().getGUI().tableContent();
    
         if(waiting_list_size > 0){
@@ -416,21 +407,14 @@ public class ReceptionistListen extends CyclicBehaviour {
                 } catch (UnreadableException e) {
                     e.printStackTrace();
                 }
-
-
-
             }
-
         }
-
     }
 
     public void available_cook(ACLMessage msg){
 
         ArrayList<String> availableMsg = new ArrayList<>();
         ArrayList<String> waitingClient = new ArrayList<>();
-        ArrayList<String> waitingClient1 = new ArrayList<>();
-        ArrayList<String> waitingClient2 = new ArrayList<>();
         boolean specializationFound = false;
 
         try {
@@ -455,9 +439,7 @@ public class ReceptionistListen extends CyclicBehaviour {
                     if(waitingClient.get(5).equals(availableMsg.get(1))){
                     	
                         request_cook(this.receptionist.getWaitingAvailableCook().get(i));
-                  
                         this.receptionist.getWaitingAvailableCook().remove(this.receptionist.getWaitingAvailableCook().get(i));
-               
                         specializationFound = true;
                         break;
                     }
@@ -471,34 +453,9 @@ public class ReceptionistListen extends CyclicBehaviour {
             }
 
             else {
-/* COMENTEI ISTO PORQUE ESTAVA A CRASHAR O PROGRAMA EM ALGUNS EDGE CASES (SIG FAULTS)
-                try {
-                	
-                    waitingClient1 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(0).getContentObject();
-              
-                    waitingClient2 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(1).getContentObject();
-              
-                } catch (UnreadableException e) {
-                    e.printStackTrace();
-                }
-
-                if(waitingClient1.equals(availableMsg.get(1))){
-                    request_cook(this.receptionist.getWaitingAvailableCook().get(0));
+                request_cook(this.receptionist.getWaitingAvailableCook().get(0));
                     this.receptionist.getWaitingAvailableCook().remove(0);
                     return;
-                }
-
-                else if(waitingClient2.equals(availableMsg.get(1))){
-                    request_cook(this.receptionist.getWaitingAvailableCook().get(1));
-                    this.receptionist.getWaitingAvailableCook().remove(1);
-                    return;
-                }
-
-                else { */
-                    request_cook(this.receptionist.getWaitingAvailableCook().get(0));
-                    this.receptionist.getWaitingAvailableCook().remove(0);
-                    return;
-                //}
             }
         }
     }
