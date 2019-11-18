@@ -100,12 +100,13 @@ public class ClientsRequestTable extends SimpleBehaviour  {
                 }
 
 				else if(message.get(0).equals("CLIENT_LEAVE")){
-
+					client.leaveRejected();
 					try {
 						DFService.deregister(this.client);
 					} catch (FIPAException e) {
 						e.printStackTrace();
 					}
+					
 					client.doDelete();
 					System.out.println(this.client.getLocalName() + " has left without being attented.\n");
 				}

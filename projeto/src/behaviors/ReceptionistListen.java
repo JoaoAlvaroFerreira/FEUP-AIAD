@@ -81,10 +81,10 @@ public class ReceptionistListen extends CyclicBehaviour {
         boolean smoking = false;
         if(message.get(2).equals("SMOKE"))
             smoking = true;
-
+       
         //ASSIGN TABLE IF AVAILABLE
 
-        System.out.println("Available tables: " + this.receptionist.getTables().size());
+  
 
         Table table = new Table(Integer.MAX_VALUE, false);
 
@@ -141,7 +141,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         if(!clientSpecificsMet){
 
-            System.out.println("There are no tables for these clients. Please go to another restaurant.");
+            System.out.println(msg.getSender().getLocalName()+" specifications we couldn't meet so they were asked to go to another restaurant.");
 
             ACLMessage deleteClient = new ACLMessage(ACLMessage.INFORM);
             ArrayList<String> content = new ArrayList<>();
@@ -161,7 +161,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         }
 
         if(!table_available) {
-        	System.out.println("STACKED ON WAITING LIST");
+        	System.out.println( msg.getSender().getLocalName()+ " was asked to wait until a table is free.");
             this.receptionist.getwaitingAvailableWaiterTable().add(msg);
             this.receptionist.getRestaurant().getGUI().tableContent();
             return;
@@ -335,7 +335,7 @@ public class ReceptionistListen extends CyclicBehaviour {
                 e.printStackTrace();
             }
 
-            System.out.println("Cook chosen was " + cook.getLocalName() + " specialized in " + cook.getSpecialization());
+            System.out.println("Cook chosen was " + cook.getLocalName() + " specialized in " + cook.getSpecialization()+ " dishes.");
             message.addReceiver(cook.getAID());
             this.receptionist.send(message);
 
@@ -346,7 +346,7 @@ public class ReceptionistListen extends CyclicBehaviour {
     public void available_table(ACLMessage msg){
 
         Table table = new Table(0, false);
-        System.out.println("table_a");
+     
         for(int i = 0; i < this.receptionist.getTables().size(); i++){
 
             table = this.receptionist.getTables().get(i);
@@ -452,7 +452,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             }
 
             else {
-
+/* COMENTEI ISTO PORQUE ESTAVA A CRASHAR O PROGRAMA EM ALGUNS EDGE CASES (SIG FAULTS)
                 try {
                 	
                     waitingClient1 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(0).getContentObject();
@@ -475,11 +475,11 @@ public class ReceptionistListen extends CyclicBehaviour {
                     return;
                 }
 
-                else {
+                else { */
                     request_cook(this.receptionist.getWaitingAvailableCook().get(0));
                     this.receptionist.getWaitingAvailableCook().remove(0);
                     return;
-                }
+                //}
             }
         }
     }

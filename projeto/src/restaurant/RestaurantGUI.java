@@ -135,7 +135,7 @@ public class RestaurantGUI {
 		txtChildren = new JTextField();
 		txtChildren.setText("0");
 		txtChildren.setToolTipText("Children food specialists");
-		txtChildren.setBounds(83, 106, 52, 20);
+		txtChildren.setBounds(120, 106, 52, 20);
 		panel.add(txtChildren);
 		txtChildren.setColumns(10);
 		txtChildren.getDocument().addDocumentListener(new DocumentListener() {
@@ -241,7 +241,7 @@ public class RestaurantGUI {
 		textVegetarian.setText("0");
 		textVegetarian.setToolTipText("Vegeterian food specialists");
 		textVegetarian.setColumns(10);
-		textVegetarian.setBounds(83, 130, 52, 20);
+		textVegetarian.setBounds(120, 130, 52, 20);
 		panel.add(textVegetarian);
 		textVegetarian.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -261,7 +261,7 @@ public class RestaurantGUI {
 		textAllergic.setText("0");
 		textAllergic.setToolTipText("Allergic food specialists");
 		textAllergic.setColumns(10);
-		textAllergic.setBounds(83, 153, 52, 20);
+		textAllergic.setBounds(120, 153, 52, 20);
 		panel.add(textAllergic);
 		textAllergic.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {

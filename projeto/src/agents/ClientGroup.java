@@ -111,7 +111,7 @@ public class ClientGroup extends Agent {
     public void leaveRejected() {
     	satisfaction = 0;
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
-    	restaurant.updateUserRating((int) satisfaction);
+    	restaurant.updateUserRating(0);
     }
     public void leave() {
     	Random rand = new Random();
