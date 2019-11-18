@@ -133,4 +133,7 @@ public class ClientGroup extends Agent {
     	return satisfaction;
     }
     
+    public Restaurant getRestaurant() {
+    	return restaurant;
+    }
 }

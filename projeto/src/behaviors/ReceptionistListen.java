@@ -100,7 +100,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
                     if(this.receptionist.getTables().get(i).getEmpty()) {
 
-                        System.out.println("Found table");
+                        
 
                         table = this.receptionist.getTables().get(i);
                         table_available = true;
@@ -385,8 +385,9 @@ public class ReceptionistListen extends CyclicBehaviour {
                 if(curr_content.get(0).equals("REQUEST_TABLE")){
 
                     if(size >= Integer.parseInt(curr_content.get(1)) && smoker.equals(curr_content.get(2))){
+                    	request_table(curr);
                         receptionist.getwaitingAvailableWaiterTable().remove(i);
-                        request_table(curr);
+                        
                         break;
                     }
                     
