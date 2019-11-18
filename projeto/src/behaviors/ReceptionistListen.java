@@ -44,7 +44,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             switch (type){
                 case "REQUEST_TABLE":
-                	System.out.println("RECEIVED REQUEST TABLE");
                     request_table(msg);
                     break;
                 case "REQUEST_COOK":
@@ -54,8 +53,6 @@ public class ReceptionistListen extends CyclicBehaviour {
                     available_cook(msg);
                     break;
                 case "AVAILABLE_TABLE":
-                	System.out.println("RECEIVED AVAILABLE TABLE");
-                  //client leaves, table becomes available, gives score
                     available_table(msg);
                     break;
                 default:
@@ -324,7 +321,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             return;
         }
         else {
-        	 System.out.println("a2");
+        	
             content.set(0, "REQUEST_FOOD");
            
             content.add(msg.getSender().getLocalName());
@@ -342,7 +339,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             message.addReceiver(cook.getAID());
             this.receptionist.send(message);
 
-            System.out.println("Receptionist sent food request to cook");
+         
         }
     }
 
@@ -371,10 +368,9 @@ public class ReceptionistListen extends CyclicBehaviour {
             smoker = "NO_SMOKE";
         }
 
-        System.out.println("table_b");
         
         int waiting_list_size = receptionist.getwaitingAvailableWaiterTable().size();
-        System.out.println("table_c");
+
         this.receptionist.getRestaurant().getGUI().tableContent();
    
         if(waiting_list_size > 0){
@@ -438,11 +434,11 @@ public class ReceptionistListen extends CyclicBehaviour {
                     }
 
                     if(waitingClient.get(5).equals(availableMsg.get(1))){
-                    	System.out.println("a");
+                    	
                         request_cook(this.receptionist.getWaitingAvailableCook().get(i));
-                        System.out.println("b");
+                  
                         this.receptionist.getWaitingAvailableCook().remove(this.receptionist.getWaitingAvailableCook().get(i));
-                        System.out.println("c");
+               
                         specializationFound = true;
                         break;
                     }
@@ -458,11 +454,11 @@ public class ReceptionistListen extends CyclicBehaviour {
             else {
 
                 try {
-                	System.out.println("1");
+                	
                     waitingClient1 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(0).getContentObject();
-                    System.out.println("2");
+              
                     waitingClient2 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(1).getContentObject();
-                    System.out.println("3");
+              
                 } catch (UnreadableException e) {
                     e.printStackTrace();
                 }

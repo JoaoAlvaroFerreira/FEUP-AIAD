@@ -47,7 +47,6 @@ public class Restaurant {
 		totalUserRating += userRating;
 		averageUserRating = totalUserRating/totalClientsServed;
 		
-		System.out.println("Restaurant Average User Rating:"+ averageUserRating+ "\n");
 	}
 
 	public void newJade() {
@@ -62,8 +61,8 @@ public class Restaurant {
 	
 	private void generateCooks(int veg_cooks, int allerg_cooks, int kid_cooks) {
 	
-		
-		System.out.println("Amount of cooks available: "+veg_cooks+allerg_cooks+kid_cooks+"\n With the following specializations:");
+		int a = veg_cooks+allerg_cooks+kid_cooks;
+		System.out.println("Amount of cooks available: "+a+"\nWith the following specializations:");
 		System.out.println("Vegetarian food: "+ veg_cooks);
 		System.out.println("Allergic food: "+ allerg_cooks);
 		System.out.println("Children food: "+ kid_cooks);
@@ -84,7 +83,6 @@ public class Restaurant {
 			cooks.add(cook);
 		}
 		
-		System.out.println("\n");
 		
 	}
 	

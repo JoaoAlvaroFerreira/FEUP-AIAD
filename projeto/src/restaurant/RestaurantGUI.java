@@ -284,8 +284,8 @@ public class RestaurantGUI {
 		String a = "Average User Rating: "+simulation.averageUserRating + "\n";
 		
 		//Descomentar para fazer display a waiting lists
-/*
-		a = a.concat("Clients waiting for table:");
+
+	/*	a = a.concat("Clients waiting for table:");
 		if (!simulation.getReceptionist().getwaitingAvailableWaiterTable().isEmpty()) {
 
 			for (int j = 0; j < simulation.getReceptionist().getwaitingAvailableWaiterTable().size(); j++) {
@@ -306,8 +306,8 @@ public class RestaurantGUI {
 					a = a.concat(";");
 			}
 		}
-*/
-		//a = a.concat("\n"); 
+
+		a = a.concat("\n"); */
 		for (int i = 0; i < tables.size(); i++) {
 			a = a.concat("Table #" + i + " - Size: " + tables.get(i).getSeats() + " Zone:"
 					+ ((tables.get(i).isSmokers()) ? "Smokers" : "Non-Smokers"));

@@ -2,6 +2,7 @@ package agents;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import behaviors.ClientRequestFood;
@@ -113,12 +114,17 @@ public class ClientGroup extends Agent {
     	restaurant.updateUserRating((int) satisfaction);
     }
     public void leave() {
+    	Random rand = new Random();
     	endTime  = System.nanoTime();
     	timeWaiting = endTime - startTime;
-    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS) - hasChildren();
+    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS)/(clients.size()*2) - hasChildren() - rand.nextInt(2);
+    	
     	if(satisfaction < 0) satisfaction = 0;
     	
+    	if(satisfaction > 10) satisfaction = 10;
+    	
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
+    	
     	restaurant.updateUserRating((int) satisfaction);
    
     }

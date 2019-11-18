@@ -51,7 +51,7 @@ public class WaiterListen extends CyclicBehaviour {
 
         ArrayList<String> newMsg = null;
         ACLMessage newMessage = new ACLMessage(ACLMessage.REQUEST);
-        System.out.println("in_request_Food");
+       
         try {
             newMsg = (ArrayList<String>) msg.getContentObject();
         } catch (UnreadableException e) {
@@ -86,7 +86,7 @@ public class WaiterListen extends CyclicBehaviour {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        System.out.println("sent_to_receptionist");
+      
         this.waiter.send(newMessage);
        
     }
