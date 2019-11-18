@@ -70,7 +70,6 @@ public class ClientRequestFood extends SimpleBehaviour {
 
         try {
             result = DFService.search(this.clients, dfd);
-            boolean found = false;
 
             for (int j = 0; j < result.length; j++) {
 

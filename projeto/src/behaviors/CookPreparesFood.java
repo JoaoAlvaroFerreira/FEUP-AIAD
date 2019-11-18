@@ -98,7 +98,8 @@ public class CookPreparesFood extends CyclicBehaviour {
         cook.setBusy(false);
         ACLMessage msgToReceptionist = new ACLMessage(ACLMessage.INFORM);
         ArrayList<String> content = new ArrayList<>();
-        content.add("COOK_AVAILABLE");
+        content.add("AVAILABLE_COOK");
+        content.add(cook.getSpecialization());
 
         try {
             msgToReceptionist.setContentObject(content);

@@ -64,15 +64,15 @@ public class ClientCreatorGUI extends JFrame {
 		lblNormal.setBounds(27, 11, 46, 14);
 		contentPane.add(lblNormal);
 		
-		JLabel lblVegetarians = new JLabel("Vegetarians:");
+		JLabel lblVegetarians = new JLabel("Vegetarian");
 		lblVegetarians.setBounds(27, 34, 68, 14);
 		contentPane.add(lblVegetarians);
 		
-		JLabel lblAllergic = new JLabel("Kids:");
+		JLabel lblAllergic = new JLabel("Kids");
 		lblAllergic.setBounds(230, 11, 46, 14);
 		contentPane.add(lblAllergic);
 		
-		JLabel lblKids = new JLabel("Normal:");
+		JLabel lblKids = new JLabel("Normal");
 		lblKids.setBounds(230, 34, 46, 14);
 		contentPane.add(lblKids);
 		
@@ -101,7 +101,11 @@ public class ClientCreatorGUI extends JFrame {
 		textField_3.setColumns(10);
 	}
 	
-	
+
+	//VEGGIE 3
+	//NORMAL 0
+	//ALLERGIC 2
+	//KIDS 1
 	private void addClientGroup() {
 		ClientGroup clientGroup;
 		ArrayList<Client> clients = new ArrayList<Client>();
