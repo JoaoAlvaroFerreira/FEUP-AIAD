@@ -14,6 +14,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import restaurant.Restaurant;
 
 
 public class ClientGroup extends Agent {
@@ -25,6 +26,7 @@ public class ClientGroup extends Agent {
 	private DFAgentDescription dfad;
 	private String waiter;
 	private long startTime, endTime, timeWaiting, satisfaction;
+	Restaurant restaurant;
 
 	//CONSTRUCTOR
     public ClientGroup(ArrayList<Client> clients) {
@@ -41,10 +43,13 @@ public class ClientGroup extends Agent {
         return waiter;
     }
 
+    public void setRestaurant(Restaurant rest) {
+    	restaurant = rest;
+    }
     //SET
 	public void setClients(ArrayList<extras.Client> clients) { this.clients = clients; }
 
-	public void sitDown(String waiter) { this.waiter = waiter; }
+	public void sitDown(String waiter) { this.waiter = waiter; restaurant.getGUI().tableContent(); }
 
     public void setup(){
 
@@ -103,12 +108,24 @@ public class ClientGroup extends Agent {
     	return kids;
     }
     
+    public void leaveRejected() {
+    	satisfaction = 0;
+    	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
+    	restaurant.updateUserRating((int) satisfaction);
+    }
     public void leave() {
     	endTime  = System.nanoTime();
     	timeWaiting = endTime - startTime;
     	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS) - hasChildren();
     	if(satisfaction < 0) satisfaction = 0;
+    	
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
+    	restaurant.updateUserRating((int) satisfaction);
+   
+    }
+    
+    public long getSatisfaction() {
+    	return satisfaction;
     }
     
 }

@@ -328,6 +328,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             if(table.getClientID().equals(msg.getSender().getLocalName())){
                 System.out.println("Table of " + table.getSeats() + " is available now.\n");
                 table.setClientID(null);
+                this.receptionist.getRestaurant().getGUI().tableContent();
                 break;
             }
         }

@@ -26,15 +26,30 @@ public class Restaurant {
 	ArrayList<Waiter> waiters = new ArrayList<Waiter>();
 	ArrayList<ClientGroup> clients = new ArrayList<ClientGroup>();
 	ArrayList<Cook> cooks = new ArrayList<Cook>();
+	public int averageUserRating, totalUserRating, totalClientsServed;
+	RestaurantGUI gui;
+	private static Receptionist r;
 
 	public Restaurant(boolean strat, ArrayList<Table> new_tables, int waiters, int veg_cooks, int allerg_cooks, int kid_cooks) {
 		newJade();
-		
+		r = null;
+		totalUserRating = 0;
+		averageUserRating = 0;
+		totalClientsServed = 0;
 		tables = new_tables;
 		newRestaurant(strat, waiters, veg_cooks, allerg_cooks, kid_cooks);
+		
 	}
 	
 	
+	public void updateUserRating(int userRating) {
+		totalClientsServed++;
+		totalUserRating += userRating;
+		averageUserRating = totalUserRating/totalClientsServed;
+		
+		System.out.println("Restaurant Average User Rating:"+ averageUserRating+ "\n");
+	}
+
 	public void newJade() {
 		
 		run = Runtime.instance();
@@ -90,11 +105,10 @@ public class Restaurant {
 		
 		generateCooks(veg_cooks, allerg_cooks, kid_cooks);
 		
-		//generateClients(client_amount);
-		
 		generateWaiters(waiter_amount);
-		
-		newAgent("receptionist", new Receptionist(waiters, cooks, tables, strat));
+		r = new Receptionist(waiters, cooks, tables, strat);
+		r.setRestaurant(this);
+		newAgent("receptionist", r);
 
 	}
 
@@ -111,5 +125,19 @@ public class Restaurant {
         } catch (jade.wrapper.StaleProxyException e) {
             System.err.println("Error launching agent...");
         }
+	}
+
+
+	public void setGUI(RestaurantGUI restaurantGUI) {
+		gui = restaurantGUI;
+	}
+	
+	public RestaurantGUI getGUI() {
+		return gui;
+	}
+	
+	
+	public Receptionist getReceptionist() {
+		return r;
 	}
 }

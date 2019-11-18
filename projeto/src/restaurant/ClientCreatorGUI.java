@@ -125,6 +125,7 @@ public class ClientCreatorGUI extends JFrame {
 		}
 		
 		clientGroup = new ClientGroup(clients);
+		clientGroup.setRestaurant(restaurant);
 		restaurant.newAgent("client_group_"+restaurant.clients.size(), clientGroup);
 		restaurant.clients.add(clientGroup);
 
