@@ -36,7 +36,7 @@ public class Cook extends Agent {
 
 	public void setup(){
 		
-		System.out.println("Cook");
+	
 
 		yellowPagesRegister();
 

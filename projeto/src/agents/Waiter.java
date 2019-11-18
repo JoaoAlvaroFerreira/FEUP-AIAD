@@ -37,7 +37,6 @@ public class Waiter extends Agent {
 
     public void setup(){
 
-        System.out.println("waiter");
         
         yellowPagesRegister();
 

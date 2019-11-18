@@ -24,8 +24,7 @@ public class ClientRequestFood extends SimpleBehaviour {
 
     public void action() {
 
-        System.out.println("Action request food");
-
+       
         ///PARTE 1
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
@@ -82,8 +81,10 @@ public class ClientRequestFood extends SimpleBehaviour {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-
+     
         this.clients.send(msg);
+
+        System.out.println(this.clients.getLocalName()+" has ordered their food.");
         this.finished = true;
     }
 

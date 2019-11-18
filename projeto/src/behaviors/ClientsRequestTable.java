@@ -34,7 +34,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 	@Override
 	public void action() {
 		
-		System.out.println("Action request table");
+
 		
 		///PARTE 1
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
@@ -79,6 +79,8 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
         this.client.send(msg);
 
+        System.out.println(this.client.getLocalName()+" has requested a table.");
+
 		ACLMessage new_msg = this.client.blockingReceive();
 
         if (new_msg != null) {
@@ -94,7 +96,7 @@ public class ClientsRequestTable extends SimpleBehaviour  {
 
 				if(message.get(0).equals("ASSIGN_TABLE_WAITER")){
 					client.sitDown(message.get(1));
-                    System.out.println(client.getLocalName() + " sat down");
+                    System.out.println(client.getLocalName() + " sat down at a table.");
                 }
 
 				else if(message.get(0).equals("CLIENT_LEAVE")){

@@ -31,8 +31,8 @@ public class Receptionist extends Agent {
     	this.strategy = strat; //if true optimize, else greedy
         this.waiters = waiters;
         this.cooks = cooks;
-        this.waitingAvailableWaiterTable = new ArrayList<>();
-        this.waitingAvailableCook = new ArrayList<>();
+        this.waitingAvailableWaiterTable = new ArrayList<ACLMessage>();
+        this.waitingAvailableCook = new ArrayList<ACLMessage>();
         this.tables = tables;
     }
 
@@ -62,8 +62,7 @@ public class Receptionist extends Agent {
 
     public void setup(){
 
-        System.out.println("receptionist");
-       
+      
         yellowPagesRegister();
 
         CyclicBehaviour receptionist_listen = new ReceptionistListen(this);

@@ -44,6 +44,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             switch (type){
                 case "REQUEST_TABLE":
+                	System.out.println("RECEIVED REQUEST TABLE");
                     request_table(msg);
                     break;
                 case "REQUEST_COOK":
@@ -53,7 +54,8 @@ public class ReceptionistListen extends CyclicBehaviour {
                     available_cook(msg);
                     break;
                 case "AVAILABLE_TABLE":
-                    //client leaves, table becomes available, gives score
+                	System.out.println("RECEIVED AVAILABLE TABLE");
+                  //client leaves, table becomes available, gives score
                     available_table(msg);
                     break;
                 default:
@@ -147,6 +149,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             ACLMessage deleteClient = new ACLMessage(ACLMessage.INFORM);
             ArrayList<String> content = new ArrayList<>();
             content.add("CLIENT_LEAVE");
+            
 
             try {
                 deleteClient.setContentObject(content);
@@ -156,11 +159,14 @@ public class ReceptionistListen extends CyclicBehaviour {
 
             deleteClient.addReceiver(msg.getSender());
             this.receptionist.send(deleteClient);
+            this.receptionist.getRestaurant().getGUI().tableContent();
             return;
         }
 
         if(!table_available) {
+        	System.out.println("STACKED ON WAITING LIST");
             this.receptionist.getwaitingAvailableWaiterTable().add(msg);
+            this.receptionist.getRestaurant().getGUI().tableContent();
             return;
         }
 
@@ -228,6 +234,7 @@ public class ReceptionistListen extends CyclicBehaviour {
 
     public void request_cook(ACLMessage msg){
 
+    	
         ArrayList<String> content = new ArrayList<>();
         Cook cook = new Cook(null);
         boolean cook_available = false;
@@ -240,18 +247,21 @@ public class ReceptionistListen extends CyclicBehaviour {
 
         int largest = 0;
         int j = 0;
+        int total = 0;
 
         for(int i = 1; i < 5; i++){
+        	total = total + Integer.parseInt(content.get(i));
             if(Integer.parseInt(content.get(i)) > largest)
                 j = i;
 
             else if(Integer.parseInt(content.get(i)) == largest)
                 j = i-1;
 
-
+            
             largest = Integer.parseInt(content.get(i));
         }
-
+     
+      
         String specialization = null;
 
         switch(j){
@@ -268,7 +278,6 @@ public class ReceptionistListen extends CyclicBehaviour {
                 specialization = "";
                 break;
         }
-
         for(int i = 0; i < this.receptionist.getCooks().size(); i++){
 
             cook = this.receptionist.getCooks().get(i);
@@ -282,8 +291,24 @@ public class ReceptionistListen extends CyclicBehaviour {
                 cook_available = true;
                 break;
             }
+           
+        }
+        
+        if(!cook_available) {
+            for(int i = 0; i < this.receptionist.getCooks().size(); i++){
+
+                cook = this.receptionist.getCooks().get(i);
+                if(!cook.getBusy())
+                {
+                	cook_available = true;
+                	break;
+                }
+                	
+                
+            }
         }
 
+    
         if(!cook_available) {
 
             content.add(specialization);
@@ -294,15 +319,16 @@ public class ReceptionistListen extends CyclicBehaviour {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+       
             this.receptionist.getWaitingAvailableCook().add(messageToWait);
             return;
         }
-
         else {
-
+        	 System.out.println("a2");
             content.set(0, "REQUEST_FOOD");
+           
             content.add(msg.getSender().getLocalName());
+            content.add(Integer.toString(total));
 
             ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 
@@ -323,16 +349,18 @@ public class ReceptionistListen extends CyclicBehaviour {
     public void available_table(ACLMessage msg){
 
         Table table = new Table(0, false);
-
+        System.out.println("table_a");
         for(int i = 0; i < this.receptionist.getTables().size(); i++){
 
             table = this.receptionist.getTables().get(i);
 
+            if(!table.getEmpty()) {
             if(table.getClientID().equals(msg.getSender().getLocalName())){
                 System.out.println("Table of " + table.getSeats() + " is available now.\n");
                 table.setClientID(null);
                 this.receptionist.getRestaurant().getGUI().tableContent();
                 break;
+            }
             }
         }
 
@@ -343,8 +371,12 @@ public class ReceptionistListen extends CyclicBehaviour {
             smoker = "NO_SMOKE";
         }
 
+        System.out.println("table_b");
+        
         int waiting_list_size = receptionist.getwaitingAvailableWaiterTable().size();
-
+        System.out.println("table_c");
+        this.receptionist.getRestaurant().getGUI().tableContent();
+   
         if(waiting_list_size > 0){
 
             ACLMessage curr;
@@ -406,8 +438,11 @@ public class ReceptionistListen extends CyclicBehaviour {
                     }
 
                     if(waitingClient.get(5).equals(availableMsg.get(1))){
+                    	System.out.println("a");
                         request_cook(this.receptionist.getWaitingAvailableCook().get(i));
+                        System.out.println("b");
                         this.receptionist.getWaitingAvailableCook().remove(this.receptionist.getWaitingAvailableCook().get(i));
+                        System.out.println("c");
                         specializationFound = true;
                         break;
                     }
@@ -423,8 +458,11 @@ public class ReceptionistListen extends CyclicBehaviour {
             else {
 
                 try {
+                	System.out.println("1");
                     waitingClient1 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(0).getContentObject();
+                    System.out.println("2");
                     waitingClient2 = (ArrayList<String>) this.receptionist.getWaitingAvailableCook().get(1).getContentObject();
+                    System.out.println("3");
                 } catch (UnreadableException e) {
                     e.printStackTrace();
                 }

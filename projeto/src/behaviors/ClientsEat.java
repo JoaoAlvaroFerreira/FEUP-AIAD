@@ -35,18 +35,16 @@ public class ClientsEat extends SimpleBehaviour  {
 
         ACLMessage msg = this.client.blockingReceive();
 
-        System.out.println("Clients are eating"); //will sleep for as many seconds as there are members in the group
+        System.out.println(this.client.getLocalName()+ "has received their food and are now eating it."); //will sleep for as many seconds as there are members in the group
 
-        int timeToEat = client.getClients().size();
-
-        for(int i = 0; i < timeToEat; i++){
+      
+       
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(client.getClients().size()*2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Waited another second to eat");
-        }
+        
 
 
         if (msg != null) {

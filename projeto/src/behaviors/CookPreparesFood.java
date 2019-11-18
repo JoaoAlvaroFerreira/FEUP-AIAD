@@ -13,6 +13,7 @@ import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import static sun.misc.Version.print;
 
@@ -47,7 +48,7 @@ public class CookPreparesFood extends CyclicBehaviour {
                     }
 
                     String waiterName = message.get(5);
-
+                    int total = Integer.parseInt(message.get(6));
                     ACLMessage newMsg = new ACLMessage(ACLMessage.INFORM);
                     DFAgentDescription dfd = new DFAgentDescription();
                     ServiceDescription sd = new ServiceDescription();
@@ -82,8 +83,17 @@ public class CookPreparesFood extends CyclicBehaviour {
                     } catch (FIPAException e) {
                         e.printStackTrace();
                     }
+                    
+                    
 
-                    System.out.println("Food is ready to be delivered");
+                   
+                        try {
+                            TimeUnit.SECONDS.sleep(total);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        
+                    System.out.println(this.cook.getLocalName() + " finished preparing the food for "+ waiterName + " to deliver.");
 
                     this.cook.send(newMsg);
 

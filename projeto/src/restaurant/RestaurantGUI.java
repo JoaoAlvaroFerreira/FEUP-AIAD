@@ -133,6 +133,7 @@ public class RestaurantGUI {
 		panel.add(lblCookNumber);
 
 		txtChildren = new JTextField();
+		txtChildren.setText("0");
 		txtChildren.setToolTipText("Children food specialists");
 		txtChildren.setBounds(83, 106, 52, 20);
 		panel.add(txtChildren);
@@ -157,6 +158,7 @@ public class RestaurantGUI {
 
 		textField_2 = new JTextField();
 		textField_2.setBounds(120, 185, 52, 20);
+		textField_2.setText("0");
 		panel.add(textField_2);
 		textField_2.setColumns(10);
 
@@ -179,6 +181,7 @@ public class RestaurantGUI {
 		panel.add(lblTableNumber);
 
 		textField_3 = new JTextField();
+		textField_3.setText("0");
 		textField_3.setBounds(120, 233, 52, 20);
 		textField_3.setColumns(10);
 		panel.add(textField_3);
@@ -235,6 +238,7 @@ public class RestaurantGUI {
 		panel.add(lblAllergic);
 
 		textVegetarian = new JTextField();
+		textVegetarian.setText("0");
 		textVegetarian.setToolTipText("Vegeterian food specialists");
 		textVegetarian.setColumns(10);
 		textVegetarian.setBounds(83, 130, 52, 20);
@@ -254,6 +258,7 @@ public class RestaurantGUI {
 		});
 
 		textAllergic = new JTextField();
+		textAllergic.setText("0");
 		textAllergic.setToolTipText("Allergic food specialists");
 		textAllergic.setColumns(10);
 		textAllergic.setBounds(83, 153, 52, 20);
@@ -276,33 +281,33 @@ public class RestaurantGUI {
 
 	public void tableContent() {
 
-		String a = "";
+		String a = "Average User Rating: "+simulation.averageUserRating + "\n";
 		
 		//Descomentar para fazer display a waiting lists
 /*
-		a = a.concat("Clients groups waiting for table:");
-		if (simulation.getReceptionist().getwaitingAvailableWaiterTable() != null) {
+		a = a.concat("Clients waiting for table:");
+		if (!simulation.getReceptionist().getwaitingAvailableWaiterTable().isEmpty()) {
 
 			for (int j = 0; j < simulation.getReceptionist().getwaitingAvailableWaiterTable().size(); j++) {
 
 				a = a.concat(" "+simulation.getReceptionist().getwaitingAvailableWaiterTable().get(j).getSender().getLocalName());
 
-				if (j != simulation.getReceptionist().getwaitingAvailableWaiterTable().size() - 1)
-					a = a.concat(",");
+				
+					a = a.concat(";");
 			}
 		}
-		a = a.concat("\n Clients groups waiting for table:");
-		if (simulation.getReceptionist().getWaitingAvailableCook() != null) {
+		a = a.concat("\nClients waiting for food:");
+		if (!simulation.getReceptionist().getWaitingAvailableCook().isEmpty()) {
 			System.out.println("d");
 			for (int k = 0; k < simulation.getReceptionist().getWaitingAvailableCook().size(); k++) {
 				System.out.println("e");
 				a = a.concat(" "+simulation.getReceptionist().getWaitingAvailableCook().get(k).getSender().getLocalName());
-				if (k != simulation.getReceptionist().getWaitingAvailableCook().size() - 1)
-					a = a.concat(",");
+				
+					a = a.concat(";");
 			}
 		}
-
-		a = a.concat("\n"); */
+*/
+		//a = a.concat("\n"); 
 		for (int i = 0; i < tables.size(); i++) {
 			a = a.concat("Table #" + i + " - Size: " + tables.get(i).getSeats() + " Zone:"
 					+ ((tables.get(i).isSmokers()) ? "Smokers" : "Non-Smokers"));
