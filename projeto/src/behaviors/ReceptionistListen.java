@@ -238,23 +238,27 @@ public class ReceptionistListen extends CyclicBehaviour {
         int largest = 0;
         int j = 0;
         int total = 0;
+        ArrayList<Integer> smallestIndex = new ArrayList<>();
 
-        for(int i = 1; i < 5; i++){
+
+        for(int i = 4; i > 0; i--){
 
         	total = total + Integer.parseInt(content.get(i));
 
-            if(Integer.parseInt(content.get(i)) > largest)
-                j = i;
+        	if(largest != 0) {
+                if(Integer.parseInt(content.get(i)) >= largest)
+                    j = i;
+            }
 
-            else if(Integer.parseInt(content.get(i)) == largest)
-                j = i-1;
-
+            else {
+        	     if(Integer.parseInt(content.get(i)) > largest)
+        	         j = i;
+            }
 
             largest = Integer.parseInt(content.get(i));
         }
 
 
-        System.out.println(j);
         String specialization = null;
 
         switch(j){
@@ -271,6 +275,8 @@ public class ReceptionistListen extends CyclicBehaviour {
                 specialization = "";
                 break;
         }
+
+        System.out.println(j + "SPECIALIZATION " + specialization);
 
         //SMART COOK ASSIGN
         if(this.receptionist.getStrategy()) {
