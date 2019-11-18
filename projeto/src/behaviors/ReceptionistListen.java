@@ -5,7 +5,6 @@ import agents.Receptionist;
 import agents.Waiter;
 import extras.Table;
 import jade.core.AID;
-import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -13,9 +12,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ReceptionistListen extends CyclicBehaviour {
@@ -83,9 +80,6 @@ public class ReceptionistListen extends CyclicBehaviour {
             smoking = true;
        
         //ASSIGN TABLE IF AVAILABLE
-
-  
-
         Table table = new Table(Integer.MAX_VALUE, false);
 
 
@@ -231,7 +225,6 @@ public class ReceptionistListen extends CyclicBehaviour {
 
     public void request_cook(ACLMessage msg){
 
-    	
         ArrayList<String> content = new ArrayList<>();
         Cook cook = new Cook(null);
         boolean cook_available = false;
@@ -247,18 +240,21 @@ public class ReceptionistListen extends CyclicBehaviour {
         int total = 0;
 
         for(int i = 1; i < 5; i++){
+
         	total = total + Integer.parseInt(content.get(i));
+
             if(Integer.parseInt(content.get(i)) > largest)
                 j = i;
 
             else if(Integer.parseInt(content.get(i)) == largest)
                 j = i-1;
 
-            
+
             largest = Integer.parseInt(content.get(i));
         }
-     
-      
+
+
+        System.out.println(j);
         String specialization = null;
 
         switch(j){
@@ -275,37 +271,52 @@ public class ReceptionistListen extends CyclicBehaviour {
                 specialization = "";
                 break;
         }
-        for(int i = 0; i < this.receptionist.getCooks().size(); i++){
 
-            cook = this.receptionist.getCooks().get(i);
+        //SMART COOK ASSIGN
+        if(this.receptionist.getStrategy()) {
 
-            if(!cook.getBusy() && cook.getSpecialization().equals(specialization)){
-                cook_available = true;
-                break;
-            }
-
-            else if(!cook.getBusy() && specialization.equals("")){
-                cook_available = true;
-                break;
-            }
-           
-        }
-        
-        if(!cook_available) {
             for(int i = 0; i < this.receptionist.getCooks().size(); i++){
 
                 cook = this.receptionist.getCooks().get(i);
+
+                if((!cook.getBusy() && cook.getSpecialization().equals(specialization)) || (!cook.getBusy() && cook.getSpecialization().equals(""))){
+                    cook_available = true;
+                    break;
+                }
+            }
+        }
+
+        //DUMB COOK ASSIGN
+        else {
+
+            for(int i = 0; i < this.receptionist.getCooks().size(); i++){
+
+                cook = this.receptionist.getCooks().get(i);
+
+                if(!cook.getBusy()){
+                    cook_available = true;
+                    break;
+                }
+            }
+        }
+
+        //If specialty not available - choose first cook not busy
+        if(!cook_available) {
+
+            for(int i = 0; i < this.receptionist.getCooks().size(); i++){
+
+                cook = this.receptionist.getCooks().get(i);
+
                 if(!cook.getBusy())
                 {
                 	cook_available = true;
                 	break;
                 }
-                	
-                
             }
         }
 
-    
+
+        //if all are busy - add to waiting list
         if(!cook_available) {
 
             content.add(specialization);
@@ -320,6 +331,7 @@ public class ReceptionistListen extends CyclicBehaviour {
             this.receptionist.getWaitingAvailableCook().add(messageToWait);
             return;
         }
+
         else {
         	
             content.set(0, "REQUEST_FOOD");

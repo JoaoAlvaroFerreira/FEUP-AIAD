@@ -9,6 +9,8 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.UnreadableException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -81,7 +83,8 @@ public class ClientRequestFood extends SimpleBehaviour {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-     
+
+
         this.clients.send(msg);
 
         System.out.println(this.clients.getLocalName()+" has ordered their food.");
