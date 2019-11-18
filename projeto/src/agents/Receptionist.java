@@ -29,6 +29,7 @@ public class Receptionist extends Agent {
         this.waiters = waiters;
         this.cooks = cooks;
         this.waitingAvailableWaiterTable = new ArrayList<>();
+        this.waitingAvailableCook = new ArrayList<>();
         this.tables = tables;
     }
 
