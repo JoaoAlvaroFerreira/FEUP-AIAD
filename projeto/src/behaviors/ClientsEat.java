@@ -55,7 +55,7 @@ public class ClientsEat extends SimpleBehaviour  {
         if (msg != null) {
        
         	 if (msg.getSender().getLocalName().substring(0, 6).equals("recept")) { 
-        		//O receptionist também dá a conta aos clientes pelos vistos, não ter isto causa um bug onde alguns clientes não saem do restaurante depois de comer
+        		//O receptionist tambï¿½m dï¿½ a conta aos clientes pelos vistos, nï¿½o ter isto causa um bug onde alguns clientes nï¿½o saem do restaurante depois de comer
         		 ACLMessage newMsg = new ACLMessage(ACLMessage.INFORM);
         		  ArrayList<String> content = new ArrayList<>();
                   content.add("AVAILABLE_TABLE");
@@ -162,6 +162,7 @@ public class ClientsEat extends SimpleBehaviour  {
 
                     if(size >= Integer.parseInt(curr_content.get(1)) && smoker.equals(curr_content.get(2))){
                         recep.getwaitingAvailableWaiterTable().remove(i);
+                        waiting_list_size = recep.getwaitingAvailableWaiterTable().size();
                        // request_table(curr);
                         break;
                     }
