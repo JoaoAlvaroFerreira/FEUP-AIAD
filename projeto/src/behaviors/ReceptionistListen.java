@@ -334,6 +334,7 @@ public class ReceptionistListen extends CyclicBehaviour {
         else {
         	
             content.set(0, "REQUEST_FOOD");
+            System.out.println("CONSOLE LOG"+msg.getContent());
             content.add(msg.getSender().getLocalName());
             content.add(Integer.toString(total));
 

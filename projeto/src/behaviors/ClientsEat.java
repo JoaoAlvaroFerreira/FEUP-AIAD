@@ -59,7 +59,9 @@ public class ClientsEat extends SimpleBehaviour  {
         		 ACLMessage newMsg = new ACLMessage(ACLMessage.INFORM);
         		  ArrayList<String> content = new ArrayList<>();
                   content.add("AVAILABLE_TABLE");
-                  
+                  System.out.println("SENDER: "+msg.getSender().getLocalName());
+
+              	System.out.println("MESSAGE CONTENT: "+msg.getContent());
                   try {
                       newMsg.setContentObject(content);
                   } catch (IOException e) {
@@ -119,6 +121,7 @@ public class ClientsEat extends SimpleBehaviour  {
 
     private void bad_case() {
     	
+    	System.out.println("UH OH IN BAD CASE");
     	 Table table = new Table(0, false);
     	 
     	Receptionist recep = this.client.getRestaurant().getReceptionist();
