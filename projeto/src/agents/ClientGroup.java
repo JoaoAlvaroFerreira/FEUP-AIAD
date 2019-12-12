@@ -1,5 +1,10 @@
 package agents;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,10 +23,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import restaurant.Restaurant;
 
 
+
+
+
 public class ClientGroup extends Agent {
-    /**
-	 * 
-	 */
+    
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Client> clients;
 	private DFAgentDescription dfad;
@@ -124,7 +130,7 @@ public class ClientGroup extends Agent {
     	if(satisfaction > 10) satisfaction = 10;
     	
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
-    	
+    	writeLog();
     	restaurant.updateUserRating((int) satisfaction);
    
     }
@@ -136,4 +142,36 @@ public class ClientGroup extends Agent {
     public Restaurant getRestaurant() {
     	return restaurant;
     }
+    
+    public void writeLog() {
+    	
+    	File file = new File("clients_log.csv");
+        try
+        {
+        
+        	FileWriter fr = new FileWriter(file, true);
+        	BufferedWriter br = new BufferedWriter(fr);
+        
+
+        
+        br.write(this.getLocalName());
+        br.write(",");
+        br.write(String.valueOf(this.satisfaction));
+        br.write(",");
+        br.write(String.valueOf(this.getClients().size()));
+        br.write("\n");
+    	br.close();
+    	fr.close();   
+
+       
+      
+        }
+        catch (IOException ioe)
+        {
+        System.out.println(ioe);        
+        }
+    
+    }
+    
+   
 }
