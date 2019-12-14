@@ -10,12 +10,17 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import agents.ClientGroup;
+import extras.Client;
 import extras.Table;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -42,7 +47,8 @@ public class RestaurantGUI {
 	private JTextArea tableArea;
 	private static ArrayList<Table> tables;
 	Restaurant simulation;
-
+	private ClientGroup clientGroup;
+	private static Random rand;
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +56,7 @@ public class RestaurantGUI {
 	public static void main(String[] args) {
 		start = false;
 		tables = new ArrayList<Table>();
+		rand = new Random();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -213,8 +220,9 @@ public class RestaurantGUI {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ClientCreatorGUI client_maker = new ClientCreatorGUI(simulation);
-				client_maker.setVisible(true);
+				//ClientCreatorGUI client_maker = new ClientCreatorGUI(simulation);
+				//client_maker.setVisible(true);
+				addClients();
 			}
 		});
 		btnNewButton_1.setBounds(0, 47, 226, 23);
@@ -336,6 +344,23 @@ public class RestaurantGUI {
 		String smokers = (smoking ? "in the smokers section" : "in the non-smokers section");
 		System.out.println("Table for " + table_size + " people available " + smokers);
 
+	}
+	
+	private void addClients() {
+		
+		for(int a = 0; a < 1000; a++) {
+			int i = rand.nextInt(3);
+			int j = rand.nextInt(3);
+			int k = rand.nextInt(3);
+			int l = rand.nextInt(3);
+						clientGroup = new ClientGroup(i,j,k,l, rand.nextBoolean());
+						clientGroup.setRestaurant(simulation);
+						simulation.newAgent("client_group_"+simulation.clients.size(), clientGroup);
+						simulation.clients.add(clientGroup);
+									
+					
+						
+				 }
 	}
 
 }

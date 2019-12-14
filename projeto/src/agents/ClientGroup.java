@@ -43,6 +43,25 @@ public class ClientGroup extends Agent {
         this.waiter = null;
     }
 
+    public ClientGroup(int veg_clients, int normal_clients, int kid_clients, int allergic_clients, boolean smoker) {
+    	startTime = System.nanoTime();
+        clients = new ArrayList<Client>();
+    	for(int i = 0; i < normal_clients; i++ ) {
+			clients.add(new Client(false,false,false,smoker));
+		}
+		for(int i = 0; i < veg_clients; i++ ) {
+			clients.add(new Client(false,true,false,smoker));
+		}
+		for(int i = 0; i < allergic_clients; i++ ) {
+			clients.add(new Client(true,false,false,smoker));
+		}
+		for(int i = 0; i < kid_clients; i++ ) {
+			clients.add(new Client(false,false,true,false));
+		}
+		this.setClients(clients);
+		this.waiter = null;
+    }
+    
     //GET
 	public ArrayList<extras.Client> getClients() { return clients; }
 
@@ -133,7 +152,8 @@ public class ClientGroup extends Agent {
     	if(satisfaction > 10) satisfaction = 10;
     	
     	System.out.println(getLocalName() + " satisfaction was: "+ satisfaction);
-    	writeLog();
+    	writeLog1();
+    	//writeLog2();
     	restaurant.updateUserRating((int) satisfaction);
    
     }
@@ -146,10 +166,9 @@ public class ClientGroup extends Agent {
     	return restaurant;
     }
     
-    public void writeLog() {
+    public void writeLog1() {
     	
     	File file1 = new File("clients_log_1.csv");
-    	File file2 = new File("clients_log_2.csv");
         try
         {
         
@@ -167,6 +186,39 @@ public class ClientGroup extends Agent {
         br.write(String.valueOf(this.restaurant.getReceptionist().getWaiters().size()));
         br.write(",");
         br.write(String.valueOf(this.restaurant.getReceptionist().getCooks().size()));
+        br.write("\n");
+    	br.close();
+    	fr.close();   
+
+       
+      
+        }
+        catch (IOException ioe)
+        {
+        System.out.println(ioe);        
+        }
+    
+    }
+    
+ public void writeLog2() {
+    	
+    	
+    	File file2 = new File("clients_log_2.csv");
+        try
+        {
+        
+        	FileWriter fr = new FileWriter(file2, true);
+        	BufferedWriter br = new BufferedWriter(fr);
+        
+
+        
+        br.write(this.getLocalName());
+        br.write(",");
+        br.write((this.satisfaction > 6) ? "1" : "0");
+        br.write(",");
+        br.write(String.valueOf(this.getClients().size()));
+        br.write(",");
+        br.write((this.smokersTable()) ? "1" : "0");
         br.write("\n");
     	br.close();
     	fr.close();   
