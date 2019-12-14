@@ -41,6 +41,7 @@ public class RestaurantGUI {
 	private JCheckBox chckbxSmokers;
 	private JButton btnAddTable;
 	private JButton btnNewButton_1;
+	private JButton btnNewButton_5;
 	private JLabel lblAllergic;
 	private JTextField textVegetarian;
 	private JTextField textAllergic;
@@ -220,13 +221,25 @@ public class RestaurantGUI {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//ClientCreatorGUI client_maker = new ClientCreatorGUI(simulation);
-				//client_maker.setVisible(true);
-				addClients();
+				ClientCreatorGUI client_maker = new ClientCreatorGUI(simulation);
+				client_maker.setVisible(true);
+			
 			}
 		});
 		btnNewButton_1.setBounds(0, 47, 226, 23);
 		panel.add(btnNewButton_1);
+		
+		btnNewButton_5 = new JButton("Generate Random Client");
+		btnNewButton_5.setEnabled(false);
+
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				addClients();
+			}
+		});
+		btnNewButton_5.setBounds(0, 380, 226, 23);
+		panel.add(btnNewButton_5);
 
 		rdbtnTimePriority = new JRadioButton("Optimized");
 		rdbtnTimePriority.setBounds(0, 330, 130, 23);
@@ -348,7 +361,6 @@ public class RestaurantGUI {
 	
 	private void addClients() {
 		
-		for(int a = 0; a < 1000; a++) {
 			int i = rand.nextInt(3);
 			int j = rand.nextInt(3);
 			int k = rand.nextInt(3);
@@ -360,7 +372,7 @@ public class RestaurantGUI {
 									
 					
 						
-				 }
+				 
 	}
 
 }
