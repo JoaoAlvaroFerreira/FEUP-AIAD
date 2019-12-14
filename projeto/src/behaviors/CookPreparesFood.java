@@ -88,7 +88,7 @@ public class CookPreparesFood extends CyclicBehaviour {
 
                    
                         try {
-                            TimeUnit.SECONDS.sleep(total);
+                            TimeUnit.SECONDS.sleep(total+2);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

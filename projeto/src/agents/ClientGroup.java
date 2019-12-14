@@ -60,6 +60,7 @@ public class ClientGroup extends Agent {
 
     public void setup(){
 
+    
         yellowPagesRegister();
         
     	SequentialBehaviour loop = new SequentialBehaviour();
@@ -70,7 +71,9 @@ public class ClientGroup extends Agent {
         addBehaviour(loop);
     }
 
-    private void yellowPagesRegister() {
+    
+
+	private void yellowPagesRegister() {
 
     	ServiceDescription sd = new ServiceDescription();
     	sd.setType("Client");
@@ -123,7 +126,7 @@ public class ClientGroup extends Agent {
     	Random rand = new Random();
     	endTime  = System.nanoTime();
     	timeWaiting = endTime - startTime;
-    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS)/(clients.size()*2) - hasChildren() - rand.nextInt(2);
+    	satisfaction = 10 - TimeUnit.SECONDS.convert(timeWaiting, TimeUnit.NANOSECONDS)/(clients.size()*2) - hasChildren() - rand.nextInt(3);
     	
     	if(satisfaction < 0) satisfaction = 0;
     	
@@ -145,11 +148,12 @@ public class ClientGroup extends Agent {
     
     public void writeLog() {
     	
-    	File file = new File("clients_log.csv");
+    	File file1 = new File("clients_log_1.csv");
+    	File file2 = new File("clients_log_2.csv");
         try
         {
         
-        	FileWriter fr = new FileWriter(file, true);
+        	FileWriter fr = new FileWriter(file1, true);
         	BufferedWriter br = new BufferedWriter(fr);
         
 
@@ -159,6 +163,10 @@ public class ClientGroup extends Agent {
         br.write(String.valueOf(this.satisfaction));
         br.write(",");
         br.write(String.valueOf(this.getClients().size()));
+        br.write(",");
+        br.write(String.valueOf(this.restaurant.getReceptionist().getWaiters().size()));
+        br.write(",");
+        br.write(String.valueOf(this.restaurant.getReceptionist().getCooks().size()));
         br.write("\n");
     	br.close();
     	fr.close();   
