@@ -92,7 +92,7 @@ public class RestaurantGUI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setSize(1200, 1000);
+		frame.setSize(1200, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -125,7 +125,7 @@ public class RestaurantGUI {
 		System.setOut(printStream);
 		System.setErr(printStream);
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(231, 182, 900, 700);
+		scrollPane.setBounds(231, 182, 900, 450);
 		panel.add(scrollPane);
 
 		JLabel lblCookNumber = new JLabel("Cooks:");
